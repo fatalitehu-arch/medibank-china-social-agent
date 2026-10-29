@@ -1,0 +1,8 @@
+# Codex / ChatGPT skill metadata (optional; Claude ignores this file).
+interface:
+  display_name: "内容规划"
+  short_description: "Cross-platform calendars, campaigns and channel mix"
+  brand_color: "#0B6E99"
+  default_prompt: "做一份 T1 开学季 4 周五平台内容日历。"
+policy:
+  allow_implicit_invocation: true

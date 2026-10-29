@@ -1,0 +1,8 @@
+# Codex / ChatGPT skill metadata (optional; Claude ignores this file).
+interface:
+  display_name: "一稿多平台"
+  short_description: "Adapt one approved piece for every platform"
+  brand_color: "#0B6E99"
+  default_prompt: "把这篇公众号文章改成小红书、视频号、抖音和微博版本。"
+policy:
+  allow_implicit_invocation: true

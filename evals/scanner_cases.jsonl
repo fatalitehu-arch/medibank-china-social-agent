@@ -1,0 +1,22 @@
+{"text": "Medibank 一年只要 $650，比 Allianz 划算", "platform": null, "verdict": "red", "must_hit": ["price", "competitor"]}
+{"text": "评论区扣1，我私你优惠码", "platform": "douyin", "verdict": "red", "must_hit": ["buy_cta", "promo"]}
+{"text": "加我微信 med123 拿资料", "platform": "xiaohongshu", "verdict": "red", "must_hit": ["diversion_wechat"]}
+{"text": "完整版在 Medibank 公众号", "platform": "wechat-channels", "verdict": "green", "must_hit": []}
+{"text": "完整版在 Medibank 公众号", "platform": "weibo", "verdict": "red", "must_hit": ["diversion_wechat"]}
+{"text": "扫码关注领取行前清单", "platform": "wechat-oa", "verdict": "red", "must_hit": ["diversion_contact"]}
+{"text": "转发到三个留学群，截图后台领资料", "platform": "wechat-oa", "verdict": "red", "must_hit": ["induced_share"]}
+{"text": "留下你的手机号，我们一对一帮你办理", "platform": "wechat-oa", "verdict": "red", "must_hit": ["personal_data", "buy_cta"]}
+{"text": "买了这个就能过签", "platform": null, "verdict": "red", "must_hit": ["visa_guarantee"]}
+{"text": "中介都在坑你，别找中介", "platform": null, "verdict": "red", "must_hit": ["agent_attack"]}
+{"text": "纯分享无广，自己花钱买的", "platform": "xiaohongshu", "verdict": "red", "must_hit": ["undisclosed_ad"]}
+{"text": "澳洲第一的学生保险", "platform": null, "verdict": "red", "must_hit": ["absolute"]}
+{"text": "我第一次在悉尼看病，最好先预约 GP", "platform": null, "verdict": "green", "must_hit": []}
+{"text": "中介可以帮你办，但保险是你自己的", "platform": null, "verdict": "green", "must_hit": []}
+{"text": "Online Doctor 免费看医生", "platform": null, "verdict": "amber", "must_hit": ["free"]}
+{"text": "Online Doctor 无自付，以官网条款为准", "platform": null, "verdict": "green", "must_hit": []}
+{"text": "不买保险看一次病就倾家荡产", "platform": null, "verdict": "amber", "must_hit": ["fear"]}
+{"text": "左下角小黄车直接下单", "platform": "douyin", "verdict": "red", "must_hit": ["buy_cta"]}
+{"text": "前 100 名 9 折", "platform": null, "verdict": "red", "must_hit": ["promo"]}
+{"text": "紧急情况请拨打 000，也可以联系 Lifeline 13 11 14", "platform": null, "verdict": "green", "must_hit": []}
+{"text": "OSHC 是学生签证要求之一，具体以澳洲内政部官网为准", "platform": null, "verdict": "green", "must_hit": []}
+{"text": "Medibank 国内也能买，找我们中国代理", "platform": null, "verdict": "red", "must_hit": ["china_presence"]}

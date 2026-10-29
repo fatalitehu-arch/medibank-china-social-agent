@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Skill copies are in sync
+        run: |
+          python sync_skills.py
+          git diff --exit-code -- .claude .agents || (echo "Run python sync_skills.py and commit the result." && exit 1)
+      - name: Tests (scanner cases, tools, skill structure)
+        run: python -m pytest -q tests
+      - name: Example drafts pass their platform checks
+        run: |
+          for p in xiaohongshu wechat-oa wechat-channels douyin weibo; do
+            python tools/compliance_scan.py examples/drafts/good_$p.txt --platform $p
+            python tools/note_lint.py examples/drafts/good_$p.txt --platform $p
+          done

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" font-family="Helvetica, Arial, 'PingFang SC', sans-serif" role="img" aria-label="Mock offer letter with the OSHC section highlighted">
+  <title>MOCK offer letter: illustrative only, not a real university document</title>
+  <rect width="600" height="800" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="40" y="60" font-size="22" font-weight="700" fill="#101828">Letter of Offer (SAMPLE)</text>
+  <text x="40" y="88" font-size="13" fill="#667085">Example University · illustrative mock-up for 小红书 explainers</text>
+  <g fill="#e4e7ec">
+    <rect x="40" y="120" width="520" height="12" rx="3"/>
+    <rect x="40" y="142" width="460" height="12" rx="3"/>
+    <rect x="40" y="164" width="500" height="12" rx="3"/>
+  </g>
+  <text x="40" y="215" font-size="15" font-weight="700" fill="#101828">Program details</text>
+  <g fill="#e4e7ec">
+    <rect x="40" y="230" width="300" height="12" rx="3"/>
+    <rect x="40" y="252" width="340" height="12" rx="3"/>
+  </g>
+  <text x="40" y="305" font-size="15" font-weight="700" fill="#101828">Fees</text>
+  <g fill="#e4e7ec">
+    <rect x="40" y="320" width="420" height="12" rx="3"/>
+    <rect x="40" y="342" width="380" height="12" rx="3"/>
+  </g>
+  <rect x="28" y="378" width="544" height="150" rx="10" fill="#FFF4E5" stroke="#F79009" stroke-width="3"/>
+  <text x="44" y="408" font-size="16" font-weight="700" fill="#B54708">Overseas Student Health Cover (OSHC)</text>
+  <text x="44" y="436" font-size="13" fill="#344054">Provider: [insurer name]</text>
+  <text x="44" y="458" font-size="13" fill="#344054">Cover type: [single / couple / family]</text>
+  <text x="44" y="480" font-size="13" fill="#344054">Cover period: [start date] to [end date]</text>
+  <text x="44" y="502" font-size="13" fill="#344054">More information: [university OSHC page]</text>
+  <text x="330" y="560" font-size="15" font-weight="700" fill="#B54708">← 先看这一栏</text>
+  <g fill="#e4e7ec">
+    <rect x="40" y="600" width="500" height="12" rx="3"/>
+    <rect x="40" y="622" width="440" height="12" rx="3"/>
+    <rect x="40" y="644" width="480" height="12" rx="3"/>
+  </g>
+  <text x="40" y="760" font-size="12" fill="#98A2B3">MOCK DOCUMENT · field names vary by university · 【待确认】</text>
+</svg>

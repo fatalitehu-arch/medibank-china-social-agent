@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" font-family="Helvetica, Arial, 'PingFang SC', sans-serif" role="img" aria-label="Campaign funnel from Chinese social media to the Medibank app">
+  <title>看懂自己的保险: campaign funnel</title>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#475467"/></marker></defs>
+  <g font-size="14" text-anchor="middle">
+    <rect x="10" y="70" width="150" height="110" rx="12" fill="#FEE4E2"/>
+    <text x="85" y="104" font-weight="700">社媒内容</text><text x="85" y="128">小红书 · 抖音 · 微博</text><text x="85" y="150">公众号 · 视频号</text><text x="85" y="170">博主 70% / 自营 30%</text>
+    <rect x="190" y="70" width="150" height="110" rx="12" fill="#FEF0C7"/>
+    <text x="265" y="112" font-weight="700">自己看</text><text x="265" y="136">offer letter</text><text x="265" y="156">/ CoE</text>
+    <rect x="370" y="70" width="150" height="110" rx="12" fill="#D1E9FF"/>
+    <text x="445" y="112" font-weight="700">学校 OSHC</text><text x="445" y="136">页面</text><text x="445" y="156">(UNSW → Medibank)</text>
+    <rect x="550" y="70" width="150" height="110" rx="12" fill="#D1FADF"/>
+    <text x="625" y="112" font-weight="700">Medibank 学校</text><text x="625" y="136">OSHC 网站</text><text x="625" y="156">+ chatbot</text>
+    <rect x="730" y="70" width="160" height="110" rx="12" fill="#E9D7FE"/>
+    <text x="810" y="112" font-weight="700">App + 24/7</text><text x="810" y="136">支持热线</text><text x="810" y="156">激活 · 报销 · 看病</text>
+  </g>
+  <g stroke="#475467" stroke-width="2" marker-end="url(#a)">
+    <line x1="160" y1="125" x2="188" y2="125"/><line x1="340" y1="125" x2="368" y2="125"/>
+    <line x1="520" y1="125" x2="548" y2="125"/><line x1="700" y1="125" x2="728" y2="125"/>
+  </g>
+  <text x="450" y="40" font-size="18" font-weight="700" text-anchor="middle">看懂自己的保险 · Campaign funnel</text>
+  <text x="450" y="225" font-size="12" fill="#667085" text-anchor="middle">公开内容只用文字说明下一步：不放链接、二维码、电话；小红书、抖音、微博不提微信</text>
+</svg>

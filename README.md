@@ -52,7 +52,7 @@ rulebook (meaning, not only words).
 
 ## How Medibank uses it
 
-There are three ways in. Pick the one that matches your team's tools.
+There are three ways in, and they share one set of skill files. Pick the one that matches your team's tools.
 
 ### Option 1: Claude.ai Project (no code, recommended for the social team)
 
@@ -65,16 +65,28 @@ There are three ways in. Pick the one that matches your team's tools.
 *(Claude.ai can't run the Python scanner in this setup; the model applies the same rules
 by hand. Use Option 3 for the scanner and the creator scoring.)*
 
-### Option 2: Claude Code skill (for the digital team)
+### Option 2: Claude Code or OpenAI Codex (for the digital team)
+
+The skill follows the open Agent Skills format (`SKILL.md` + `references/` + `scripts/`),
+so the same files work in both tools. The repo already ships a copy where each tool looks:
+
+| Tool | Skill folder in this repo | Also reads |
+|------|---------------------------|-----------|
+| Claude Code | `.claude/skills/medibank-xhs/` | `CLAUDE.md` |
+| OpenAI Codex (CLI, IDE, app) | `.agents/skills/medibank-xhs/` | `AGENTS.md` |
 
 ```bash
 git clone <this repo>
-mkdir -p ~/.claude/skills
-cp -r medibank-xhs-agent/skills/medibank-xhs ~/.claude/skills/
+cd medibank-xhs-agent
+claude        # Claude Code: the skill loads when your request matches
+codex         # Codex: same; or type $medibank-xhs (or /skills) to call it directly
 ```
 
-Then in Claude Code, just ask: "帮我审一下这篇博主稿" or "给这批博主打分 candidates.csv".
-The skill loads automatically and runs the scanner and scorer itself.
+Then just ask: "帮我审一下这篇博主稿" or "给这批博主打分 examples/kol_candidates.csv".
+Both tools run the scanner and scorer themselves.
+
+To use the skill outside this folder, copy `skills/medibank-xhs` to
+`~/.claude/skills/` (Claude Code) or `~/.agents/skills/` (Codex).
 
 ### Option 3: Command line (any team with an Anthropic API key)
 
@@ -154,7 +166,7 @@ The agent can't see live 小红书 data, so it never invents creator names. Inst
 ## Repository map
 
 ```
-skills/medibank-xhs/
+skills/medibank-xhs/          the source copy: edit here, then run sync_skills.py
   SKILL.md                    the agent: modes, workflow, hard limits
   references/
     compliance.md             PRC, 小红书 and Australian rules with sources (CN-1…AU-7)
@@ -167,14 +179,19 @@ skills/medibank-xhs/
     compliance_scan.py        keyword scanner (exit 0 green / 1 amber / 2 red)
     rules.json                editable rule list
     kol_score.py              creator scoring
+.claude/skills/medibank-xhs/   synced copy for Claude Code
+.agents/skills/medibank-xhs/   synced copy for OpenAI Codex
+AGENTS.md / CLAUDE.md          project instructions each tool reads
+sync_skills.py                 refreshes both copies from skills/
 xhs_agent/                    command-line runner (Claude API)
 examples/                     sample drafts, sample creator CSV, sample outputs
 docs/workflow.md              team workflow and roles
-tests/                        pytest for scanner and scorer
+tests/                        pytest: scanner, scorer, copies in sync
 ```
 
 ## Keeping it up to date
 
+* **After any edit:** change files only in `skills/medibank-xhs/`, then run `python sync_skills.py`.
 * **Every intake:** Medibank updates `brand-facts.md` (benefits, trials, offers change).
 * **When a note gets throttled or rejected:** add the words to `rules.json` with the date.
 * **When the law or 小红书 rules change:** update `compliance.md`; items marked **[VERIFY]**
@@ -198,4 +215,4 @@ tests/                        pytest for scanner and scorer
 
 主推内容方向是“看懂自己的保险”：提醒同学们中介可以帮你办保险，但保了什么、怎么用，要自己看懂。引导路径是：自己看 offer letter → 学校 OSHC 页面 → Medibank 学校专属 OSHC 网站和 chatbot。
 
-三种用法：Claude.ai Project（不用写代码）、Claude Code skill、命令行工具。具体步骤见上面的 “How Medibank uses it”。
+三种用法：Claude.ai Project（不用写代码）、Claude Code 或 OpenAI Codex（同一套 skill 文件，两边都能用）、命令行工具。具体步骤见上面的 “How Medibank uses it”。

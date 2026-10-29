@@ -25,6 +25,12 @@ If a request can only be met by breaking this rule (e.g. "write a post with the
 price and a discount code"), say so, explain the risk in one or two sentences, and
 offer the closest compliant version.
 
+## Running the scripts
+
+Paths like `scripts/compliance_scan.py` are relative to the folder this SKILL.md is in.
+The scripts need only Python 3.9+ (no packages). If you can't run code, apply the same
+rules by hand from `references/`.
+
 ## Modes
 
 Work out which mode the user wants. Ask only if it is truly unclear.

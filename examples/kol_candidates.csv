@@ -1,0 +1,8 @@
+handle,followers,based_in_australia,audience_student_share,avg_likes,avg_saves,avg_comments,topic_relevance_share,past_sponsored_reported,diversion_in_past_notes,quote_cny,sells_agency_or_insurance,competitor_90d,undisclosed_ads,fake_fans_flag
+示例_悉尼读研日记,8200,yes,0.8,420,310,65,0.9,yes,no,800,no,no,no,no
+示例_墨尔本小鹿,45000,yes,0.6,900,700,120,0.7,yes,no,6000,no,no,no,no
+示例_澳洲留学全攻略,120000,yes,0.7,1500,1800,200,0.95,yes,no,30000,no,no,no,no
+示例_留学规划师Amy,60000,no,0.5,600,500,90,0.8,yes,yes,5000,yes,no,no,no
+示例_UNSW新生说,3500,yes,0.9,150,90,40,0.85,yes,no,,no,no,no,no
+示例_生活好物分享,30000,no,0.2,300,80,20,0.1,no,yes,3000,no,no,no,no
+示例_悉尼吃喝玩乐,52000,yes,0.4,1100,300,80,0.3,yes,no,8000,no,yes,no,no

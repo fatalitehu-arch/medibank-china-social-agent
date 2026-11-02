@@ -1,8 +1,9 @@
 # Medibank China Social Media Agent
 
-**An AI agent that helps Medibank run its China-facing social media for international
-students on five platforms (小红书, 微信公众号, 微信视频号, 抖音, 微博): owned content,
-creator (博主) collaborations, and a compliance gate in front of both.**
+**An AI agent that helps Medibank build a direct relationship with Chinese international
+students on Chinese social media (小红书, 微信公众号, 微信视频号, 抖音, 微博), reaching them
+before education agents take over, so they know Medibank, realise student insurance
+matters, and want to learn about it themselves.**
 
 Works in **Claude** (Claude.ai Projects, Claude Code) and **OpenAI Codex**, or from the
 command line through the Claude API. Built by UNSW CDEV3000 MB Group 6 (T3 2026) as the
@@ -18,30 +19,45 @@ project deliverable for Medibank.
 
 ## The problem it solves
 
-Medibank's OSHC features are good, but students don't discover them. Most Chinese
-students let an education agent arrange their OSHC and never look at the policy, so they
-don't know what they are covered for, how to claim, or that a 24/7 support line exists.
+Most Chinese international students let an education agent (留学中介) handle everything,
+including their OSHC. The agent picks the insurer and arranges the cover, so Medibank never
+has direct contact with the student, and the student never thinks about insurance until
+they need it in Australia.
 
-These students research studying in Australia on Chinese platforms. Those are mainland
-platforms and Medibank has no insurance licence in China, so it cannot *sell* there. The
-agent is built around one rule:
+Before they leave, these students get their information from 小红书, 公众号, 抖音, 视频号
+and 微博. That is where Medibank can meet them first. But these are mainland platforms and
+Medibank has no insurance licence in China, so it can build awareness there, never sell.
+The agent is built around one rule:
 
 > **On Chinese platforms, Medibank informs and helps. It does not sell.**
 
-## The campaign it runs: 看懂自己的保险 (Know your own cover)
+## Where it fits: step 1 of 2
+
+| Step | Deliverable | Student thinks | Job |
+|------|-------------|----------------|-----|
+| **1. Awareness** | **This agent** (Chinese social media) | "Medibank? Oh, student insurance actually matters. I should look into it myself." | Reach students early and directly, before the education agent decides for them |
+| 2. Understanding | AI chatbot on the Medibank university OSHC site (separate project) | "What does my policy cover? How is OSHC different from other health cover?" | Answer detailed policy and coverage questions |
+
+The agent's three goals, in order:
+
+1. **Know Medibank**: students meet Medibank on the platforms they already use, before departure.
+2. **Care about OSHC**: they realise student insurance affects them (seeing a GP, emergencies, claims).
+3. **Learn for yourself**: they want to understand their own cover instead of leaving it all to the agent.
+
+Content sparks the question; it does not try to answer every policy detail. Detailed
+questions are pointed, in words, to the university OSHC page and the chatbot.
 
 ![Student funnel](assets/images/funnel.svg)
 
 ```
 Post or video (creator 70% / owned 30%) on 小红书 · 公众号 · 视频号 · 抖音 · 微博
-  →  student opens their own offer letter / CoE and finds the OSHC line
+  →  "insurance matters, I should check mine"   (e.g. find the OSHC line in your offer letter)
   →  university OSHC page (e.g. UNSW → Medibank's UNSW OSHC site)
-  →  student chatbot on that site  →  Medibank app and 24/7 support line
+  →  step 2: student chatbot on that site  →  Medibank app and 24/7 support line
 ```
 
-The message: don't leave your insurance entirely to your education agent; read your own
-offer letter, know your own cover. Content never contains prices, links, QR codes or "DM
-me to buy". It names the next step in words.
+Content never contains prices, links, QR codes or "DM me to buy". It names the next step
+in words.
 
 ## What the agent does
 

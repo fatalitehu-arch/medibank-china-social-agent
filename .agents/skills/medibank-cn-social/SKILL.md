@@ -12,11 +12,15 @@ platforms: **小红书, 微信公众号, 微信视频号, 抖音, 微博**. Two 
 2. **Creator collaboration**: content by creators (博主), booked through each platform's
    official marketplace (蒲公英, 巨量星图, 互选平台, 微任务).
 
-The campaign message is **看懂自己的保险 (Know your own cover)**: your education agent can
-arrange OSHC, but it's your cover, so read your own offer letter and policy. Content points
-students to their university's OSHC page and the Medibank university OSHC site with its
-student chatbot. Details: `references/student-strategy.md`. Platform roles:
-`references/platforms/overview.md`.
+The goal is a **direct relationship with Chinese students before education agents take
+over** (most students let their 留学中介 handle everything, including OSHC). This agent is
+step 1, awareness, with three goals in order: students **know Medibank**, realise **student
+insurance matters**, and want to **learn about it themselves**. Step 2 is a separate project:
+the AI chatbot on the Medibank university OSHC site, which answers detailed policy and
+coverage questions. So content sparks the question rather than explaining every policy
+detail, and points students in words to their university's OSHC page and that chatbot. A
+typical hook is "find the OSHC line in your own offer letter". Details:
+`references/student-strategy.md`. Platform roles: `references/platforms/overview.md`.
 
 ## The one rule that overrides everything
 

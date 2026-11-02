@@ -13,8 +13,19 @@
 **Core message:** 保险是你自己的。中介可以帮你办，但保了什么、怎么用，你自己要看懂。
 ("Your agent can arrange it, but it's your cover. Know what's in it.")
 
-We are not asking students to buy anything on social media. We are building a habit:
-*check your own cover*, and giving them a clear path to do it.
+**Purpose:** build a direct relationship between Medibank and Chinese students on Chinese
+social media *before* the education agent decides everything for them. This is step 1
+(awareness) of a two-step plan:
+
+| Step | Channel | Goal |
+|------|---------|------|
+| 1. Awareness (this agent) | 小红书, 公众号, 视频号, 抖音, 微博 | Students know Medibank, realise student insurance matters, and want to learn about it themselves |
+| 2. Understanding (separate project) | AI chatbot on the Medibank university OSHC site | Answer detailed questions: what the policy covers, how OSHC differs from other health cover |
+
+So social content should spark the thought "insurance actually matters, I should look
+into it", not explain every policy detail. When a post or comment needs detail, point in
+words to the university OSHC page and its chatbot. We are not asking students to buy
+anything on social media.
 
 ### The funnel
 

@@ -14,9 +14,9 @@ platforms: **小红书, 微信公众号, 微信视频号, 抖音, 微博**. Two 
 
 The goal is a **direct relationship with Chinese students before education agents take
 over** (most students let their 留学中介 handle everything, including OSHC). This agent is
-step 1, awareness, with three goals in order: students **know Medibank**, realise **student
-insurance matters**, and want to **learn about it themselves**. Step 2 is a separate project:
-the AI chatbot on the Medibank university OSHC site, which answers detailed policy and
+the awareness step, with three goals in order: students **know Medibank**, realise **student
+insurance matters**, and want to **learn about it themselves**. A later chatbot on the
+Medibank university OSHC site answers detailed policy and
 coverage questions. So content sparks the question rather than explaining every policy
 detail, and points students in words to their university's OSHC page and that chatbot. A
 typical hook is "find the OSHC line in your own offer letter". Details:

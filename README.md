@@ -31,12 +31,10 @@ The agent is built around one rule:
 
 > **On Chinese platforms, Medibank informs and helps. It does not sell.**
 
-## Where it fits: step 1 of 2
+## What it aims for
 
-| Step | Deliverable | Student thinks | Job |
-|------|-------------|----------------|-----|
-| **1. Awareness** | **This agent** (Chinese social media) | "Medibank? Oh, student insurance actually matters. I should look into it myself." | Reach students early and directly, before the education agent decides for them |
-| 2. Understanding | AI chatbot on the Medibank university OSHC site (separate project) | "What does my policy cover? How is OSHC different from other health cover?" | Answer detailed policy and coverage questions |
+This agent is the awareness step. A later chatbot on the Medibank university OSHC site
+handles detailed policy questions.
 
 The agent's three goals, in order:
 
@@ -53,7 +51,7 @@ questions are pointed, in words, to the university OSHC page and the chatbot.
 Post or video (creator 70% / owned 30%) on 小红书 · 公众号 · 视频号 · 抖音 · 微博
   →  "insurance matters, I should check mine"   (e.g. find the OSHC line in your offer letter)
   →  university OSHC page (e.g. UNSW → Medibank's UNSW OSHC site)
-  →  step 2: student chatbot on that site  →  Medibank app and 24/7 support line
+  →  student chatbot on that site  →  Medibank app and 24/7 support line
 ```
 
 Content never contains prices, links, QR codes or "DM me to buy". It names the next step

@@ -7,15 +7,18 @@ creators (网红/博主) to work with, with a compliance check on every post.**
 ## 👉 Install: copy this, paste it into Claude Code
 
 ```text
-Install the Medibank China Social Agent for me. Run this command:
-claude plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent
-Then tell me when it is done and remind me to start a new session.
+Install the Medibank China Social Agent and start using it right away:
+1. Run: claude plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent
+2. Find the installed folder (~/.claude/plugins/cache/medibank-china-social/medibank-cn-social/<version>/)
+   and run: python3 social_agent/first_run.py   (this opens the welcome page in my browser)
+3. Read SKILL.md in that folder and act as this agent for the rest of this conversation,
+   using the folder's skills/, references/, tools/ and creators/. Then ask me what I want to do.
 ```
 
 Click the copy button on the box above, paste it into a **Claude Code** conversation (the Code
-tab in the Claude desktop app, or `claude` in a terminal), and press Enter. Claude runs the
-install for you. Start a new session afterwards: the welcome page opens by itself, and all
-nine skills, the knowledge base and the tools are ready.
+tab in the Claude desktop app, or `claude` in a terminal), and press Enter. Claude installs
+the agent, opens the welcome page and starts working as the agent in the same conversation,
+with no restart. In later sessions the nine skills load on their own.
 
 <details>
 <summary>Other ways to install, and why "download" gives you a ZIP</summary>

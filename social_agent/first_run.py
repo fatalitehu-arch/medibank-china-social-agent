@@ -41,10 +41,14 @@ def open_page():
 def maybe_show(force=False):
     """Return a one-line message if the page was shown (or should be), else None."""
     mark = marker()
-    if mark.exists() and not force:
+    # A run right after install (no CLAUDE_PLUGIN_DATA) marks the root, so the next session stays quiet too.
+    if (mark.exists() or (ROOT / ".welcome_shown").exists()) and not force:
         return None
     opened = open_page()
-    mark.write_text("shown\n", encoding="utf-8")
+    try:
+        mark.write_text("shown\n", encoding="utf-8")
+    except OSError:
+        pass
     where = "opened in your browser" if opened else f"open it in a browser: {PAGE}"
     return f"Welcome! See what this agent contains in welcome.html ({where})."
 

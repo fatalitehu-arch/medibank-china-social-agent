@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>China Social Agent</title>
+<style>
+:root {
+  --bg: #f6f8f9; --surface: #fcfcfb; --surface-2: #eef3f5; --ink: #14304a; --ink-2: #4a5d6e;
+  --ink-3: #6b7c8a; --line: #dbe3e8; --accent: #0b6e99; --accent-soft: #dcebf2; --bar: #0b6e99;
+  --good: #1d7a46; --good-soft: #e1f2e7; --warn: #8a5a00; --warn-soft: #fbefd5; --bad: #a33a1a; --bad-soft: #f8e2da;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121416; --surface: #1a1a19; --surface-2: #22272b; --ink: #e8eef2; --ink-2: #b4c2cc;
+    --ink-3: #8c9ba6; --line: #2f383e; --accent: #5cb8e0; --accent-soft: #19323f; --bar: #3a9fcc;
+    --good: #6fcf97; --good-soft: #17301f; --warn: #e6b450; --warn-soft: #33290f; --bad: #f08a6c; --bad-soft: #3a1d14;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121416; --surface: #1a1a19; --surface-2: #22272b; --ink: #e8eef2; --ink-2: #b4c2cc;
+  --ink-3: #8c9ba6; --line: #2f383e; --accent: #5cb8e0; --accent-soft: #19323f; --bar: #3a9fcc;
+  --good: #6fcf97; --good-soft: #17301f; --warn: #e6b450; --warn-soft: #33290f; --bad: #f08a6c; --bad-soft: #3a1d14;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Roboto, sans-serif; }
+a { color: var(--accent); }
+nav { position: sticky; top: 0; z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav .in { max-width: 1120px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 18px; align-items: center; overflow-x: auto; white-space: nowrap; }
+nav b { color: var(--ink); margin-right: 8px; }
+nav a { text-decoration: none; color: var(--ink-2); font-size: 14px; }
+nav a:hover { color: var(--accent); }
+main { max-width: 1120px; margin: 0 auto; padding: 0 16px 64px; }
+section { padding-top: 48px; }
+h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.15; margin: 0 0 12px; }
+h2 { font-size: 26px; margin: 0 0 6px; }
+h3 { font-size: 17px; margin: 0 0 6px; }
+.sub { color: var(--ink-2); margin: 0 0 22px; max-width: 760px; }
+.eyebrow { color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin: 40px 0 8px; }
+.note { font-size: 13px; color: var(--ink-3); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+.grid { display: grid; gap: 14px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin: 22px 0; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.tile .n { font-size: 30px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile .l { color: var(--ink-2); font-size: 13px; }
+.platforms { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 0; }
+.chip { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); font-size: 13px; }
+.path { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin-top: 8px; }
+.step { flex: 1 1 150px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; font-size: 14px; }
+.step .k { color: var(--accent); font-weight: 700; font-size: 12px; }
+.step.off { background: var(--surface-2); }
+.skill .dn { font-weight: 700; }
+.skill code { font-size: 12px; color: var(--ink-3); }
+.skill p { margin: 8px 0; color: var(--ink-2); font-size: 14px; }
+.prompt { font-size: 13px; background: var(--surface-2); border-radius: 8px; padding: 6px 10px; color: var(--ink); }
+.kb li { margin: 4px 0; font-size: 14px; }
+.kb li span { color: var(--ink-3); font-size: 12px; }
+ul.kb { padding-left: 18px; margin: 6px 0 0; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; font-size: 13px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.scroll { overflow-x: auto; }
+.pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.s-active, .v-use { background: var(--good-soft); color: var(--good); }
+.s-briefed, .v-adapt { background: var(--accent-soft); color: var(--accent); }
+.s-paused, .v-watch { background: var(--warn-soft); color: var(--warn); }
+.s-ended, .v-avoid { background: var(--bad-soft); color: var(--bad); }
+.flag { color: var(--warn); font-size: 13px; }
+.wbar { display: grid; grid-template-columns: 1fr 120px 34px; gap: 10px; align-items: center; font-size: 14px; margin: 8px 0; }
+.track { height: 10px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.fill { height: 100%; background: var(--bar); border-radius: 0 4px 4px 0; }
+.chart { position: relative; }
+.row { display: grid; grid-template-columns: minmax(110px, 190px) 1fr; gap: 12px; align-items: center; margin: 7px 0; }
+.row .name { font-size: 13px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .bararea { display: flex; align-items: center; gap: 8px; min-height: 22px; cursor: default; }
+.row .bar { height: 16px; background: var(--bar); border-radius: 0 4px 4px 0; min-width: 2px; }
+.row .val { font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.row:hover .bar { filter: brightness(1.12); }
+#tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--surface); font-size: 12px; padding: 6px 9px; border-radius: 8px; opacity: 0; transition: opacity .1s; max-width: 260px; z-index: 10; }
+.compare td:first-child { font-weight: 600; width: 22%; }
+.compare td:nth-child(2) { color: var(--ink-2); }
+.loop { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); counter-reset: s; }
+.loop .card { position: relative; padding-top: 30px; }
+.loop .card::before { counter-increment: s; content: counter(s); position: absolute; top: 10px; left: 18px; font-weight: 700; color: var(--accent); }
+pre { background: var(--surface-2); border-radius: 10px; padding: 12px; overflow-x: auto; font-size: 13px; margin: 8px 0 0; }
+.theme { margin-left: auto; background: none; border: 1px solid var(--line); color: var(--ink-2); border-radius: 8px; padding: 3px 8px; font-size: 13px; cursor: pointer; }
+footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line); margin-top: 56px; padding-top: 16px; }
+</style>
+</head>
+<body>
+<nav><div class="in">
+  <b>China Social Agent</b>
+  <a href="#skills">Skills</a><a href="#knowledge">Knowledge base</a><a href="#creators">Creators</a>
+  <a href="#why">Why this agent</a><a href="#start">Get started</a>
+  <button class="theme" id="theme" type="button" aria-label="Switch light or dark theme">Theme</button>
+</div></nav>
+<main>
+  <section id="top">
+    <p class="eyebrow">Welcome · 欢迎</p>
+    <h1>Your agent for Chinese social media content</h1>
+    <p class="sub">It helps Medibank's international student team decide <b>what to post</b>, <b>which trends to ride</b>
+      and <b>which creators (网红/博主) to work with</b>, and checks every post for compliance before it goes out.</p>
+    <div class="platforms" id="platforms"></div>
+    <div class="tiles" id="tiles"></div>
+    <h3>The end goal</h3>
+    <p class="sub" style="margin-bottom:8px">Chinese students realise student insurance matters and choose their insurer themselves, instead of leaving it all to their education agent.</p>
+    <div class="path">
+      <div class="step"><div class="k">On social media</div>Posts and creator content on five platforms</div>
+      <div class="step"><div class="k">Student thinks</div>"Insurance matters. I should choose it myself."</div>
+      <div class="step off"><div class="k">Off platform</div>Link in the UNSW offer letter → UNSW Medibank OSHC site</div>
+      <div class="step off"><div class="k">Off platform</div>AI chatbot explains Medibank OSHC</div>
+      <div class="step off"><div class="k">Off platform</div>Student compares insurers and decides</div>
+    </div>
+    <p class="note">Content on Chinese platforms informs, never sells: no prices, comparisons, links or "DM me". The comparing happens off the platform.</p>
+  </section>
+
+  <section id="skills">
+    <h2>What's inside: skills</h2>
+    <p class="sub">Ask in plain Chinese or English. The router picks the right skill; you can also call one by name.</p>
+    <div class="grid g3" id="skillgrid"></div>
+    <p class="eyebrow">Tools the agent runs</p>
+    <div class="card scroll"><table id="tooltable"><thead><tr><th>Tool</th><th>What it does</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="knowledge">
+    <h2>Knowledge base</h2>
+    <p class="sub">Everything the agent knows lives in plain files you can read and edit. Change a file, and every future answer uses it.</p>
+    <div class="grid g3" id="kbgrid"></div>
+    <p class="eyebrow">Trend radar · snapshot <span id="trenddate"></span></p>
+    <div class="card scroll"><table id="trendtable"><thead><tr><th>Trend</th><th>What it is</th><th>Where</th><th>Verdict</th></tr></thead><tbody></tbody></table>
+      <p class="note">Trends go stale in days. Ask the agent "最近有什么热点可以蹭？" to refresh it with dated sources.</p></div>
+  </section>
+
+  <section id="creators">
+    <h2>Creator library (达人库)</h2>
+    <p class="sub">Selection criteria, the creators Medibank works with, and how each one is doing. <b>Rows are demo data</b> until the team adds real creators in <code>creators/</code>.</p>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Selection criteria (选达人标准)</h3>
+        <p class="note" style="margin-top:0">Score out of 100 from <code>tools/kol_score.py</code>: ≥70 go, 50–69 human look, &lt;50 no.</p>
+        <div id="weights"></div>
+      </div>
+      <div class="card">
+        <h3>Hard stops (直接排除)</h3>
+        <ul class="kb" id="hardstops"></ul>
+        <p class="note">Paid collaborations only through the platform marketplace: 蒲公英, 巨量星图, 互选平台, 微任务.</p>
+      </div>
+    </div>
+    <p class="eyebrow">Creator dashboard · as of <span id="asof"></span></p>
+    <div class="tiles" id="ctiles"></div>
+    <div class="card">
+      <h3>Inquiries (咨询) per creator</h3>
+      <p class="note" style="margin-top:0">Comments and DMs asking about OSHC. Answered with the standard replies, never with a quote.</p>
+      <div class="chart" id="inqchart" role="img" aria-label="Bar chart of inquiries per creator; the same numbers are in the table below"></div>
+    </div>
+    <div class="card scroll" style="margin-top:14px">
+      <table id="ctable"><thead><tr>
+        <th>Creator</th><th>Platform</th><th>Status</th><th class="num">Posts</th><th class="num">Likes</th><th class="num">Comments</th>
+        <th class="num">Saves</th><th class="num">Inquiries</th><th class="num">CNY / inquiry</th><th>Follow up</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+
+  <section id="why">
+    <h2>Why this agent, not a normal AI chat</h2>
+    <p class="sub">A normal AI can write posts. This one knows what Medibank cannot say in China, and its knowledge stays up to date.</p>
+    <div class="card scroll"><table class="compare"><thead><tr><th>What matters</th><th>Normal AI chat</th><th>This agent</th></tr></thead><tbody>
+      <tr><td>Compliance</td><td>Writes "best price", "DM me" freely</td><td>Every draft scanned against <span id="rulecount"></span> rules with rule IDs, per platform</td></tr>
+      <tr><td>Facts</td><td>May invent prices, cover or follower counts</td><td>Only facts from the knowledge base; unknowns marked 【待确认】</td></tr>
+      <tr><td>Trends</td><td>Training data months old</td><td>Searches current trends with dated sources, scores the risk</td></tr>
+      <tr><td>Creators</td><td>Generic advice</td><td>Scoring rules, hard stops, a roster and a dashboard</td></tr>
+      <tr><td>Consistency</td><td>Different answer each time</td><td>Same rules and tools every time, tested automatically</td></tr>
+      <tr><td>Memory</td><td>Starts from zero every chat</td><td>Knowledge base the team maintains and improves</td></tr>
+    </tbody></table></div>
+    <p class="eyebrow">The knowledge base keeps improving</p>
+    <div class="loop">
+      <div class="card"><h3>Something changes</h3><p class="note">A post is throttled, a rule changes, a new trend or creator appears, a product fact is updated.</p></div>
+      <div class="card"><h3>Edit one file</h3><p class="note"><code>tools/rules.json</code>, <code>references/brand-facts.md</code>, <code>references/trend-radar.md</code> or <code>creators/roster.csv</code>.</p></div>
+      <div class="card"><h3>Tests check it</h3><p class="note">Automated tests and CI make sure nothing broke and the skill copies are in sync.</p></div>
+      <div class="card"><h3>Every future post uses it</h3><p class="note">In Claude and Codex, for the whole team, from the next request on.</p></div>
+    </div>
+  </section>
+
+  <section id="start">
+    <h2>Get started</h2>
+    <div class="grid g2">
+      <div class="card"><h3>Claude Code</h3><pre>cd medibank-china-social-agent
+claude</pre><p class="note">Skills load from <code>.claude/skills/</code>. Try: 最近有什么热点可以蹭？</p></div>
+      <div class="card"><h3>Codex</h3><pre>cd medibank-china-social-agent
+codex</pre><p class="note">Skills load from <code>.agents/skills/</code>. Try: $medibank-cn-social</p></div>
+      <div class="card"><h3>Claude.ai Project (no code)</h3><p class="note">Upload <code>SKILL.md</code>, <code>skills/*/SKILL.md</code>, <code>references/</code> and <code>assets/templates/</code> to a Project. Steps in README.md.</p></div>
+      <div class="card"><h3>Command line</h3><pre>python -m social_agent welcome
+python -m social_agent creators
+python -m social_agent trendscore examples/trends_sample.csv</pre></div>
+    </div>
+  </section>
+
+  <footer>Built by UNSW CDEV3000 MB Group 6 (T3 2026) as a student project deliverable. Not an official Medibank page. Compliance rules are research, not legal advice: Medibank Legal &amp; Compliance should review them.
+    This page is generated from the repository by <code>tools/build_welcome.py</code>; data as of <span id="built"></span>.</footer>
+</main>
+<div id="tip" role="tooltip"></div>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById("data").textContent);
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); };
+  var fmt = function (n) { return n == null ? "–" : Number(n).toLocaleString("en-US"); };
+  var PLAT = {xiaohongshu: "小红书", "wechat-oa": "公众号", "wechat-channels": "视频号", douyin: "抖音", weibo: "微博"};
+
+  $("platforms").innerHTML = Object.keys(PLAT).map(function (k) { return '<span class="chip">' + PLAT[k] + "</span>"; }).join("");
+  var tiles = [[D.skills.length, "skills"], [D.knowledge.length, "knowledge files"], [D.rule_count, "compliance rules"],
+               [5, "platforms"], [D.dashboard.summary.creators, "creators in library"]];
+  $("tiles").innerHTML = tiles.map(function (t) { return '<div class="tile"><div class="n">' + t[0] + '</div><div class="l">' + t[1] + "</div></div>"; }).join("");
+
+  $("skillgrid").innerHTML = D.skills.map(function (s) {
+    return '<div class="card skill"><div class="dn">' + esc(s.display_name) + '</div><code>' + esc(s.name) + '</code><p>' + esc(s.short) + '</p>' +
+      (s.prompt ? '<div class="prompt">“' + esc(s.prompt) + '”</div>' : "") + "</div>";
+  }).join("");
+  $("tooltable").querySelector("tbody").innerHTML = D.tools.map(function (t) {
+    return "<tr><td><code>" + esc(t.name) + "</code></td><td>" + esc(t.doc) + "</td></tr>";
+  }).join("");
+
+  $("kbgrid").innerHTML = D.kb_groups.map(function (g) {
+    var files = D.knowledge.filter(function (k) { return k.group === g; });
+    return '<div class="card"><h3>' + esc(g) + '</h3><ul class="kb">' + files.map(function (k) {
+      return "<li>" + esc(k.title) + " <span>" + esc(k.path) + "</span></li>";
+    }).join("") + "</ul></div>";
+  }).join("");
+  $("trenddate").textContent = D.trends.snapshot || "–";
+  $("trendtable").querySelector("tbody").innerHTML = D.trends.rows.map(function (r) {
+    var cut = r.verdict.indexOf(":"), label = cut < 0 ? r.verdict : r.verdict.slice(0, cut), extra = cut < 0 ? "" : r.verdict.slice(cut + 1).trim();
+    var cls = r.verdict.indexOf("use") === 0 ? "v-use" : r.verdict.indexOf("adapt") === 0 ? "v-adapt" : r.verdict.indexOf("avoid") === 0 ? "v-avoid" : "v-watch";
+    return "<tr><td><b>" + esc(r.trend) + "</b></td><td>" + esc(r.what) + "</td><td>" + esc(r.where) + '</td><td><span class="pill ' + cls + '">' + esc(label) + "</span>" + (extra ? '<div class="note">' + esc(extra) + "</div>" : "") + "</td></tr>";
+  }).join("");
+
+  var wmax = Math.max.apply(null, D.criteria.weights.map(function (w) { return w.weight; }));
+  $("weights").innerHTML = D.criteria.weights.map(function (w) {
+    return '<div class="wbar"><span>' + esc(w.label) + '</span><div class="track"><div class="fill" style="width:' + (100 * w.weight / wmax) + '%"></div></div><b>' + w.weight + "</b></div>";
+  }).join("");
+  $("hardstops").innerHTML = D.criteria.hard_stops.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("");
+
+  var S = D.dashboard.summary;
+  $("asof").textContent = S.as_of;
+  var ct = [[S.active + " / " + S.creators, "active creators"], [fmt(S.posts), "posts"], [fmt(S.likes), "likes"],
+            [fmt(S.comments), "comments"], [fmt(S.saves), "saves"], [fmt(S.inquiries), "inquiries (咨询)"]];
+  $("ctiles").innerHTML = ct.map(function (t) { return '<div class="tile"><div class="n">' + t[0] + '</div><div class="l">' + t[1] + "</div></div>"; }).join("");
+
+  var cs = D.dashboard.creators.slice().sort(function (a, b) { return b.inquiries - a.inquiries; });
+  var imax = Math.max.apply(null, cs.map(function (c) { return c.inquiries; })) || 1;
+  $("inqchart").innerHTML = cs.map(function (c, i) {
+    return '<div class="row" data-i="' + i + '"><div class="name" title="' + esc(c.handle) + '">' + esc(c.handle) + '</div><div class="bararea"><div class="bar" style="width:' +
+      (c.inquiries ? (85 * c.inquiries / imax) : 0) + '%"></div><span class="val">' + c.inquiries + "</span></div></div>";
+  }).join("");
+  var tip = $("tip");
+  $("inqchart").addEventListener("mousemove", function (e) {
+    var row = e.target.closest(".row");
+    if (!row) { tip.style.opacity = 0; return; }
+    var c = cs[+row.dataset.i];
+    tip.innerHTML = "<b>" + esc(c.handle) + "</b> · " + (PLAT[c.platform] || c.platform) + "<br>" + c.inquiries + " inquiries · " + fmt(c.saves) + " saves · " +
+      fmt(c.likes) + " likes<br>" + (c.cost_per_inquiry == null ? "no posts yet" : fmt(c.cost_per_inquiry) + " CNY per inquiry");
+    tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 270) + "px";
+    tip.style.top = (e.clientY + 14) + "px";
+    tip.style.opacity = 1;
+  });
+  $("inqchart").addEventListener("mouseleave", function () { tip.style.opacity = 0; });
+
+  $("ctable").querySelector("tbody").innerHTML = cs.map(function (c) {
+    return "<tr><td><b>" + esc(c.handle) + '</b><br><span class="note">' + esc(c.tier) + " · " + fmt(c.followers) + " followers · score " + c.kol_score + "</span></td><td>" +
+      (PLAT[c.platform] || esc(c.platform)) + '</td><td><span class="pill s-' + esc(c.status) + '">' + esc(c.status) + '</span></td><td class="num">' + c.posts +
+      '</td><td class="num">' + fmt(c.likes) + '</td><td class="num">' + fmt(c.comments) + '</td><td class="num">' + fmt(c.saves) + '</td><td class="num"><b>' + c.inquiries +
+      '</b></td><td class="num">' + fmt(c.cost_per_inquiry) + "</td><td>" + (c.flags.length ? c.flags.map(function (f) { return '<div class="flag">' + esc(f) + "</div>"; }).join("") : "–") + "</td></tr>";
+  }).join("");
+
+  $("rulecount").textContent = D.rule_count;
+  $("built").textContent = S.as_of;
+
+  var KEY = "welcome-theme", root = document.documentElement;
+  try { var saved = localStorage.getItem(KEY); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
+  $("theme").addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") ? root.getAttribute("data-theme") === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>

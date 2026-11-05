@@ -1,0 +1,9 @@
+creator_id,handle,platform,tier,followers,persona,niche,status,contract_start,contract_end,fee_cny_per_post,kol_score,marketplace,notes
+C01,示例_悉尼读研日记,xiaohongshu,KOC,8200,P1 offer holder,悉尼读研日常,active,2026-12-01,2027-03-31,800,86,蒲公英,Checklist-style notes; very high saves
+C02,示例_墨尔本小鹿,xiaohongshu,腰部,45000,P3 just arrived,墨尔本生活,active,2026-12-01,2027-03-31,6000,78,蒲公英,First GP visit story
+C03,示例_悉尼留学生活号,wechat-oa,腰部,40000,P1 offer holder,悉尼留学生活号,active,2026-12-15,2027-02-28,8000,81,互选平台,Co-published arrival guide
+C04,示例_留学家长课堂,wechat-channels,腰部,26000,P5 parent,留学家长,active,2026-12-15,2027-02-28,5000,70,互选平台,Parent-facing; uses 您
+C05,示例_留学生阿Ken的一天,douyin,腰部,85000,P3 just arrived,留学生 vlog,active,2027-01-01,2027-01-31,12000,74,巨量星图,Contract ends soon; review renewal
+C06,示例_澳洲生活vlog,douyin,头部,230000,P1 offer holder,澳洲生活 vlog,active,2027-01-01,2027-02-28,45000,69,巨量星图,O-Week awareness peak
+C07,示例_澳洲留学那些事,weibo,腰部,98000,P2 visa stage,澳洲留学资讯,paused,2026-12-15,2027-02-28,6000,62,微任务,Paused after a draft needed major fixes
+C08,示例_UNSW新生说,xiaohongshu,KOC,3500,P1 offer holder,UNSW 新生,briefed,2027-01-20,2027-04-30,800,84,蒲公英,Brief sent; first post due

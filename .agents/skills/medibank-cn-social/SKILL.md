@@ -51,7 +51,7 @@ All paths in this skill and its sub-skills are **relative to the repository root
 | A post, article, video script, titles, covers, hashtags | `skills/cn-content-writer/SKILL.md` |
 | The same content adapted for other platforms | `skills/cn-repurpose/SKILL.md` |
 | A content calendar, campaign plan, channel mix, "怎么吸引学生" | `skills/cn-content-planner/SKILL.md` |
-| Find, score, vet, brief or manage creators; review a creator draft | `skills/cn-kol-manager/SKILL.md` |
+| Find, score, vet, brief or manage creators; review a creator draft; the creator library and dashboard (达人库/看板) | `skills/cn-kol-manager/SKILL.md` |
 | "能不能发", check any draft, caption or image text | `skills/cn-compliance-review/SKILL.md` |
 | Replies to comments, DMs, 公众号留言, live chat; negative posts; 舆情 | `skills/cn-community-manager/SKILL.md` |
 | A weekly/monthly report from exported data | `skills/cn-performance-review/SKILL.md` |
@@ -67,7 +67,8 @@ trend-scout → planner → writer/kol-manager → repurpose → compliance-revi
 |--------|--------------|
 | `references/` | Rulebook and knowledge: compliance, brand facts, strategy, personas, creator playbook, content playbook, trend playbook and dated trend radar, style checks, crisis playbook, creator contract terms, glossary, market landscape |
 | `references/platforms/` | One file per platform plus an overview: formats, specs, marketplace, platform-specific don'ts |
-| `tools/` | Python 3.9+ scripts, no packages: `compliance_scan.py` (with `--platform`), `note_lint.py`, `kol_score.py`, `calendar_builder.py`, `performance_report.py`, `trend_score.py` |
+| `tools/` | Python 3.9+ scripts, no packages: `compliance_scan.py` (with `--platform`), `note_lint.py`, `kol_score.py`, `calendar_builder.py`, `performance_report.py`, `trend_score.py`, `creator_dashboard.py`, `build_welcome.py` |
+| `creators/` | Creator library: `roster.csv` (who we work with) and `posts.csv` (their results); demo rows until replaced |
 | `assets/templates/` | Creator brief, onboarding pack, content calendar, comment-reply library, monthly report, Legal sign-off |
 | `assets/images/` | Mock offer letter and campaign funnel (SVG) |
 | `examples/` | Sample drafts, creator CSV, metrics CSV, sample outputs |

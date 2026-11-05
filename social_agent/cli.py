@@ -20,6 +20,8 @@ Offline (no API key):
     python -m social_agent calendar plan.csv
     python -m social_agent report examples/metrics_sample.csv
     python -m social_agent trendscore examples/trends_sample.csv --today 2026-11-05
+    python -m social_agent creators
+    python -m social_agent welcome      (opens welcome.html; also opens once on first run)
 """
 
 import argparse
@@ -32,10 +34,13 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import calendar_builder  # noqa: E402
 import compliance_scan  # noqa: E402
+import creator_dashboard  # noqa: E402
 import kol_score  # noqa: E402
 import note_lint  # noqa: E402
 import performance_report  # noqa: E402
 import trend_score  # noqa: E402
+
+from . import first_run  # noqa: E402
 
 MODEL = "claude-opus-5-5"
 PLATFORMS = ["xiaohongshu", "wechat-oa", "wechat-channels", "douyin", "weibo"]
@@ -196,8 +201,18 @@ def main(argv=None):
     p.add_argument("csv")
     p.add_argument("--today")
     p.add_argument("--out")
+    p = sub.add_parser("creators", help="creator library dashboard (offline)")
+    p.add_argument("--today")
+    sub.add_parser("welcome", help="open the welcome page")
     sub.add_parser("chat", help="interactive session")
     args = parser.parse_args(argv)
+
+    if args.mode == "welcome":
+        print(first_run.maybe_show(force=True))
+        return 0
+    msg = first_run.maybe_show()
+    if msg:
+        print(msg + "\n", file=sys.stderr)
 
     platform_args = ["--platform", args.platform] if getattr(args, "platform", None) else []
     out_args = ["--out", args.out] if getattr(args, "out", None) else []
@@ -211,6 +226,8 @@ def main(argv=None):
         return calendar_builder.main([args.csv] + out_args)
     if args.mode == "report":
         return performance_report.main([args.csv] + out_args)
+    if args.mode == "creators":
+        return creator_dashboard.main(["--today", args.today] if args.today else [])
     if args.mode == "trendscore":
         today_args = ["--today", args.today] if args.today else []
         return trend_score.main([args.csv] + today_args + out_args)

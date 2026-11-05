@@ -75,6 +75,27 @@ def test_trend_score_freshness_decays():
     assert stale == 80.0
 
 
+def test_creator_dashboard_flags_and_totals():
+    import creator_dashboard
+
+    roster = creator_dashboard.load(ROOT / "creators" / "roster.csv")
+    posts = creator_dashboard.load(ROOT / "creators" / "posts.csv")
+    data = creator_dashboard.build(roster, posts, date(2027, 1, 19))
+    by_id = {c["id"]: c for c in data["creators"]}
+    assert data["summary"]["inquiries"] == sum(int(p["inquiries"]) for p in posts)
+    assert "Waiting for first post" in by_id["C08"]["flags"]
+    assert any(f.startswith("Contract ends") for f in by_id["C05"]["flags"])
+    assert any("amber" in f for f in by_id["C06"]["flags"])
+    assert by_id["C01"]["flags"] == []
+
+
+def test_welcome_page_is_current():
+    import build_welcome
+
+    assert (ROOT / "welcome.html").read_text(encoding="utf-8") == build_welcome.render(), \
+        "run python tools/build_welcome.py"
+
+
 def test_performance_report_sections():
     md = performance_report.build(performance_report.load(EXAMPLES / "metrics_sample.csv"))
     for heading in ["By platform", "Owned vs creator", "By pillar", "Top posts", "Bottom posts", "By creator"]:

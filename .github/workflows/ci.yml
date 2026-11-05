@@ -31,3 +31,5 @@ jobs:
           done
       - name: Trend scorer runs on the sample
         run: python tools/trend_score.py examples/trends_sample.csv --today 2026-11-05
+      - name: Welcome page is up to date
+        run: python tools/build_welcome.py --check

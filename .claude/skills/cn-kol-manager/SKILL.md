@@ -45,6 +45,15 @@ Attach `assets/templates/creator-onboarding.md`.
 From exported data, run `python tools/performance_report.py metrics.csv` and summarise per
 creator: reach, saves/shares, comments with real questions, cost per save, rebook yes/no.
 
+### 7. Creator library (达人库)
+The creators Medibank works with live in `creators/roster.csv` (status, contract, fee,
+score) and their published posts in `creators/posts.csv` (likes, comments, saves, shares,
+inquiries, verdict). Keep both up to date when a creator is signed, paused or ends, and
+weekly from the marketplace export. `python tools/creator_dashboard.py` shows results per
+creator and what needs follow-up (no post in 30 days, contract ending, a post that needed
+changes, first post overdue). After editing, run `python tools/build_welcome.py` so the
+welcome page shows the same data. Details: `creators/README.md`.
+
 ## Rules that never bend
 
 * Paid = the platform's marketplace + its tag. No private deals, no "无广" on paid content.

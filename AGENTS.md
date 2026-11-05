@@ -1,8 +1,12 @@
 # Medibank China social media agent
 
-This repository is an agent for Medibank's China-facing social media on 小红书, 微信公众号,
-微信视频号, 抖音 and 微博: owned content, creator collaborations, compliance checks,
-community management and reporting.
+This repository is an agent that manages Medibank's content creation on Chinese social media
+(小红书, 微信公众号, 微信视频号, 抖音, 微博): what to post, which trends to ride and which creators
+to work with, with compliance checks, community management and reporting.
+
+**First session:** if the file `.welcome_shown` does not exist in the repository root, run
+`python3 social_agent/first_run.py` before anything else and tell the user in one line that
+`welcome.html` shows what the agent contains (skills, knowledge base, creator library).
 
 For any request about this work, follow `SKILL.md` (the router, also installed as
 `.agents/skills/medibank-cn-social/`). It routes to sub-skills in `.agents/skills/cn-*`.
@@ -20,6 +24,9 @@ it does not sell (no prices, comparisons, purchase links, "DM to buy", or data c
 | `python tools/kol_score.py <csv>` | Score creator candidates |
 | `python tools/calendar_builder.py <csv>` | Check and render a content calendar |
 | `python tools/performance_report.py <csv>` | Cross-platform performance report |
+| `python tools/trend_score.py <csv>` | Score trends: use now / adapt / watch / avoid |
+| `python tools/creator_dashboard.py` | Creator library dashboard from `creators/` |
+| `python tools/build_welcome.py` | Rebuild `welcome.html` from the repository |
 
 Platform ids: `xiaohongshu`, `wechat-oa`, `wechat-channels`, `douyin`, `weibo`.
 
@@ -29,3 +36,5 @@ Platform ids: `xiaohongshu`, `wechat-oa`, `wechat-channels`, `douyin`, `weibo`.
   `python sync_skills.py` to refresh `.agents/skills/` (Codex) and `.claude/skills/` (Claude Code).
 - Run `python -m pytest -q tests` before committing. CI runs the same checks.
 - Add new scanner regressions to `evals/scanner_cases.jsonl`.
+- After changing skills, `references/`, `creators/` or the trend radar, run
+  `python tools/build_welcome.py` (CI checks `welcome.html` is up to date).

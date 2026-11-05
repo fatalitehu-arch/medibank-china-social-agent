@@ -3,3 +3,4 @@ __pycache__/
 .venv/
 scored.csv
 .pytest_cache/
+.welcome_shown

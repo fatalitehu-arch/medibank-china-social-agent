@@ -1,0 +1,9 @@
+post_id,date,creator_id,platform,format,pillar,impressions,likes,comments,saves,shares,inquiries,verdict,cost_cny
+XHS-01,2027-01-05,C01,xiaohongshu,图文,看懂你的保险,18000,520,85,640,40,22,green,800
+XHS-05,2027-01-19,C01,xiaohongshu,图文,在澳洲看病,21000,610,96,720,52,27,green,800
+XHS-03,2027-01-12,C02,xiaohongshu,图文,在澳洲看病,52000,1300,210,1500,90,48,green,6000
+WOA-02,2027-01-11,C03,wechat-oa,article,在澳洲看病,21000,380,45,640,520,15,green,8000
+WCH-02,2027-01-13,C04,wechat-channels,video,用好 app 和热线,24000,520,70,110,690,12,green,5000
+DY-01,2027-01-07,C05,douyin,video,看懂你的保险,160000,5200,420,1100,310,35,green,12000
+DY-02,2027-01-14,C06,douyin,video,在澳洲看病,410000,9800,600,1500,500,40,amber,45000
+WB-02,2027-01-09,C07,weibo,short,看懂你的保险,60000,400,70,90,120,8,amber,6000

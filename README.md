@@ -44,9 +44,9 @@ The agent's goals on social media, in order:
 3. **Choose for yourself**: they want to join the insurer choice and compare options themselves.
 
 Social content builds the awareness; it never compares prices or insurers itself (that
-would be selling in China, CN-1/CN-2). The comparing and understanding happen off the
-platform: students follow the link in their **UNSW offer letter** to the UNSW Medibank OSHC
-site, where a chatbot (a separate project) helps them understand their cover.
+would be selling in China, CN-1/CN-2). Students do the comparing themselves, off the
+platform. They follow the link in their **UNSW offer letter** to the UNSW Medibank OSHC
+site, where an AI chatbot (a separate project) helps them understand Medibank OSHC.
 
 ![Student funnel](assets/images/funnel.svg)
 
@@ -54,7 +54,8 @@ site, where a chatbot (a separate project) helps them understand their cover.
 Post or video (creator 70% / owned 30%) on 小红书 · 公众号 · 视频号 · 抖音 · 微博
   →  "insurance matters, I should choose and check it myself"
   →  the OSHC link in their UNSW offer letter  →  UNSW Medibank OSHC site
-  →  chatbot on that site: understand cover, compare, decide
+  →  chatbot on that site helps them understand Medibank OSHC
+  →  the student compares insurers themselves and decides
 ```
 
 Content never contains prices, links, QR codes or "DM me to buy". It names the next step

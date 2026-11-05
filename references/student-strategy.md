@@ -17,8 +17,9 @@
 in choosing their insurer, comparing each company's price and coverage, instead of leaving
 the choice to their education agent (students may choose their own OSHC insurer, AU-5).
 Social media builds that awareness: students know Medibank, care about OSHC, and want to
-choose for themselves. The comparing and understanding happen off the platform: the link in
-the UNSW offer letter leads to the UNSW Medibank OSHC site and its chatbot (a separate project).
+choose for themselves. Students do the comparing themselves, off the platform. The link in
+the UNSW offer letter leads to the UNSW Medibank OSHC site, whose AI chatbot (a separate
+project) helps them understand Medibank OSHC.
 
 So social content should spark the thought "insurance actually matters, I should choose
 and check it myself", not compare insurers or explain every policy detail. When a post or comment needs detail, point in

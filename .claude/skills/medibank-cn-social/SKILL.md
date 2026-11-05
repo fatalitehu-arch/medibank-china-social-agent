@@ -18,9 +18,9 @@ The end goal: Chinese students realise **student insurance matters** and take pa
 themselves in **choosing their insurer** (comparing price and coverage) instead of leaving
 it all to their 留学中介. Social content builds that awareness in three steps: students
 **know Medibank**, **care about OSHC**, and want to **choose for themselves**. Content never
-compares insurers or prices itself; the comparing and understanding happen off the
-platform, on the UNSW Medibank OSHC site (linked from the UNSW offer letter) and its
-chatbot. A typical hook is "find the OSHC line in your own offer letter". Details:
+compares insurers or prices itself; students do the comparing themselves, off the
+platform. The UNSW offer letter links to the UNSW Medibank OSHC site, whose AI chatbot
+helps them understand Medibank OSHC. A typical hook is "find the OSHC line in your own offer letter". Details:
 `references/student-strategy.md`. Platform roles: `references/platforms/overview.md`.
 
 ## The one rule that overrides everything

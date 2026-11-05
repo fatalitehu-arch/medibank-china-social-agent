@@ -4,6 +4,28 @@
 (小红书, 微信公众号, 微信视频号, 抖音, 微博): what to post, which trends to ride, and which
 creators (网红/博主) to work with, with a compliance check on every post.**
 
+## How to install
+
+> **Asking Claude to "download" the repo only gives you a ZIP file.** A normal Claude chat
+> can't install plugins, so install the agent in one of these places instead:
+>
+> 1. **The Code tab in the Claude desktop app (recommended):** open Code and paste the line
+>    below, or send the repo link and say "install this as a plugin".
+>
+>    ```text
+>    /plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent
+>    ```
+>
+> 2. **Cowork in the desktop app:** in Customize, find the plugins section, choose
+>    "Add marketplace", enter `fatalitehu-arch/medibank-china-social-agent`, then install
+>    `medibank-cn-social`. The menu names may differ between app versions.
+>
+> With option 1, start a new session after installing and the welcome page opens by itself.
+> All nine skills, the knowledge base and the tools are installed together. On older Claude
+> Code versions, use two steps: `/plugin marketplace add fatalitehu-arch/medibank-china-social-agent`,
+> then `/plugin install medibank-cn-social@medibank-china-social`. Update later with
+> `/plugin marketplace update medibank-china-social`.
+
 Works in **Claude** (Claude.ai Projects, Claude Code) and **OpenAI Codex**, or from the
 command line through the Claude API. Built by UNSW CDEV3000 MB Group 6 (T3 2026) as the
 project deliverable for Medibank.
@@ -11,25 +33,6 @@ project deliverable for Medibank.
 > ⚠️ The compliance rules in this repo are a student research summary, not legal advice.
 > Medibank Legal & Compliance and PRC counsel should review `references/compliance.md`
 > before the agent is used for real campaigns. Anything marked `[VERIFY]` needs checking.
-
-## Install in one step (Claude Code)
-
-```text
-/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent
-```
-
-Or give Claude Code the link and say "install this as a plugin":
-`https://github.com/fatalitehu-arch/medibank-china-social-agent`. On older Claude Code
-versions, use two steps:
-
-```text
-/plugin marketplace add fatalitehu-arch/medibank-china-social-agent
-/plugin install medibank-cn-social@medibank-china-social
-```
-
-All nine skills, the knowledge base and the tools are installed together, and the welcome
-page opens in your browser at the start of the first session. Update later with
-`/plugin marketplace update medibank-china-social`.
 
 **Start here: open [`welcome.html`](welcome.html)** in a browser for a visual overview of the skills,
 knowledge base and creator library (it also opens automatically the first time you use the

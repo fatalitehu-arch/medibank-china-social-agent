@@ -1,9 +1,8 @@
 # Medibank China Social Media Agent
 
-**An AI agent that helps Medibank build a direct relationship with Chinese international
-students on Chinese social media (小红书, 微信公众号, 微信视频号, 抖音, 微博), reaching them
-before education agents take over, so they know Medibank, realise student insurance
-matters, and want to learn about it themselves.**
+**An AI agent that helps Medibank manage content creation on Chinese social media
+(小红书, 微信公众号, 微信视频号, 抖音, 微博): what to post, which trends to ride, and which
+creators (网红/博主) to work with, with a compliance check on every post.**
 
 Works in **Claude** (Claude.ai Projects, Claude Code) and **OpenAI Codex**, or from the
 command line through the Claude API. Built by UNSW CDEV3000 MB Group 6 (T3 2026) as the
@@ -33,25 +32,29 @@ The agent is built around one rule:
 
 ## What it aims for
 
-This agent is the awareness step. A later chatbot on the Medibank university OSHC site
-handles detailed policy questions.
+**The end goal:** Chinese students realise student insurance matters, and take part
+themselves in choosing their insurer, comparing each company's price and coverage,
+instead of leaving the choice to their education agent. Students can choose their own
+OSHC insurer (Department of Health OSHC fact sheet; `references/compliance.md` AU-5).
 
-The agent's three goals, in order:
+The agent's goals on social media, in order:
 
 1. **Know Medibank**: students meet Medibank on the platforms they already use, before departure.
 2. **Care about OSHC**: they realise student insurance affects them (seeing a GP, emergencies, claims).
-3. **Learn for yourself**: they want to understand their own cover instead of leaving it all to the agent.
+3. **Choose for yourself**: they want to join the insurer choice and compare options themselves.
 
-Content sparks the question; it does not try to answer every policy detail. Detailed
-questions are pointed, in words, to the university OSHC page and the chatbot.
+Social content builds the awareness; it never compares prices or insurers itself (that
+would be selling in China, CN-1/CN-2). The comparing and understanding happen off the
+platform: students follow the link in their **UNSW offer letter** to the UNSW Medibank OSHC
+site, where a chatbot (a separate project) helps them understand their cover.
 
 ![Student funnel](assets/images/funnel.svg)
 
 ```
 Post or video (creator 70% / owned 30%) on 小红书 · 公众号 · 视频号 · 抖音 · 微博
-  →  "insurance matters, I should check mine"   (e.g. find the OSHC line in your offer letter)
-  →  university OSHC page (e.g. UNSW → Medibank's UNSW OSHC site)
-  →  student chatbot on that site  →  Medibank app and 24/7 support line
+  →  "insurance matters, I should choose and check it myself"
+  →  the OSHC link in their UNSW offer letter  →  UNSW Medibank OSHC site
+  →  chatbot on that site: understand cover, compare, decide
 ```
 
 Content never contains prices, links, QR codes or "DM me to buy". It names the next step
@@ -62,6 +65,7 @@ in words.
 | Skill | Ask it… | You get |
 |-------|---------|---------|
 | `medibank-cn-social` (router) | Anything vague: "下个月社媒怎么做" | Picks the platform and the sub-skill, runs multi-step work |
+| `cn-trend-scout` | "最近有什么热点可以蹭？" / "心动的offer 8 能不能借势？" | Trend radar: what's hot on each platform (dated sources), score and verdict (use now / adapt / watch / avoid), post angles and creator types, what to avoid |
 | `cn-content-writer` | "写一篇小红书：第一次在悉尼看 GP" / "写一篇公众号长文" / "写一个抖音 60 秒脚本" | Post, article or script in the platform's format, titles, tags, image/shot plan, compliance verdict, facts to confirm |
 | `cn-repurpose` | "把这篇公众号改成另外四个平台" | One idea, five native versions, each scanned at its own platform level |
 | `cn-content-planner` | "2027 T1 开学季 4 周计划" | Cross-platform calendar (platform, owned/creator, persona, pillar, format, KPI, risk) checked by `calendar_builder.py` |
@@ -70,7 +74,8 @@ in words.
 | `cn-community-manager` | "这些评论怎么回" / "有人在微博骂我们" | Replies by platform tone, escalation, crisis level (L1–L3), live-stream Q&A sheet |
 | `cn-performance-review` | "这是上个月的数据导出" | Cross-platform report, what worked and why, next month's changes |
 
-Every publishable output passes two checks: a deterministic keyword scanner
+The two core jobs are **what to post** (trend-scout → planner → writer → repurpose) and
+**who to work with** (kol-manager). Every publishable output passes two checks: a deterministic keyword scanner
 (`tools/compliance_scan.py`, 22 rule groups mapped to PRC, platform and Australian rules,
 with per-platform levels) and the model reading the draft against the full rulebook for
 meaning. A human (Medibank Legal) signs off before anything goes live.
@@ -137,6 +142,7 @@ python -m social_agent brief    "UNSW 新生，腰部博主，短视频" --platf
 python -m social_agent review   creator_draft.txt --platform xiaohongshu
 python -m social_agent check    my_draft.txt --platform wechat-oa
 python -m social_agent reply    comments.txt --platform weibo
+python -m social_agent trends   "本周留学生相关热点"          # searches the web
 python -m social_agent chat
 ```
 
@@ -148,6 +154,7 @@ python -m social_agent lint     examples/drafts/good_weibo.txt --platform weibo
 python -m social_agent kol      examples/kol_candidates.csv
 python -m social_agent calendar examples/plan_t1_2027.csv
 python -m social_agent report   examples/metrics_sample.csv
+python -m social_agent trendscore examples/trends_sample.csv --today 2026-11-05
 ```
 
 `scan` exits 0 for 🟢, 1 for 🟡 and 2 for 🔴, so it can gate a publishing script.
@@ -159,15 +166,16 @@ python -m social_agent report   examples/metrics_sample.csv
 See [docs/workflow.md](docs/workflow.md) for roles, the weekly rhythm and the pre-publish
 checklist. In short:
 
-1. **Plan** monthly with `cn-content-planner` (pillar mix: 看懂你的保险 35%, 在澳洲看病 30%,
+1. **Trends** every Monday with `cn-trend-scout` (dated radar, verdicts, angles).
+2. **Plan** monthly with `cn-content-planner` (pillar mix: 看懂你的保险 35%, 在澳洲看病 30%,
    用好 app 和热线 20%, 身心健康 15%).
-2. **Write** owned content with `cn-content-writer`, then `cn-repurpose` for the other
+3. **Write** owned content with `cn-content-writer`, then `cn-repurpose` for the other
    platforms.
-3. **Creators**: export candidates from each marketplace → `kol_score.py` → brief from
+4. **Creators**: export candidates from each marketplace → `kol_score.py` → brief from
    `assets/templates/creator-brief.md` → review drafts with `cn-kol-manager`.
-4. **Gate**: `cn-compliance-review` + Legal sign-off (`assets/templates/legal-signoff.md`).
-5. **Community**: `cn-community-manager` with `assets/templates/comment-replies.md`.
-6. **Measure**: export data → `performance_report.py` → `cn-performance-review` →
+5. **Gate**: `cn-compliance-review` + Legal sign-off (`assets/templates/legal-signoff.md`).
+6. **Community**: `cn-community-manager` with `assets/templates/comment-replies.md`.
+7. **Measure**: export data → `performance_report.py` → `cn-performance-review` →
    `assets/templates/monthly-report.md`.
 
 ## What it will not do
@@ -185,14 +193,14 @@ checklist. In short:
 ```
 SKILL.md                 Router skill (medibank-cn-social)
 agents/openai.yaml       Codex display metadata for the router
-skills/cn-*/             Seven sub-skills (SKILL.md + agents/openai.yaml each)
+skills/cn-*/             Eight sub-skills (SKILL.md + agents/openai.yaml each)
 .claude/skills/          Generated copies for Claude Code   (sync_skills.py)
 .agents/skills/          Generated copies for Codex         (sync_skills.py)
 references/              Shared knowledge: compliance, brand facts, strategy, personas,
                          content and creator playbooks, crisis, contracts, glossary
 references/platforms/    One file per platform + overview (channel mix)
 tools/                   compliance_scan.py + rules.json, note_lint.py, kol_score.py,
-                         calendar_builder.py, performance_report.py
+                         calendar_builder.py, performance_report.py, trend_score.py
 social_agent/            CLI runner (Claude API + offline tool wrappers)
 assets/templates/        Creator brief, onboarding, calendar, replies, monthly report,
                          Legal sign-off

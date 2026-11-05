@@ -29,3 +29,5 @@ jobs:
             python tools/compliance_scan.py examples/drafts/good_$p.txt --platform $p
             python tools/note_lint.py examples/drafts/good_$p.txt --platform $p
           done
+      - name: Trend scorer runs on the sample
+        run: python tools/trend_score.py examples/trends_sample.csv --today 2026-11-05

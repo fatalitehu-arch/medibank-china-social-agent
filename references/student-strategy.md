@@ -13,15 +13,15 @@
 **Core message:** 保险是你自己的。中介可以帮你办，但保了什么、怎么用，你自己要看懂。
 ("Your agent can arrange it, but it's your cover. Know what's in it.")
 
-**Purpose:** build a direct relationship between Medibank and Chinese students on Chinese
-social media *before* the education agent decides everything for them.
+**Purpose:** Chinese students realise student insurance matters and take part themselves
+in choosing their insurer, comparing each company's price and coverage, instead of leaving
+the choice to their education agent (students may choose their own OSHC insurer, AU-5).
+Social media builds that awareness: students know Medibank, care about OSHC, and want to
+choose for themselves. The comparing and understanding happen off the platform: the link in
+the UNSW offer letter leads to the UNSW Medibank OSHC site and its chatbot (a separate project).
 
-Goal: students know Medibank, realise student insurance matters, and want to learn about
-it themselves. A later chatbot on the Medibank university OSHC site handles detailed
-policy questions.
-
-So social content should spark the thought "insurance actually matters, I should look
-into it", not explain every policy detail. When a post or comment needs detail, point in
+So social content should spark the thought "insurance actually matters, I should choose
+and check it myself", not compare insurers or explain every policy detail. When a post or comment needs detail, point in
 words to the university OSHC page and its chatbot. We are not asking students to buy
 anything on social media.
 

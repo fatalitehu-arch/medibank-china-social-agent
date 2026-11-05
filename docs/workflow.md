@@ -14,7 +14,7 @@
 
 | Day | Task | Skill |
 |-----|------|-------|
-| Mon | Check last week's numbers per platform; pick owned topics and creator slots | `cn-performance-review`, `cn-content-planner` |
+| Mon | Check last week's numbers per platform; scan trends; pick owned topics and creator slots | `cn-performance-review`, `cn-trend-scout`, `cn-content-planner` |
 | Tue | Write the week's lead piece (often a 公众号 article or 小红书 note), then adapt it | `cn-content-writer`, `cn-repurpose` |
 | Tue | Send creator briefs through each marketplace | `cn-kol-manager` |
 | Wed–Thu | Review creator drafts; fix and re-check | `cn-kol-manager`, `cn-compliance-review` |

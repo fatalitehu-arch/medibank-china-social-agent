@@ -1,9 +1,11 @@
+from datetime import date
 from pathlib import Path
 
 import calendar_builder
 import kol_score
 import note_lint
 import performance_report
+import trend_score
 
 ROOT = Path(__file__).resolve().parent.parent
 EXAMPLES = ROOT / "examples"
@@ -53,6 +55,24 @@ def test_example_plan_passes_calendar_checks():
     rows = calendar_builder.load(EXAMPLES / "plan_t1_2027.csv")
     findings = [f for f in calendar_builder.check(rows) if "needs Legal" not in f]
     assert findings == []
+
+
+def test_trend_score_verdicts():
+    rows = trend_score.load(ROOT / "examples" / "trends_sample.csv")
+    got = {r["trend"]: trend_score.score_row(r, date(2026, 11, 5))[1] for r in rows}
+    assert got["令人心动的offer 第八季"] == "use now"
+    assert got["闪身步"] == "adapt"
+    assert got["后会友期"] == "adapt"
+    assert got["（示例）某地自然灾害话题"] == "avoid"
+
+
+def test_trend_score_freshness_decays():
+    row = {"trend": "x", "type": "meme", "first_seen": "2026-11-01", "ends": "",
+           "audience_match": "5", "oshc_link": "5", "flags": ""}
+    fresh = trend_score.score_row(row, date(2026, 11, 2))[0]
+    stale = trend_score.score_row(row, date(2026, 12, 30))[0]
+    assert fresh > stale
+    assert stale == 80.0
 
 
 def test_performance_report_sections():

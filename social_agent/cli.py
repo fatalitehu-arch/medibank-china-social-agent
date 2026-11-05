@@ -10,6 +10,7 @@ system prompt, calls Claude, and runs the local compliance scan on every draft i
     python -m social_agent review  creator_draft.txt --platform xiaohongshu
     python -m social_agent check   my_draft.txt --platform wechat-oa
     python -m social_agent reply   comments.txt --platform weibo
+    python -m social_agent trends  "留学生 / 健康相关，本周"           (searches the web)
     python -m social_agent chat
 
 Offline (no API key):
@@ -18,10 +19,12 @@ Offline (no API key):
     python -m social_agent kol   examples/kol_candidates.csv
     python -m social_agent calendar plan.csv
     python -m social_agent report examples/metrics_sample.csv
+    python -m social_agent trendscore examples/trends_sample.csv --today 2026-11-05
 """
 
 import argparse
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -32,6 +35,7 @@ import compliance_scan  # noqa: E402
 import kol_score  # noqa: E402
 import note_lint  # noqa: E402
 import performance_report  # noqa: E402
+import trend_score  # noqa: E402
 
 MODEL = "claude-opus-5-5"
 PLATFORMS = ["xiaohongshu", "wechat-oa", "wechat-channels", "douyin", "weibo"]
@@ -45,8 +49,13 @@ MODE_PROMPTS = {
     "check": "Use cn-compliance-review. Platform: {platform}. The keyword scanner already ran; "
              "its report is below the draft.\n\n{task}",
     "reply": "Use cn-community-manager. Platform: {platform}. Draft replies to these comments:\n\n{task}",
+    "trends": "Use cn-trend-scout. Today is {today}. Search the web for what is trending now on "
+              "Chinese social media and build the trend radar. Focus:\n\n{task}",
 }
-SCAN_AFTER = {"write", "repurpose", "review", "reply"}
+SCAN_AFTER = {"write", "repurpose", "review", "reply", "trends"}
+# Server-side web search, only for trend scouting.
+WEB_SEARCH = {"type": "web_search_20260209", "name": "web_search", "max_uses": 15}
+MAX_CONTINUATIONS = 5
 
 
 def build_system_prompt():
@@ -65,16 +74,18 @@ def build_system_prompt():
     return "\n\n".join(parts)
 
 
-def ask_claude(client, system, messages):
+def ask_claude(client, system, messages, tools=None):
     """Stream one reply to the terminal and return the final message."""
     import anthropic
 
+    extra = {"tools": tools} if tools else {}
     try:
         with client.beta.messages.stream(
             model=MODEL,
             max_tokens=32000,
             system=system,
             messages=messages,
+            **extra,
             output_config={"effort": "medium"},
             cache_control={"type": "ephemeral"},
             # On a policy decline, the API re-runs the request on a fallback model.
@@ -123,8 +134,17 @@ def run_mode(mode, task, platform):
         task = f"{task}\n\n<scanner_report>\n{compliance_scan.format_report(worst, hits, platform)}\n</scanner_report>"
 
     client = anthropic.Anthropic()
-    prompt = MODE_PROMPTS[mode].format(task=task, platform=platform or "xiaohongshu")
-    final = ask_claude(client, build_system_prompt(), [{"role": "user", "content": prompt}])
+    prompt = MODE_PROMPTS[mode].format(task=task, platform=platform or "xiaohongshu",
+                                       today=date.today().isoformat())
+    system = build_system_prompt()
+    messages = [{"role": "user", "content": prompt}]
+    tools = [WEB_SEARCH] if mode == "trends" else None
+    final = ask_claude(client, system, messages, tools)
+    # A long search can pause; resend the turn as-is and the server resumes it.
+    for _ in range(MAX_CONTINUATIONS):
+        if final.stop_reason != "pause_turn":
+            break
+        final = ask_claude(client, system, messages + [{"role": "assistant", "content": final.content}], tools)
     if mode in SCAN_AFTER:
         # repurpose spans platforms, so scan it at the strictest level.
         return scan_and_print(reply_text(final), None if mode == "repurpose" else platform)
@@ -159,7 +179,7 @@ def main(argv=None):
     for mode, help_text in [("write", "write owned content"), ("repurpose", "adapt for other platforms"),
                             ("plan", "content calendar / strategy"), ("brief", "creator brief"),
                             ("review", "review a creator draft"), ("check", "compliance check"),
-                            ("reply", "draft comment replies")]:
+                            ("reply", "draft comment replies"), ("trends", "trend radar (web search)")]:
         p = sub.add_parser(mode, help=help_text)
         p.add_argument("task", help="text, or a path to a text file")
         p.add_argument("--platform", choices=PLATFORMS)
@@ -172,6 +192,10 @@ def main(argv=None):
         p = sub.add_parser(mode, help=help_text)
         p.add_argument("csv")
         p.add_argument("--out")
+    p = sub.add_parser("trendscore", help="score a trends CSV (offline)")
+    p.add_argument("csv")
+    p.add_argument("--today")
+    p.add_argument("--out")
     sub.add_parser("chat", help="interactive session")
     args = parser.parse_args(argv)
 
@@ -187,6 +211,9 @@ def main(argv=None):
         return calendar_builder.main([args.csv] + out_args)
     if args.mode == "report":
         return performance_report.main([args.csv] + out_args)
+    if args.mode == "trendscore":
+        today_args = ["--today", args.today] if args.today else []
+        return trend_score.main([args.csv] + today_args + out_args)
     if args.mode == "chat":
         return chat()
     return run_mode(args.mode, args.task, args.platform)

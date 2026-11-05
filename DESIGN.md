@@ -2,8 +2,8 @@
 
 ## Goal
 
-Give Medibank's international student team one agent that runs its China-facing social
-media on five platforms (小红书, 微信公众号, 微信视频号, 抖音, 微博), covering both owned
+Give Medibank's international student team one agent that manages content creation (what
+to post, which trends to ride, which creators to work with) on Chinese social media, on five platforms (小红书, 微信公众号, 微信视频号, 抖音, 微博), covering both owned
 content and creator collaborations, without ever crossing the line into selling insurance
 in mainland China.
 
@@ -15,6 +15,7 @@ in mainland China.
 | Each platform has its own formats, marketplace and diversion rules | One reference file per platform; `--platform` on every tool |
 | The partner's team uses different tools (Claude.ai, Claude Code, Codex, or none) | Plain-Markdown skills in the open Agent Skills format + Python tools with no dependencies + an optional API runner |
 | The agent can't see live platform data | Tools work on CSV exports the team provides; skills forbid inventing creators or numbers |
+| Trends change weekly | `cn-trend-scout` searches the web with dated sources (CLI: server-side web search); `trend_score.py` scores freshness and risk; `trend-radar.md` keeps a dated snapshot |
 | Rules and product facts change | Facts in one file (`brand-facts.md`), rules in one file (`compliance.md`) and one editable list (`tools/rules.json`), with `[VERIFY]` markers |
 | A keyword list can't judge meaning | Two gates: the scanner for words, the model reading against the full rulebook for meaning, then human Legal sign-off |
 
@@ -27,8 +28,8 @@ in mainland China.
                                      │
  Router          SKILL.md  (medibank-cn-social: core rule, platform choice, routing)
                                      │
- Sub-skills      cn-content-writer   cn-repurpose   cn-content-planner   cn-kol-manager
-                 cn-community-manager   cn-performance-review
+ Sub-skills      cn-trend-scout   cn-content-writer   cn-repurpose   cn-content-planner
+                 cn-kol-manager   cn-community-manager   cn-performance-review
                                      │
                          every publishable output
                                      ▼

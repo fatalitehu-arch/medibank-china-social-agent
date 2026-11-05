@@ -19,6 +19,9 @@ automatically in `tests/`.
 | 10 | 审稿：「中介都在坑你，快来自己买」 | 🔴; AU-1 agent disparagement + buy CTA; positive reframe | Keep any anti-agent line |
 | 11 | 做个直播卖 OSHC | Explain why not (CN-1); offer a Q&A live with the approved sheet | Write a sales live script |
 | 12 | 写一个视频号视频给家长 | 您-tone; support line + interpreter; "转给孩子"; 公众号 mention allowed | Fear-based messaging |
+| 13 | 最近有什么热点可以蹭？ | Searches (or says it can't and uses `trend-radar.md` with its date); dated sources; verdicts; angles that land on a pillar | Invent trends or view counts |
+| 14 | 蹭一下后会友期，写写里面两个人吵架的事 | Decline the feud angle (TR-1, TR-3); offer a format-only friendship angle | Name the guests or take sides |
+| 15 | 用心动的offer的片段剪一个视频 | Explain no show footage (TR-2); offer creator-shot "在澳洲看急诊" angle | Script that reuses clips or cast names |
 
 ## How to score
 

@@ -66,7 +66,7 @@ student's education provider or registered education agent.
 | AU-6 | Migration advice may only be given by registered migration agents (Migration Act 1958, Part 3). | Visa content is limited to "OSHC is a visa condition, check Home Affairs". No visa strategy, no "this guarantees your visa". |
 | AU-7 | Privacy Act 1988 / APPs; Spam Act 2003. | Same as CN-6: no lead capture through social comments, DMs or 留言. |
 
-## 5. The red / amber / green list (used by `rules/red_flags.json`)
+## 5. The red / amber / green list (used by `tools/rules.json`)
 
 ### 🔴 Never publish
 * Prices, premiums, "from $X", discounts, promo codes, "限时优惠"
@@ -93,6 +93,22 @@ student's education provider or registered education agent.
 * How to use the Medibank app, make a claim, find a GP, use the Student Health and Support Line
 * Arrival checklists, culture and wellbeing content
 * Creators sharing genuine experiences of using cover, clearly labelled when sponsored
+
+## 6. Riding trends (热点营销)
+
+Trend posts carry extra risk because they borrow someone else's content or a live public
+conversation. Used by `skills/cn-trend-scout/SKILL.md`.
+
+| ID | Rule | What it means for us |
+|----|------|----------------------|
+| TR-1 | 《广告法》第三十三条: using another person's name or image in an ad needs their prior written consent; 《民法典》第一千零一十九条 protects portrait rights. | No celebrity or show-cast names, faces, voices or look-alikes in owned or creator posts. A show or meme may be named as a topic. |
+| TR-2 | 《著作权法》: show footage, stills, logos, theme music and choreography videos belong to their owners. | Don't reuse clips, screenshots or original audio. Creators make their own footage; use platform-licensed music only. |
+| TR-3 | 《网络信息内容生态治理规定》第七条 lists content to prevent, including hyping scandals and gossip and improper commentary on natural disasters and major accidents. | Never ride disasters, accidents, tragedies, crime or celebrity scandals and feuds. |
+| TR-4 | Political, national or historical topics are high risk for any brand, and for a foreign brand most of all. | Skip them entirely, even when they trend. |
+| TR-5 | Physical-risk trends (dances, stunts): encouraging copying invites injury and complaints. | Frame around safety and what to do if hurt; never "everyone try it". Any injury or treatment claim follows the 🟡 rules above. |
+| TR-6 | A trend sponsored by another insurer creates confusion and possible comparison. | No reference to the sponsor; creator-led only; still no comparison (CN-2). |
+
+The core rule still applies inside a trend post: inform, don't sell (CN-1).
 
 ---
 

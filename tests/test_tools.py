@@ -100,3 +100,9 @@ def test_performance_report_sections():
     md = performance_report.build(performance_report.load(EXAMPLES / "metrics_sample.csv"))
     for heading in ["By platform", "Owned vs creator", "By pillar", "Top posts", "Bottom posts", "By creator"]:
         assert heading in md
+
+
+def test_welcome_page_is_english_only():
+    import re
+    html = (Path(__file__).resolve().parent.parent / "welcome.html").read_text(encoding="utf-8")
+    assert not re.search(r"[\u3000-\u303f\u4e00-\u9fff\uff00-\uffef]", html)

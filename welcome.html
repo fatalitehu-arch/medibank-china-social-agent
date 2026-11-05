@@ -102,10 +102,10 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
 </div></nav>
 <main>
   <section id="top">
-    <p class="eyebrow">Welcome · 欢迎</p>
+    <p class="eyebrow">Welcome</p>
     <h1>Your agent for Chinese social media content</h1>
     <p class="sub">It helps Medibank's international student team decide <b>what to post</b>, <b>which trends to ride</b>
-      and <b>which creators (网红/博主) to work with</b>, and checks every post for compliance before it goes out.</p>
+      and <b>which creators to work with</b>, and checks every post for compliance before it goes out.</p>
     <div class="platforms" id="platforms"></div>
     <div class="tiles" id="tiles"></div>
     <h3>The end goal</h3>
@@ -134,28 +134,28 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
     <div class="grid g3" id="kbgrid"></div>
     <p class="eyebrow">Trend radar · snapshot <span id="trenddate"></span></p>
     <div class="card scroll"><table id="trendtable"><thead><tr><th>Trend</th><th>What it is</th><th>Where</th><th>Verdict</th></tr></thead><tbody></tbody></table>
-      <p class="note">Trends go stale in days. Ask the agent "最近有什么热点可以蹭？" to refresh it with dated sources.</p></div>
+      <p class="note">Trends go stale in days. Ask the agent "What trends can we ride right now?" to refresh it with dated sources.</p></div>
   </section>
 
   <section id="creators">
-    <h2>Creator library (达人库)</h2>
+    <h2>Creator library</h2>
     <p class="sub">Selection criteria, the creators Medibank works with, and how each one is doing. <b>Rows are demo data</b> until the team adds real creators in <code>creators/</code>.</p>
     <div class="grid g2">
       <div class="card">
-        <h3>Selection criteria (选达人标准)</h3>
+        <h3>Selection criteria</h3>
         <p class="note" style="margin-top:0">Score out of 100 from <code>tools/kol_score.py</code>: ≥70 go, 50–69 human look, &lt;50 no.</p>
         <div id="weights"></div>
       </div>
       <div class="card">
-        <h3>Hard stops (直接排除)</h3>
+        <h3>Hard stops</h3>
         <ul class="kb" id="hardstops"></ul>
-        <p class="note">Paid collaborations only through the platform marketplace: 蒲公英, 巨量星图, 互选平台, 微任务.</p>
+        <p class="note">Paid collaborations only through the official platform marketplaces (Pugongying on Xiaohongshu, Xingtu on Douyin, Huxuan on WeChat, Weirenwu on Weibo).</p>
       </div>
     </div>
     <p class="eyebrow">Creator dashboard · as of <span id="asof"></span></p>
     <div class="tiles" id="ctiles"></div>
     <div class="card">
-      <h3>Inquiries (咨询) per creator</h3>
+      <h3>Inquiries per creator</h3>
       <p class="note" style="margin-top:0">Comments and DMs asking about OSHC. Answered with the standard replies, never with a quote.</p>
       <div class="chart" id="inqchart" role="img" aria-label="Bar chart of inquiries per creator; the same numbers are in the table below"></div>
     </div>
@@ -172,7 +172,7 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
     <p class="sub">A normal AI can write posts. This one knows what Medibank cannot say in China, and its knowledge stays up to date.</p>
     <div class="card scroll"><table class="compare"><thead><tr><th>What matters</th><th>Normal AI chat</th><th>This agent</th></tr></thead><tbody>
       <tr><td>Compliance</td><td>Writes "best price", "DM me" freely</td><td>Every draft scanned against <span id="rulecount"></span> rules with rule IDs, per platform</td></tr>
-      <tr><td>Facts</td><td>May invent prices, cover or follower counts</td><td>Only facts from the knowledge base; unknowns marked 【待确认】</td></tr>
+      <tr><td>Facts</td><td>May invent prices, cover or follower counts</td><td>Only facts from the knowledge base; unknowns marked "to be confirmed"</td></tr>
       <tr><td>Trends</td><td>Training data months old</td><td>Searches current trends with dated sources, scores the risk</td></tr>
       <tr><td>Creators</td><td>Generic advice</td><td>Scoring rules, hard stops, a roster and a dashboard</td></tr>
       <tr><td>Consistency</td><td>Different answer each time</td><td>Same rules and tools every time, tested automatically</td></tr>
@@ -190,7 +190,7 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
   <section id="start">
     <h2>Get started</h2>
     <div class="grid g2">
-      <div class="card"><h3>Install as a Claude Code plugin</h3><pre>/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent</pre><p class="note">Or give Claude Code the GitHub link and ask it to install the plugin. Try: 最近有什么热点可以蹭？</p></div>
+      <div class="card"><h3>Install as a Claude Code plugin</h3><pre>/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent</pre><p class="note">Or give Claude Code the GitHub link and ask it to install the plugin. Try: "What trends can we ride right now?"</p></div>
       <div class="card"><h3>Claude Code (cloned copy)</h3><pre>cd medibank-china-social-agent
 claude</pre><p class="note">Skills load from <code>.claude/skills/</code>.</p></div>
       <div class="card"><h3>Codex</h3><pre>cd medibank-china-social-agent
@@ -210,57 +210,57 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
  "skills": [
   {
    "name": "medibank-cn-social",
-   "display_name": "Medibank 中国社媒 Agent",
-   "short": "小红书·公众号·视频号·抖音·微博 content, creators and compliance",
-   "prompt": "帮我做下个月五个平台的内容计划，并检查合规。"
+   "display_name": "Medibank China Social Agent",
+   "short": "Content, creators and compliance for Xiaohongshu, WeChat, Douyin and Weibo",
+   "prompt": "Make next month's content plan for all five platforms and check compliance."
   },
   {
    "name": "cn-community-manager",
-   "display_name": "评论与舆情",
-   "short": "Replies, 留言, live Q&A, listening and crisis handling",
-   "prompt": "这几条评论怎么回？"
+   "display_name": "Comments & sentiment",
+   "short": "Replies, comments, live Q&A, listening and crisis handling",
+   "prompt": "How should we reply to these comments?"
   },
   {
    "name": "cn-compliance-review",
-   "display_name": "合规审稿",
+   "display_name": "Compliance review",
    "short": "Check any draft against PRC, AU and platform rules",
-   "prompt": "帮我审一下这篇抖音脚本能不能发。"
+   "prompt": "Check whether this Douyin script can be published."
   },
   {
    "name": "cn-content-planner",
-   "display_name": "内容规划",
+   "display_name": "Content planner",
    "short": "Cross-platform calendars, campaigns and channel mix",
-   "prompt": "做一份 T1 开学季 4 周五平台内容日历。"
+   "prompt": "Build a 4-week, five-platform calendar for the T1 intake."
   },
   {
    "name": "cn-content-writer",
-   "display_name": "内容写作",
+   "display_name": "Content writer",
    "short": "Write compliant posts, articles and video scripts per platform",
-   "prompt": "写一篇小红书：offer letter 里 OSHC 那一栏怎么看。"
+   "prompt": "Write a Xiaohongshu post: how to read the OSHC line on your offer letter."
   },
   {
    "name": "cn-kol-manager",
-   "display_name": "博主合作管理",
-   "short": "Find, score, brief and review creators on 蒲公英/星图/互选/微任务",
-   "prompt": "给 examples/kol_candidates.csv 里的博主打分并给出名单。"
+   "display_name": "Creator manager",
+   "short": "Find, score, brief and review creators on the official platform marketplaces",
+   "prompt": "Score the creators in examples/kol_candidates.csv and give me a shortlist."
   },
   {
    "name": "cn-performance-review",
-   "display_name": "数据复盘",
+   "display_name": "Performance review",
    "short": "Cross-platform performance reports",
-   "prompt": "用 examples/metrics_sample.csv 做一份月度复盘。"
+   "prompt": "Write a monthly review from examples/metrics_sample.csv."
   },
   {
    "name": "cn-repurpose",
-   "display_name": "一稿多平台",
+   "display_name": "Repurpose",
    "short": "Adapt one approved piece for every platform",
-   "prompt": "把这篇公众号文章改成小红书、视频号、抖音和微博版本。"
+   "prompt": "Turn this WeChat article into Xiaohongshu, Channels, Douyin and Weibo versions."
   },
   {
    "name": "cn-trend-scout",
-   "display_name": "热点雷达",
+   "display_name": "Trend radar",
    "short": "Current Chinese social trends, scored, with safe post angles",
-   "prompt": "最近中国社媒有什么热点？哪些适合 Medibank 蹭，怎么蹭？"
+   "prompt": "What is trending on Chinese social media, and which trends should Medibank ride?"
   }
  ],
  "knowledge": [
@@ -286,17 +286,17 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   },
   {
    "path": "references/crisis-playbook.md",
-   "title": "Crisis and negative-feedback playbook (舆情)",
+   "title": "Crisis and negative-feedback playbook",
    "group": "Rules & compliance"
   },
   {
    "path": "references/glossary.md",
-   "title": "Glossary 术语表",
+   "title": "Glossary",
    "group": "Content"
   },
   {
    "path": "references/kol-playbook.md",
-   "title": "Creator (博主) playbook: all platforms",
+   "title": "Creator playbook: all platforms",
    "group": "Creators & trends"
   },
   {
@@ -311,7 +311,7 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   },
   {
    "path": "references/platforms/douyin.md",
-   "title": "抖音 (Douyin)",
+   "title": "Douyin",
    "group": "Platforms"
   },
   {
@@ -321,27 +321,27 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   },
   {
    "path": "references/platforms/wechat-channels.md",
-   "title": "微信视频号 (WeChat Channels)",
+   "title": "WeChat Channels",
    "group": "Platforms"
   },
   {
    "path": "references/platforms/wechat-official-account.md",
-   "title": "微信公众号 (WeChat Official Account)",
+   "title": "WeChat Official Account",
    "group": "Platforms"
   },
   {
    "path": "references/platforms/weibo.md",
-   "title": "微博 (Weibo)",
+   "title": "Weibo",
    "group": "Platforms"
   },
   {
    "path": "references/platforms/xiaohongshu.md",
-   "title": "小红书 (RED / Xiaohongshu)",
+   "title": "Xiaohongshu (RED)",
    "group": "Platforms"
   },
   {
    "path": "references/student-strategy.md",
-   "title": "Student strategy: \"看懂自己的保险\" (Know your own cover)",
+   "title": "Student strategy: \"Know your own cover\"",
    "group": "Strategy & audience"
   },
   {
@@ -351,7 +351,7 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   },
   {
    "path": "references/trend-playbook.md",
-   "title": "Trend playbook (热点)",
+   "title": "Trend playbook",
    "group": "Creators & trends"
   },
   {
@@ -386,7 +386,7 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   },
   {
    "name": "tools/kol_score.py",
-   "doc": "Score creator candidates (小红书, 抖音, 公众号, 视频号, 微博) for the Medibank OSHC campaign."
+   "doc": "Score creator candidates (Xiaohongshu, Douyin, WeChat OA, WeChat Channels, Weibo) for the Medibank OSHC campaign."
   },
   {
    "name": "tools/note_lint.py",
@@ -406,21 +406,21 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   "snapshot": "2026-11-05",
   "rows": [
    {
-    "trend": "令人心动的offer 第八季",
+    "trend": "Heart-Racing Offer, Season 8",
     "what": "Tencent Video workplace reality show; this season follows medical students through surgery rotations (plastic surgery, neurosurgery, trauma orthopaedics). Premiered 2026-10-21, new episodes Wed/Thu",
-    "where": "微博, 小红书, 抖音",
+    "where": "Weibo, Xiaohongshu, Douyin",
     "verdict": "use now (78)"
    },
    {
-    "trend": "闪身步",
-    "what": "A quick leg-crossing \"teleport\" step from a 2018 Beijing Dance Academy teaching video of 安徽花鼓灯 (national intangible heritage). Went viral in Sept–Oct 2026; doctors have warned about sprains and knee injuries from copying it",
-    "where": "抖音, 小红书, 微博",
+    "trend": "\"Flash step\" dance",
+    "what": "A quick leg-crossing \"teleport\" step from a 2018 Beijing Dance Academy teaching video of Anhui flower-drum lantern dance (national intangible heritage). Went viral in Sept–Oct 2026; doctors have warned about sprains and knee injuries from copying it",
+    "where": "Douyin, Xiaohongshu, Weibo",
     "verdict": "adapt (69): late, act this week or drop"
    },
    {
-    "trend": "后会友期",
-    "what": "Mango TV reality show reuniting old friends; very high viewing share in late Oct 2026. Memes include \"我画地为牢\"",
-    "where": "微博, 小红书, 抖音",
+    "trend": "Friends Reunion show",
+    "what": "Mango TV reality show reuniting old friends; very high viewing share in late Oct 2026. Memes include \"I drew my own prison\" (a line about self-imposed limits)",
+    "where": "Weibo, Xiaohongshu, Douyin",
     "verdict": "adapt (58): format only"
    }
   ]
@@ -472,13 +472,13 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   "creators": [
    {
     "id": "C01",
-    "handle": "示例_悉尼读研日记",
+    "handle": "demo_SydneyMastersDiary",
     "platform": "xiaohongshu",
     "tier": "KOC",
     "followers": 8200,
     "persona": "P1 offer holder",
     "status": "active",
-    "marketplace": "蒲公英",
+    "marketplace": "Pugongying",
     "kol_score": 86,
     "posts": 2,
     "last_post": "2027-01-19",
@@ -495,13 +495,13 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
    },
    {
     "id": "C02",
-    "handle": "示例_墨尔本小鹿",
+    "handle": "demo_MelbourneDeer",
     "platform": "xiaohongshu",
-    "tier": "腰部",
+    "tier": "Mid tier",
     "followers": 45000,
     "persona": "P3 just arrived",
     "status": "active",
-    "marketplace": "蒲公英",
+    "marketplace": "Pugongying",
     "kol_score": 78,
     "posts": 1,
     "last_post": "2027-01-12",
@@ -518,13 +518,13 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
    },
    {
     "id": "C03",
-    "handle": "示例_悉尼留学生活号",
+    "handle": "demo_SydneyStudentLife",
     "platform": "wechat-oa",
-    "tier": "腰部",
+    "tier": "Mid tier",
     "followers": 40000,
     "persona": "P1 offer holder",
     "status": "active",
-    "marketplace": "互选平台",
+    "marketplace": "Huxuan",
     "kol_score": 81,
     "posts": 1,
     "last_post": "2027-01-11",
@@ -541,13 +541,13 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
    },
    {
     "id": "C04",
-    "handle": "示例_留学家长课堂",
+    "handle": "demo_StudyAbroadParents",
     "platform": "wechat-channels",
-    "tier": "腰部",
+    "tier": "Mid tier",
     "followers": 26000,
     "persona": "P5 parent",
     "status": "active",
-    "marketplace": "互选平台",
+    "marketplace": "Huxuan",
     "kol_score": 70,
     "posts": 1,
     "last_post": "2027-01-13",
@@ -564,13 +564,13 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
    },
    {
     "id": "C05",
-    "handle": "示例_留学生阿Ken的一天",
+    "handle": "demo_ADayWithKen",
     "platform": "douyin",
-    "tier": "腰部",
+    "tier": "Mid tier",
     "followers": 85000,
     "persona": "P3 just arrived",
     "status": "active",
-    "marketplace": "巨量星图",
+    "marketplace": "Xingtu",
     "kol_score": 74,
     "posts": 1,
     "last_post": "2027-01-07",
@@ -589,13 +589,13 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
    },
    {
     "id": "C06",
-    "handle": "示例_澳洲生活vlog",
+    "handle": "demo_AustraliaLifeVlog",
     "platform": "douyin",
-    "tier": "头部",
+    "tier": "Top tier",
     "followers": 230000,
     "persona": "P1 offer holder",
     "status": "active",
-    "marketplace": "巨量星图",
+    "marketplace": "Xingtu",
     "kol_score": 69,
     "posts": 1,
     "last_post": "2027-01-14",
@@ -614,13 +614,13 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
    },
    {
     "id": "C07",
-    "handle": "示例_澳洲留学那些事",
+    "handle": "demo_StudyInAustralia",
     "platform": "weibo",
-    "tier": "腰部",
+    "tier": "Mid tier",
     "followers": 98000,
     "persona": "P2 visa stage",
     "status": "paused",
-    "marketplace": "微任务",
+    "marketplace": "Weirenwu",
     "kol_score": 62,
     "posts": 1,
     "last_post": "2027-01-09",
@@ -639,13 +639,13 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
    },
    {
     "id": "C08",
-    "handle": "示例_UNSW新生说",
+    "handle": "demo_UNSWFreshers",
     "platform": "xiaohongshu",
     "tier": "KOC",
     "followers": 3500,
     "persona": "P1 offer holder",
     "status": "briefed",
-    "marketplace": "蒲公英",
+    "marketplace": "Pugongying",
     "kol_score": 84,
     "posts": 0,
     "last_post": null,
@@ -671,7 +671,7 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); };
   var fmt = function (n) { return n == null ? "–" : Number(n).toLocaleString("en-US"); };
-  var PLAT = {xiaohongshu: "小红书", "wechat-oa": "公众号", "wechat-channels": "视频号", douyin: "抖音", weibo: "微博"};
+  var PLAT = {xiaohongshu: "Xiaohongshu", "wechat-oa": "WeChat OA", "wechat-channels": "WeChat Channels", douyin: "Douyin", weibo: "Weibo"};
 
   $("platforms").innerHTML = Object.keys(PLAT).map(function (k) { return '<span class="chip">' + PLAT[k] + "</span>"; }).join("");
   var tiles = [[D.skills.length, "skills"], [D.knowledge.length, "knowledge files"], [D.rule_count, "compliance rules"],
@@ -708,7 +708,7 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   var S = D.dashboard.summary;
   $("asof").textContent = S.as_of;
   var ct = [[S.active + " / " + S.creators, "active creators"], [fmt(S.posts), "posts"], [fmt(S.likes), "likes"],
-            [fmt(S.comments), "comments"], [fmt(S.saves), "saves"], [fmt(S.inquiries), "inquiries (咨询)"]];
+            [fmt(S.comments), "comments"], [fmt(S.saves), "saves"], [fmt(S.inquiries), "inquiries"]];
   $("ctiles").innerHTML = ct.map(function (t) { return '<div class="tile"><div class="n">' + t[0] + '</div><div class="l">' + t[1] + "</div></div>"; }).join("");
 
   var cs = D.dashboard.creators.slice().sort(function (a, b) { return b.inquiries - a.inquiries; });

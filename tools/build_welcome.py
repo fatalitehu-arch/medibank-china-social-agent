@@ -33,6 +33,63 @@ KB_GROUPS = [
     ("Platforms", ["platforms/"]),
     ("Creators & trends", ["kol-playbook.md", "trend-playbook.md", "trend-radar.md"]),
 ]
+# welcome.html is English only. Source files keep their Chinese; these map it at build time.
+EN_SKILLS = {
+    "medibank-cn-social": ("Medibank China Social Agent", "Content, creators and compliance for Xiaohongshu, WeChat, Douyin and Weibo",
+                           "Make next month's content plan for all five platforms and check compliance."),
+    "cn-community-manager": ("Comments & sentiment", "Replies, comments, live Q&A, listening and crisis handling",
+                             "How should we reply to these comments?"),
+    "cn-compliance-review": ("Compliance review", None, "Check whether this Douyin script can be published."),
+    "cn-content-planner": ("Content planner", None, "Build a 4-week, five-platform calendar for the T1 intake."),
+    "cn-content-writer": ("Content writer", None, "Write a Xiaohongshu post: how to read the OSHC line on your offer letter."),
+    "cn-kol-manager": ("Creator manager", "Find, score, brief and review creators on the official platform marketplaces",
+                       "Score the creators in examples/kol_candidates.csv and give me a shortlist."),
+    "cn-performance-review": ("Performance review", None, "Write a monthly review from examples/metrics_sample.csv."),
+    "cn-repurpose": ("Repurpose", None, "Turn this WeChat article into Xiaohongshu, Channels, Douyin and Weibo versions."),
+    "cn-trend-scout": ("Trend radar", None, "What is trending on Chinese social media, and which trends should Medibank ride?"),
+}
+EN_TERMS = [
+    ('"看懂自己的保险" (Know your own cover)', '"Know your own cover"'), ("小红书 (RED / Xiaohongshu)", "Xiaohongshu (RED)"),
+    ("令人心动的offer 第八季", "Heart-Racing Offer, Season 8"), ("闪身步", "\"Flash step\" dance"), ("后会友期", "Friends Reunion show"),
+    ("微信公众号", "WeChat Official Account"), ("微信视频号", "WeChat Channels"), ("小红书", "Xiaohongshu"),
+    ("公众号", "WeChat OA"), ("视频号", "WeChat Channels"), ("抖音", "Douyin"), ("微博", "Weibo"),
+    ("蒲公英", "Pugongying"), ("巨量星图", "Xingtu"), ("互选平台", "Huxuan"), ("微任务", "Weirenwu"),
+    ("头部", "Top tier"), ("腰部", "Mid tier"), ("尾部", "Small"), ("安徽花鼓灯", "Anhui flower-drum lantern dance"),
+    ('"我画地为牢"', '"I drew my own prison" (a line about self-imposed limits)'),
+    ("舆情", ""), ("术语表", ""), ("博主", ""), ("热点", ""), ("看懂自己的保险", ""),
+]
+EN_HANDLES = {
+    "示例_悉尼读研日记": "demo_SydneyMastersDiary", "示例_墨尔本小鹿": "demo_MelbourneDeer",
+    "示例_悉尼留学生活号": "demo_SydneyStudentLife", "示例_留学家长课堂": "demo_StudyAbroadParents",
+    "示例_留学生阿Ken的一天": "demo_ADayWithKen", "示例_澳洲生活vlog": "demo_AustraliaLifeVlog",
+    "示例_澳洲留学那些事": "demo_StudyInAustralia", "示例_UNSW新生说": "demo_UNSWFreshers",
+}
+CJK = re.compile(r"[\u3000-\u303f\u4e00-\u9fff\uff00-\uffef]")
+
+
+def to_english(text):
+    if not isinstance(text, str) or not CJK.search(text):
+        return text
+    text = EN_HANDLES.get(text, text)
+    for zh, en in EN_TERMS:
+        text = text.replace(zh, en)
+    text = re.sub(r"\s*\(\s*\)|\s*\(\s*\"\s*\"\s*\)", "", text)          # empty brackets left by removals
+    text = re.sub(r"\s*[(（][^()（）]*" + CJK.pattern + r"[^()（）]*[)）]", "", text)  # other bracketed Chinese
+    text = re.sub(r"^(.+?) \(\1\)$", r"\1", text)                         # "Douyin (Douyin)"
+    text = re.sub(r"\s{2,}", " ", text).strip(" :")
+    if CJK.search(text):
+        raise ValueError(f"welcome.html must be English; add a translation for: {text}")
+    return text
+
+
+def english(obj):
+    if isinstance(obj, dict):
+        return {k: english(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [english(v) for v in obj]
+    return to_english(obj)
+
+
 WEIGHT_LABELS = {"audience": "Audience fit", "engagement": "Engagement quality", "relevance": "Topic relevance",
                  "trust": "Trust & safety", "cost": "Cost efficiency"}
 
@@ -53,9 +110,11 @@ def skills():
         fm = frontmatter(skill_md)
         meta = skill_md.parent / "agents" / "openai.yaml"
         y = meta.read_text(encoding="utf-8") if meta.exists() else ""
-        out.append({"name": fm.get("name", ""), "display_name": yaml_value(y, "display_name") or fm.get("name", ""),
-                    "short": yaml_value(y, "short_description") or fm.get("description", ""),
-                    "prompt": yaml_value(y, "default_prompt")})
+        name = fm.get("name", "")
+        en_name, en_short, en_prompt = EN_SKILLS.get(name, (None, None, None))
+        out.append({"name": name, "display_name": en_name or yaml_value(y, "display_name") or name,
+                    "short": en_short or yaml_value(y, "short_description") or fm.get("description", ""),
+                    "prompt": en_prompt or yaml_value(y, "default_prompt")})
     return out
 
 
@@ -117,7 +176,7 @@ def data():
 
 
 def render():
-    blob = json.dumps(data(), ensure_ascii=False, indent=1).replace("</", "<\\/")
+    blob = json.dumps(english(data()), ensure_ascii=False, indent=1).replace("</", "<\\/")
     return TEMPLATE.read_text(encoding="utf-8").replace("__DATA__", blob)
 
 

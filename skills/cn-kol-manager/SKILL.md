@@ -5,7 +5,7 @@ description: Manage Medibank's creator (博主/KOL/KOC) collaborations on 小红
 
 # cn-kol-manager
 
-Paths are relative to the repository root. Read first: `references/kol-playbook.md`,
+Paths are relative to the agent's root folder (`${CLAUDE_PLUGIN_ROOT}` when installed as a plugin, otherwise the repository root). Read first: `references/kol-playbook.md`,
 `references/creator-contract-terms.md`, `references/student-strategy.md`, and the platform
 file for the platform in question.
 

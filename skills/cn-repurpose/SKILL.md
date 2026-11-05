@@ -5,7 +5,7 @@ description: Turn one approved Medibank post, article or script into versions fo
 
 # cn-repurpose
 
-Paths are relative to the repository root. Read: `references/platforms/overview.md`, the
+Paths are relative to the agent's root folder (`${CLAUDE_PLUGIN_ROOT}` when installed as a plugin, otherwise the repository root). Read: `references/platforms/overview.md`, the
 platform file for each target, and the "One idea, five platforms" table in
 `references/content-playbook.md`.
 

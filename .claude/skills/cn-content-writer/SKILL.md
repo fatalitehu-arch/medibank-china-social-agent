@@ -5,7 +5,7 @@ description: Write Medibank owned-account content for 小红书, 微信公众号
 
 # cn-content-writer
 
-Paths are relative to the repository root. Read first: `references/brand-facts.md`,
+Paths are relative to the agent's root folder (`${CLAUDE_PLUGIN_ROOT}` when installed as a plugin, otherwise the repository root). Read first: `references/brand-facts.md`,
 `references/content-playbook.md`, `references/personas.md`, and the platform file in
 `references/platforms/`. Read `references/style-checks.md` and `references/compliance.md`
 only **after** the body is written (reading them first makes the writing stiff).

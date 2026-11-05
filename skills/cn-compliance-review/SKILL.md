@@ -5,7 +5,7 @@ description: Check any Medibank draft for 小红书, 微信公众号, 视频号,
 
 # cn-compliance-review
 
-Paths are relative to the repository root. Read: `references/compliance.md` (always, in
+Paths are relative to the agent's root folder (`${CLAUDE_PLUGIN_ROOT}` when installed as a plugin, otherwise the repository root). Read: `references/compliance.md` (always, in
 full), the platform file in `references/platforms/`, `references/style-checks.md`,
 `references/brand-facts.md`.
 

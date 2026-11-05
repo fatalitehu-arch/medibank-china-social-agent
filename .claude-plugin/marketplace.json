@@ -1,0 +1,12 @@
+{
+  "name": "medibank-china-social",
+  "description": "Medibank's China social media agent: skills, knowledge base, creator library and dashboard.",
+  "owner": { "name": "UNSW CDEV3000 MB Group 6", "url": "https://github.com/fatalitehu-arch" },
+  "plugins": [
+    {
+      "name": "medibank-cn-social",
+      "source": "./",
+      "description": "Plan, write and check Medibank posts for 小红书, 公众号, 视频号, 抖音 and 微博; scout trends; manage creators."
+    }
+  ]
+}

@@ -5,7 +5,7 @@ description: Draft replies to comments, DMs, 公众号留言/后台消息 and li
 
 # cn-community-manager
 
-Paths are relative to the repository root. Read: `assets/templates/comment-replies.md`,
+Paths are relative to the agent's root folder (`${CLAUDE_PLUGIN_ROOT}` when installed as a plugin, otherwise the repository root). Read: `assets/templates/comment-replies.md`,
 `references/crisis-playbook.md`, `references/compliance.md`, and the platform file.
 
 ## Replying

@@ -5,7 +5,7 @@ description: Turn exported data from 小红书, 公众号, 视频号, 抖音 and
 
 # cn-performance-review
 
-Paths are relative to the repository root. Read: `references/student-strategy.md`
+Paths are relative to the agent's root folder (`${CLAUDE_PLUGIN_ROOT}` when installed as a plugin, otherwise the repository root). Read: `references/student-strategy.md`
 (measurement table), `references/platforms/overview.md`, `assets/templates/monthly-report.md`.
 
 ## Steps

@@ -5,7 +5,7 @@ description: Plan Medibank's China social media content across 小红书, 公众
 
 # cn-content-planner
 
-Paths are relative to the repository root. Read first: `references/student-strategy.md`,
+Paths are relative to the agent's root folder (`${CLAUDE_PLUGIN_ROOT}` when installed as a plugin, otherwise the repository root). Read first: `references/student-strategy.md`,
 `references/platforms/overview.md`, `references/personas.md`,
 `references/content-playbook.md`.
 

@@ -43,7 +43,7 @@ for long guides, and say what you assumed. Read the platform file in
 
 ## Route to a sub-skill
 
-All paths in this skill and its sub-skills are **relative to the repository root**.
+All paths in this skill and its sub-skills are **relative to the agent's root folder**: `${CLAUDE_PLUGIN_ROOT}` when it is installed as a Claude plugin, otherwise the repository root.
 
 | The user wants… | Sub-skill |
 |-----------------|-----------|

@@ -5,7 +5,7 @@ description: Find what is trending right now on Chinese social media (小红书,
 
 # cn-trend-scout
 
-Paths are relative to the repository root. Read first: `references/trend-playbook.md`
+Paths are relative to the agent's root folder (`${CLAUDE_PLUGIN_ROOT}` when installed as a plugin, otherwise the repository root). Read first: `references/trend-playbook.md`
 (where to look, the scoring rubric, angle patterns, the never-touch list), then
 `references/trend-radar.md` (the last dated snapshot), `references/personas.md` and
 `references/compliance.md` section 6 (riding trends).

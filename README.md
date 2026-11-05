@@ -12,6 +12,25 @@ project deliverable for Medibank.
 > Medibank Legal & Compliance and PRC counsel should review `references/compliance.md`
 > before the agent is used for real campaigns. Anything marked `[VERIFY]` needs checking.
 
+## Install in one step (Claude Code)
+
+```text
+/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent
+```
+
+Or give Claude Code the link and say "install this as a plugin":
+`https://github.com/fatalitehu-arch/medibank-china-social-agent`. On older Claude Code
+versions, use two steps:
+
+```text
+/plugin marketplace add fatalitehu-arch/medibank-china-social-agent
+/plugin install medibank-cn-social@medibank-china-social
+```
+
+All nine skills, the knowledge base and the tools are installed together, and the welcome
+page opens in your browser at the start of the first session. Update later with
+`/plugin marketplace update medibank-china-social`.
+
 **Start here: open [`welcome.html`](welcome.html)** in a browser for a visual overview of the skills,
 knowledge base and creator library (it also opens automatically the first time you use the
 agent in Claude Code or from the command line). 中文使用说明：[使用说明.md](使用说明.md)
@@ -125,9 +144,12 @@ Claude.ai can't run the Python tools, so the model applies the rules by hand. Ru
 
 ### Option 2: Claude Code or OpenAI Codex (for the digital team)
 
+In Claude Code the quickest route is the plugin install at the top of this README. To work
+on the agent itself (or to use Codex), clone it:
+
 ```bash
-git clone https://github.com/<your-account>/<this-repo>.git
-cd <this-repo>
+git clone https://github.com/fatalitehu-arch/medibank-china-social-agent.git
+cd medibank-china-social-agent
 ```
 
 * **Claude Code**: run `claude` in the folder. Skills load from `.claude/skills/`;
@@ -205,6 +227,8 @@ checklist. In short:
 
 ```
 SKILL.md                 Router skill (medibank-cn-social)
+.claude-plugin/          Claude Code plugin manifest + marketplace (one-step install)
+hooks/hooks.json         Plugin hook: opens welcome.html on the first session
 agents/openai.yaml       Codex display metadata for the router
 skills/cn-*/             Eight sub-skills (SKILL.md + agents/openai.yaml each)
 .claude/skills/          Generated copies for Claude Code   (sync_skills.py)

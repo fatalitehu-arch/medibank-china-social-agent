@@ -4,27 +4,34 @@
 (小红书, 微信公众号, 微信视频号, 抖音, 微博): what to post, which trends to ride, and which
 creators (网红/博主) to work with, with a compliance check on every post.**
 
-## How to install
+## 👉 Install: copy this, paste it into Claude Code
 
-> **Asking Claude to "download" the repo only gives you a ZIP file.** A normal Claude chat
-> can't install plugins, so install the agent in one of these places instead:
->
-> 1. **The Code tab in the Claude desktop app (recommended):** open Code and paste the line
->    below, or send the repo link and say "install this as a plugin".
->
->    ```text
->    /plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent
->    ```
->
-> 2. **Cowork in the desktop app:** in Customize, find the plugins section, choose
->    "Add marketplace", enter `fatalitehu-arch/medibank-china-social-agent`, then install
->    `medibank-cn-social`. The menu names may differ between app versions.
->
-> With option 1, start a new session after installing and the welcome page opens by itself.
-> All nine skills, the knowledge base and the tools are installed together. On older Claude
-> Code versions, use two steps: `/plugin marketplace add fatalitehu-arch/medibank-china-social-agent`,
-> then `/plugin install medibank-cn-social@medibank-china-social`. Update later with
-> `/plugin marketplace update medibank-china-social`.
+```text
+Install the Medibank China Social Agent for me. Run this command:
+claude plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent
+Then tell me when it is done and remind me to start a new session.
+```
+
+Click the copy button on the box above, paste it into a **Claude Code** conversation (the Code
+tab in the Claude desktop app, or `claude` in a terminal), and press Enter. Claude runs the
+install for you. Start a new session afterwards: the welcome page opens by itself, and all
+nine skills, the knowledge base and the tools are ready.
+
+<details>
+<summary>Other ways to install, and why "download" gives you a ZIP</summary>
+
+* Asking Claude to "download" the repo only gives you a ZIP file, and a normal Claude chat
+  can't install plugins. Use Claude Code as above.
+* Type it yourself in Claude Code:
+  `/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent`
+* Older Claude Code versions: `/plugin marketplace add fatalitehu-arch/medibank-china-social-agent`,
+  then `/plugin install medibank-cn-social@medibank-china-social`.
+* Cowork in the desktop app: in Customize, find the plugins section, choose "Add marketplace",
+  enter `fatalitehu-arch/medibank-china-social-agent`, then install `medibank-cn-social`.
+  The menu names may differ between app versions.
+* Update later with `/plugin marketplace update medibank-china-social`.
+
+</details>
 
 Works in **Claude** (Claude.ai Projects, Claude Code) and **OpenAI Codex**, or from the
 command line through the Claude API. Built by UNSW CDEV3000 MB Group 6 (T3 2026) as the

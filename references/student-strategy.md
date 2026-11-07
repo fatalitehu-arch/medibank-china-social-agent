@@ -4,9 +4,9 @@
 
 * Medibank's OSHC customer numbers among international students are falling.
 * The product's features are good, but students don't know they exist.
-* Students let their education/visa agent arrange OSHC and never look at the policy
-  themselves, so they don't know what they're covered for, how to claim, or that the
-  24/7 support line and app exist.
+* Students let their education/visa agent arrange OSHC (73% of Chinese students used an
+  agent in 2018 [E-1]) and never look at the policy themselves, so they don't know what they're covered for, how to claim, or that the
+  24/7 support line and app exist (only 39% of struggling students know what OSHC excludes [E-5]).
 
 ## The campaign idea
 
@@ -86,15 +86,18 @@ Inside WeChat, 视频号 videos can point to the 公众号 guide. Platform-by-pl
 
 This applies on 小红书, 抖音, 视频号 and 微博. On WeChat, Medibank's own 公众号 is the hub.
 
-1. Students trust peers who have lived it more than a brand (a Medibank account will
-   read as an ad, even when it's helpful).
-2. "Check your own cover" works best as a first-person story: "我当时完全没看过自己的保单…"
-3. Creators already rank for the searches students make on 小红书 and 抖音: 澳洲留学
-   行前清单, 悉尼看病, OSHC 是什么, UNSW 新生.
+1. Students trust peers who have lived it more than a brand: on 小红书 46.6% trust
+   regular users vs 22.9% brand accounts [E-3]; international students in Australia rate
+   peers above any university service [E-4]; 88% of people trust friends and family most [E-2].
+2. "Check your own cover" works best as a first-person story: "我当时完全没看过自己的保单…".
+   People judge experiences by peers and insurance facts by experts [E-9], so the creator
+   tells the experience and points to the official page for the facts.
+3. Students search: ~70% of 小红书 monthly users search, and ~90% say results shape what
+   they buy [E-10]. Creators rank for 澳洲留学行前清单, 悉尼看病, OSHC 是什么, UNSW 新生.
 
-Default mix: **70% creator content via each platform's marketplace, 30% brand-owned**
+Default mix: **70% creator content via each platform's marketplace, 30% brand-owned** [A-1]
 (the 公众号 hub plus explainers the creators can point back to). Channel split is in
-`references/platforms/overview.md` (小红书 40 · WeChat 30 · 抖音 20 · 微博 10). Adjust after
+`references/platforms/overview.md` (小红书 40 · WeChat 30 · 抖音 20 · 微博 10) [A-3]. Adjust after
 the first month's data.
 
 ## What to measure

@@ -12,6 +12,7 @@ Usage:
 
 import argparse
 import ast
+import base64
 import json
 import re
 import sys
@@ -47,8 +48,14 @@ EN_SKILLS = {
     "cn-performance-review": ("Performance review", None, "Write a monthly review from examples/metrics_sample.csv."),
     "cn-repurpose": ("Repurpose", None, "Turn this WeChat article into Xiaohongshu, Channels, Douyin and Weibo versions."),
     "cn-trend-scout": ("Trend radar", None, "What is trending on Chinese social media, and which trends should Medibank ride?"),
+    "cn-video-editor": ("Video editor", "Cut, subtitle and brand short videos for Douyin, WeChat Channels and Xiaohongshu",
+                        "Cut the three clips in raw/ into a 45-second vertical Douyin video with subtitles and title and end cards."),
 }
 EN_TERMS = [
+    ("《互联网广告管理办法》", "Internet Advertising Measures"), ("《互联网保险业务监管办法》", "Internet Insurance Business Measures"),
+    ("IT之家", "IT Home"), ("中国新闻网", "China News"), ("广告", "\"advertisement\""),
+    ("看懂你的保险", "Know your cover"), ("在澳洲看病", "Using healthcare"), ("用好 app 和热线", "App and helpline"),
+    ("身心健康", "Wellbeing"), ("澳洲保险", "Australian insurance"),
     ('"看懂自己的保险" (Know your own cover)', '"Know your own cover"'), ("小红书 (RED / Xiaohongshu)", "Xiaohongshu (RED)"),
     ("令人心动的offer 第八季", "Heart-Racing Offer, Season 8"), ("闪身步", "\"Flash step\" dance"), ("后会友期", "Friends Reunion show"),
     ("微信公众号", "WeChat Official Account"), ("微信视频号", "WeChat Channels"), ("小红书", "Xiaohongshu"),
@@ -159,6 +166,45 @@ def trends():
     return {"snapshot": snap.group(1) if snap else None, "rows": rows}
 
 
+def md_table(text, heading):
+    """Rows of the first pipe table after a '## heading' line, as lists of cells."""
+    part = text.split(heading, 1)[1]
+    rows = []
+    for line in part.splitlines()[1:]:
+        if line.startswith("## "):
+            break
+        if line.startswith("|") and not line.startswith("|--") and not line.startswith("| ID"):
+            rows.append([c.strip() for c in line.strip().strip("|").split(" | ")])
+    return rows
+
+
+def md_links(cell):
+    """Turn [text](url) into {'text', 'url'} pieces; strip other markdown."""
+    links = re.findall(r"\[([^\]]+)\]\((https?://[^)]+)\)", cell)
+    plain = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", cell).replace("`", "")
+    return plain, [{"text": a, "url": b} for a, b in links]
+
+
+def evidence():
+    text = (ROOT / "references" / "evidence.md").read_text(encoding="utf-8")
+    facts = []
+    for r in md_table(text, "## E: published evidence"):
+        source, links = md_links(r[3])
+        facts.append({"id": r[0], "finding": r[1], "number": r[2], "source": source, "links": links,
+                      "checked": r[4], "reliability": r[5]})
+    tests = [{"id": r[0], "assumption": md_links(r[1])[0], "test": r[3], "when": r[4]}
+             for r in md_table(text, "## A: working assumptions (to test)")]
+    return {"facts": facts, "assumptions": tests}
+
+
+def examples():
+    folder = ROOT / "assets" / "welcome" / "examples"
+    pics = {}
+    for f in sorted(folder.glob("*.jpg")):
+        pics[f.stem] = "data:image/jpeg;base64," + base64.b64encode(f.read_bytes()).decode()
+    return pics
+
+
 def data():
     roster = creator_dashboard.load(ROOT / "creators" / "roster.csv")
     posts = creator_dashboard.load(ROOT / "creators" / "posts.csv")
@@ -172,12 +218,19 @@ def data():
         "criteria": {"weights": [{"label": WEIGHT_LABELS.get(k, k), "weight": v} for k, v in kol_score.WEIGHTS.items()],
                      "hard_stops": list(kol_score.HARD_STOPS.values())},
         "dashboard": creator_dashboard.build(roster, posts, creator_dashboard.as_of(posts)),
+        "evidence": evidence(),
     }
 
 
 def render():
-    blob = json.dumps(english(data()), ensure_ascii=False, indent=1).replace("</", "<\\/")
-    return TEMPLATE.read_text(encoding="utf-8").replace("__DATA__", blob)
+    payload = english(data())
+    payload["examples"] = examples()  # images: not text, so not passed through english()
+    blob = json.dumps(payload, ensure_ascii=False, indent=1).replace("</", "<\\/")
+    html = TEMPLATE.read_text(encoding="utf-8")
+    theme = json.loads((ROOT / "assets" / "brand" / "theme.json").read_text(encoding="utf-8"))
+    for key, value in theme["colors"].items():
+        html = html.replace(f"__C_{key}__", value)
+    return html.replace("__DATA__", blob)
 
 
 def main(argv=None):

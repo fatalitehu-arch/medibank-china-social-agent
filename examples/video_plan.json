@@ -1,0 +1,15 @@
+{
+  "platform": "douyin",
+  "account": "brand",
+  "pillar": "在澳洲看病",
+  "clips": [
+    {"file": "raw/clinic-walk.mp4", "start": 2.0, "end": 8.5},
+    {"file": "raw/app-screen.mp4", "start": 0, "end": 6},
+    {"file": "raw/talk-to-camera.mp4", "start": 1.5, "end": 14}
+  ],
+  "subtitles": "raw/subs.srt",
+  "title": {"headline": "第一次在悉尼看病", "sub": "3 步搞定", "seconds": 1.5},
+  "end": {"next": "去学校官网搜 OSHC", "question": "你第一次在澳洲看病是什么情况？", "line": "具体保障以保单条款为准", "seconds": 2.5},
+  "music": null,
+  "grade": true
+}

@@ -101,7 +101,8 @@ in words.
 |-------|---------|---------|
 | `medibank-cn-social` (router) | Anything vague: "下个月社媒怎么做" | Picks the platform and the sub-skill, runs multi-step work |
 | `cn-trend-scout` | "最近有什么热点可以蹭？" / "心动的offer 8 能不能借势？" | Trend radar: what's hot on each platform (dated sources), score and verdict (use now / adapt / watch / avoid), post angles and creator types, what to avoid |
-| `cn-content-writer` | "写一篇小红书：第一次在悉尼看 GP" / "写一篇公众号长文" / "写一个抖音 60 秒脚本" | Post, article or script in the platform's format, titles, tags, image/shot plan, compliance verdict, facts to confirm |
+| `cn-content-writer` | "写一篇小红书：第一次在悉尼看 GP" / "写一篇公众号长文" / "写一个抖音 60 秒脚本" | **A finished post**: final text, titles, hashtags and image cards (PNG, Medibank colours) in `outputs/posts/`, with the compliance verdict; also articles and video scripts |
+| `cn-video-editor` | "把这三段素材剪成 45 秒抖音竖屏，加字幕" | **An edited vertical video** from your footage: trimmed, joined, subtitled, Medibank colour tone, title and end cards, music ducked (needs ffmpeg) |
 | `cn-repurpose` | "把这篇公众号改成另外四个平台" | One idea, five native versions, each scanned at its own platform level |
 | `cn-content-planner` | "2027 T1 开学季 4 周计划" | Cross-platform calendar (platform, owned/creator, persona, pillar, format, KPI, risk) checked by `calendar_builder.py` |
 | `cn-kol-manager` | "找 UNSW 新生相关的博主" / "给这批博主打分" / "写星图 brief" / "审这篇博主稿" | Search plan per marketplace, scored shortlist, vetting, brief, draft review with change requests |
@@ -114,6 +115,36 @@ The two core jobs are **what to post** (trend-scout → planner → writer → r
 (`tools/compliance_scan.py`, 22 rule groups mapped to PRC, platform and Australian rules,
 with per-platform levels) and the model reading the draft against the full rulebook for
 meaning. A human (Medibank Legal) signs off before anything goes live.
+
+### Built on evidence
+
+Every strategy choice (which platform, which creators, what format, how much budget) points
+to a row in [`references/evidence.md`](references/evidence.md): **13 published sources**
+(`E-` rows: link, date checked, reliability) and **8 working assumptions** (`A-` rows: how
+and when the team will test each one). Highlights:
+
+| Choice | Evidence |
+|--------|----------|
+| Reach students before the agent decides | 73% of Chinese students in Australia enrolled through an education agent (2018) [E-1] |
+| Student creators carry the message | On Xiaohongshu 46.6% trust regular users vs 22.9% brand accounts [E-3]; international students rate peers above any university service [E-4] |
+| Mostly small and mid-tier creators | Engagement peaks at a middle follower count, then falls (1,700+ influencers) [E-7] |
+| First-person experience posts, facts from the official page | People judge experiences by peers and insurance by experts [E-9]; ~70% of Xiaohongshu users search [E-10] |
+| Lead with "know your cover" | Only 39% of struggling students know what OSHC excludes [E-5] |
+
+The agent cites these rows when it recommends anything, and says plainly when something is
+an assumption. `python tools/evidence_check.py` fails if a cited row is missing.
+
+### Finished posts and videos
+
+```bash
+pip install Pillow                                    # once, for image cards
+python tools/make_post.py examples/post_spec.json     # → outputs/posts/<title>/ post.md + 01–05.png + compliance.txt
+python tools/video_edit.py my_plan.json               # → outputs/videos/my_plan.mp4 (needs ffmpeg)
+```
+
+The agent writes the spec or edit plan for you; these commands are what it runs. Colours
+live in `assets/brand/theme.json` (an approximation of Medibank blue; swap in the official
+values from Medibank's brand team).
 
 ### Creator library (达人库)
 
@@ -243,21 +274,24 @@ SKILL.md                 Router skill (medibank-cn-social)
 .claude-plugin/          Claude Code plugin manifest + marketplace (one-step install)
 hooks/hooks.json         Plugin hook: opens welcome.html on the first session
 agents/openai.yaml       Codex display metadata for the router
-skills/cn-*/             Eight sub-skills (SKILL.md + agents/openai.yaml each)
+skills/cn-*/             Nine sub-skills (SKILL.md + agents/openai.yaml each)
 .claude/skills/          Generated copies for Claude Code   (sync_skills.py)
 .agents/skills/          Generated copies for Codex         (sync_skills.py)
-references/              Shared knowledge: compliance, brand facts, strategy, personas,
+references/              Shared knowledge: evidence register, compliance, brand facts, strategy, personas,
                          content and creator playbooks, crisis, contracts, glossary
 references/platforms/    One file per platform + overview (channel mix)
 tools/                   compliance_scan.py + rules.json, note_lint.py, kol_score.py,
                          calendar_builder.py, performance_report.py, trend_score.py,
-                         creator_dashboard.py, build_welcome.py
+                         creator_dashboard.py, evidence_check.py, build_welcome.py,
+                         make_post.py (finished posts + image cards), video_edit.py (ffmpeg)
 social_agent/            CLI runner (Claude API + offline tool wrappers), first-run welcome
 creators/                Creator library: roster.csv, posts.csv (demo data), README with criteria
 welcome.html             Visual overview, generated by tools/build_welcome.py
 assets/templates/        Creator brief, onboarding, calendar, replies, monthly report,
                          Legal sign-off
 assets/images/           Icon, funnel diagram, mock offer letter (for content mock-ups)
+assets/brand/theme.json  Medibank colours and fonts for cards, videos and the welcome page
+outputs/                 Finished posts and videos (git-ignored)
 examples/                Sample drafts (good/bad per platform), CSVs, sample outputs
 evals/                   Scanner regression cases + model behaviour scenarios
 tests/                   pytest suite (scanner, tools, skill integrity)
@@ -275,6 +309,7 @@ AGENTS.md / CLAUDE.md    Project rules for Codex / Claude Code
 | Rules or platform policies change | `references/compliance.md`, `references/platforms/*.md` |
 | Each month | Tune `kol_score.py` baselines with real data |
 | Weekly | Update `creators/roster.csv` and `creators/posts.csv` from the marketplace exports |
+| A test result answers an assumption | Move the `A-` row to `E-` in `references/evidence.md` with your own data and dates |
 | After any change above | `python tools/build_welcome.py` so the welcome page matches |
 
 Then run the checks:

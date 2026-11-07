@@ -21,6 +21,8 @@ Keep only items with a dated source from the last 14 days (or a long-running sho
 
 ## 2. Scoring rubric (what `tools/trend_score.py` does)
 
+The weights are a working assumption [A-6]; test them against trend posts' saves.
+
 | Factor | Weight | Question |
 |--------|--------|----------|
 | Audience match | 30 | Do Chinese students heading to or living in Australia (and their parents) care about it? 1–5 |

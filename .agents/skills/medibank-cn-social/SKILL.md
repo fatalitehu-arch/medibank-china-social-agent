@@ -48,7 +48,8 @@ All paths in this skill and its sub-skills are **relative to the agent's root fo
 | The user wants… | Sub-skill |
 |-----------------|-----------|
 | What's trending now, which trends to ride, "蹭热点" | `skills/cn-trend-scout/SKILL.md` |
-| A post, article, video script, titles, covers, hashtags | `skills/cn-content-writer/SKILL.md` |
+| A complete post ready to publish (text + image cards), article, video script, titles, hashtags | `skills/cn-content-writer/SKILL.md` |
+| Cut a short video from the user's footage: trim, join, vertical, subtitles, Medibank colours, title/end cards | `skills/cn-video-editor/SKILL.md` |
 | The same content adapted for other platforms | `skills/cn-repurpose/SKILL.md` |
 | A content calendar, campaign plan, channel mix, "怎么吸引学生" | `skills/cn-content-planner/SKILL.md` |
 | Find, score, vet, brief or manage creators; review a creator draft; the creator library and dashboard (达人库/看板) | `skills/cn-kol-manager/SKILL.md` |
@@ -57,7 +58,7 @@ All paths in this skill and its sub-skills are **relative to the agent's root fo
 | A weekly/monthly report from exported data | `skills/cn-performance-review/SKILL.md` |
 
 Read the sub-skill file and follow it. For requests that span several, run them in order:
-trend-scout → planner → writer/kol-manager → repurpose → compliance-review.
+trend-scout → planner → writer/kol-manager → video-editor → repurpose → compliance-review.
 
 **Every piece of text that could be published ends with cn-compliance-review.**
 
@@ -65,15 +66,23 @@ trend-scout → planner → writer/kol-manager → repurpose → compliance-revi
 
 | Folder | What's in it |
 |--------|--------------|
-| `references/` | Rulebook and knowledge: compliance, brand facts, strategy, personas, creator playbook, content playbook, trend playbook and dated trend radar, style checks, crisis playbook, creator contract terms, glossary, market landscape |
+| `references/` | Rulebook and knowledge: **evidence register (`evidence.md`)**, compliance, brand facts, strategy, personas, creator playbook, content playbook, trend playbook and dated trend radar, style checks, crisis playbook, creator contract terms, glossary, market landscape |
 | `references/platforms/` | One file per platform plus an overview: formats, specs, marketplace, platform-specific don'ts |
-| `tools/` | Python 3.9+ scripts, no packages: `compliance_scan.py` (with `--platform`), `note_lint.py`, `kol_score.py`, `calendar_builder.py`, `performance_report.py`, `trend_score.py`, `creator_dashboard.py`, `build_welcome.py` |
+| `tools/` | Python 3.9+ scripts: `compliance_scan.py` (with `--platform`), `note_lint.py`, `kol_score.py`, `calendar_builder.py`, `performance_report.py`, `trend_score.py`, `creator_dashboard.py`, `evidence_check.py`, `build_welcome.py`; `make_post.py` (finished posts with image cards; needs Pillow) and `video_edit.py` (needs ffmpeg) |
+| `assets/brand/theme.json` | Medibank colours and fonts used by post cards, videos and the welcome page |
 | `creators/` | Creator library: `roster.csv` (who we work with) and `posts.csv` (their results); demo rows until replaced |
 | `assets/templates/` | Creator brief, onboarding pack, content calendar, comment-reply library, monthly report, Legal sign-off |
 | `assets/images/` | Mock offer letter and campaign funnel (SVG) |
 | `examples/` | Sample drafts, creator CSV, metrics CSV, sample outputs |
 
 If you can't run code, apply the same rules by hand from `references/`.
+
+## Evidence
+
+Every strategy recommendation (which platform, which creators, what format, how much
+budget) names the row in `references/evidence.md` it rests on: `[E-n]` for published data,
+`[A-n]` for a working assumption, said as an assumption. No row → say there is no data yet
+and propose how to test it. Never present an assumption as a finding.
 
 ## Hard limits
 

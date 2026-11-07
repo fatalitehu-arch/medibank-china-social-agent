@@ -6,20 +6,23 @@
 <title>China Social Agent</title>
 <style>
 :root {
-  --bg: #f6f8f9; --surface: #fcfcfb; --surface-2: #eef3f5; --ink: #14304a; --ink-2: #4a5d6e;
-  --ink-3: #6b7c8a; --line: #dbe3e8; --accent: #0b6e99; --accent-soft: #dcebf2; --bar: #0b6e99;
+  --bg: #f4f7fc; --surface: #ffffff; --surface-2: __C_soft__; --ink: __C_ink__; --ink-2: #3c4e68;
+  --ink-3: __C_muted__; --line: #d8e2f0; --accent: __C_primary__; --accent-2: __C_accent__; --accent-soft: __C_soft__;
+  --hl: __C_highlight__; --hero: __C_primary__; --hero-2: __C_primary_dark__; --bar: #1f66cc;
   --good: #1d7a46; --good-soft: #e1f2e7; --warn: #8a5a00; --warn-soft: #fbefd5; --bad: #a33a1a; --bad-soft: #f8e2da;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #121416; --surface: #1a1a19; --surface-2: #22272b; --ink: #e8eef2; --ink-2: #b4c2cc;
-    --ink-3: #8c9ba6; --line: #2f383e; --accent: #5cb8e0; --accent-soft: #19323f; --bar: #3a9fcc;
+    --bg: #08142b; --surface: #0f1f3d; --surface-2: #152a50; --ink: #e8eef8; --ink-2: #b6c4da;
+    --ink-3: #8a9bb6; --line: #22375e; --accent: #7cb6ff; --accent-2: #4cc3f0; --accent-soft: #17305a;
+    --hl: __C_highlight__; --hero: #0c2f73; --hero-2: #071d4a; --bar: #3a8fe0;
     --good: #6fcf97; --good-soft: #17301f; --warn: #e6b450; --warn-soft: #33290f; --bad: #f08a6c; --bad-soft: #3a1d14;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #121416; --surface: #1a1a19; --surface-2: #22272b; --ink: #e8eef2; --ink-2: #b4c2cc;
-  --ink-3: #8c9ba6; --line: #2f383e; --accent: #5cb8e0; --accent-soft: #19323f; --bar: #3a9fcc;
+  --bg: #08142b; --surface: #0f1f3d; --surface-2: #152a50; --ink: #e8eef8; --ink-2: #b6c4da;
+  --ink-3: #8a9bb6; --line: #22375e; --accent: #7cb6ff; --accent-2: #4cc3f0; --accent-soft: #17305a;
+  --hl: __C_highlight__; --hero: #0c2f73; --hero-2: #071d4a; --bar: #3a8fe0;
   --good: #6fcf97; --good-soft: #17301f; --warn: #e6b450; --warn-soft: #33290f; --bad: #f08a6c; --bad-soft: #3a1d14;
 }
 * { box-sizing: border-box; }
@@ -44,6 +47,7 @@ h3 { font-size: 17px; margin: 0 0 6px; }
 .grid { display: grid; gap: 14px; }
 .g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 .g3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.g4 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
 .tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin: 22px 0; }
 .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
 .tile .n { font-size: 30px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
@@ -90,18 +94,47 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .loop .card::before { counter-increment: s; content: counter(s); position: absolute; top: 10px; left: 18px; font-weight: 700; color: var(--accent); }
 pre { background: var(--surface-2); border-radius: 10px; padding: 12px; overflow-x: auto; font-size: 13px; margin: 8px 0 0; }
 .theme { margin-left: auto; background: none; border: 1px solid var(--line); color: var(--ink-2); border-radius: 8px; padding: 3px 8px; font-size: 13px; cursor: pointer; }
+.hero { background: radial-gradient(circle at 85% 10%, var(--hero-2) 0 28%, transparent 28.2%), radial-gradient(circle at 0% 100%, var(--accent-2) 0 16%, transparent 16.2%), var(--hero); color: #fff; }
+.hero .in { max-width: 1120px; margin: 0 auto; padding: 56px 16px 40px; }
+.hero h1 { color: #fff; max-width: 780px; }
+.hero .sub { color: #dbe7fb; }
+.hero .eyebrow { color: var(--hl); margin-top: 0; }
+.hero .chip { background: rgba(255,255,255,.14); color: #fff; }
+.hero .tile { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); color: #fff; }
+.hero .tile .l { color: #dbe7fb; }
+.hero h3 { color: #fff; }
+.hero .step { background: rgba(255,255,255,.95); color: #0b1f3a; border: 0; }
+.hero .step.off { background: rgba(255,255,255,.72); }
+.hero .step .k { color: __C_primary__; }
+.hero .note { color: #c7d6f2; }
+.stat { display: flex; flex-direction: column; gap: 6px; }
+.stat .big { font-size: 46px; font-weight: 800; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.stat .what { font-size: 15px; color: var(--ink); }
+.stat .src { font-size: 12px; color: var(--ink-3); margin-top: auto; }
+.stat .so { font-size: 13px; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 8px; }
+.stat .so b { color: var(--accent); }
+.cmp .row { grid-template-columns: 130px 1fr; }
+details summary { cursor: pointer; color: var(--accent); font-weight: 600; margin: 14px 0 8px; }
+.idtag { font-family: ui-monospace, Menlo, monospace; font-size: 12px; background: var(--accent-soft); color: var(--accent); padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+.strip { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+.strip img { height: 300px; border-radius: 12px; border: 1px solid var(--line); flex: none; }
+.vflow { display: flex; gap: 12px; align-items: center; overflow-x: auto; padding-bottom: 8px; }
+.vflow img { height: 300px; border-radius: 12px; flex: none; }
+.vflow .mid { flex: none; width: 220px; height: 300px; border-radius: 12px; background: var(--surface-2); border: 1px dashed var(--line); padding: 16px; font-size: 14px; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.vflow .mid div::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+.arrow { color: var(--ink-3); font-size: 22px; flex: none; }
+@media (max-width: 560px) { .strip img, .vflow img { height: 220px; } .vflow .mid { height: 220px; width: 180px; } }
 footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line); margin-top: 56px; padding-top: 16px; }
 </style>
 </head>
 <body>
 <nav><div class="in">
   <b>China Social Agent</b>
-  <a href="#skills">Skills</a><a href="#knowledge">Knowledge base</a><a href="#creators">Creators</a>
+  <a href="#evidence">Evidence</a><a href="#make">See it work</a><a href="#skills">Skills</a><a href="#knowledge">Knowledge base</a><a href="#creators">Creators</a>
   <a href="#why">Why this agent</a><a href="#start">Get started</a>
   <button class="theme" id="theme" type="button" aria-label="Switch light or dark theme">Theme</button>
 </div></nav>
-<main>
-  <section id="top">
+<header class="hero" id="top"><div class="in">
     <p class="eyebrow">Welcome</p>
     <h1>Your agent for Chinese social media content</h1>
     <p class="sub">It helps Medibank's international student team decide <b>what to post</b>, <b>which trends to ride</b>
@@ -118,6 +151,35 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
       <div class="step off"><div class="k">Off platform</div>Student compares insurers and decides</div>
     </div>
     <p class="note">Content on Chinese platforms informs, never sells: no prices, comparisons, links or "DM me". The comparing happens off the platform.</p>
+</div></header>
+<main>
+  <section id="evidence">
+    <h2>Built on evidence</h2>
+    <p class="sub">Every strategy choice points to a source in <code>references/evidence.md</code>. Published data is marked <span class="idtag">E-</span>; where there is no data yet, the agent says so and marks a working assumption <span class="idtag">A-</span> with a plan to test it.</p>
+    <div class="grid g4" id="stats"></div>
+    <div class="card" style="margin-top:14px">
+      <h3>Who students trust on Xiaohongshu</h3>
+      <p class="note" style="margin-top:0">Share of users who trust each kind of account when researching products or services <span class="idtag">E-3</span></p>
+      <div class="chart cmp" id="trustchart" role="img" aria-label="Bar chart: regular users 46.6%, KOLs 30.3%, brand accounts 22.9%"></div>
+      <p class="note">So creators carry the message, and Medibank's own account is the hub they point back to.</p>
+    </div>
+    <details><summary>All <span id="ecount"></span> sources</summary>
+      <div class="card scroll"><table id="etable"><thead><tr><th>ID</th><th>Finding</th><th>Number</th><th>Source</th><th>Reliability</th></tr></thead><tbody></tbody></table></div>
+    </details>
+    <details><summary>Assumptions we are testing (<span id="acount"></span>)</summary>
+      <div class="card scroll"><table id="atable"><thead><tr><th>ID</th><th>Assumption</th><th>How we test it</th><th>When</th></tr></thead><tbody></tbody></table></div>
+    </details>
+  </section>
+
+  <section id="make">
+    <h2>See it work</h2>
+    <p class="sub">Ask for a post and you get the finished thing: final text, titles, hashtags and image cards in Medibank colours, checked for compliance. Ask for a video and it cuts your clips into a branded vertical video.</p>
+    <p class="eyebrow">A complete Xiaohongshu post · <code>tools/make_post.py</code></p>
+    <div class="strip" id="poststrip"></div>
+    <p class="note">From <code>examples/post_spec.json</code>: one command writes <code>post.md</code> (text to paste), the five images in upload order, and the compliance report.</p>
+    <p class="eyebrow">A short video · <code>tools/video_edit.py</code></p>
+    <div class="vflow" id="vflow"></div>
+    <p class="note">Your footage stays yours: the agent never uses clips, music or logos the team has no licence for.</p>
   </section>
 
   <section id="skills">
@@ -176,12 +238,14 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
       <tr><td>Trends</td><td>Training data months old</td><td>Searches current trends with dated sources, scores the risk</td></tr>
       <tr><td>Creators</td><td>Generic advice</td><td>Scoring rules, hard stops, a roster and a dashboard</td></tr>
       <tr><td>Consistency</td><td>Different answer each time</td><td>Same rules and tools every time, tested automatically</td></tr>
+      <tr><td>Evidence</td><td>States opinions as facts</td><td>Every strategy names its source or says it is an assumption to test</td></tr>
+      <tr><td>Output</td><td>Text you still have to design</td><td>Finished posts with image cards, and edited vertical videos, in Medibank colours</td></tr>
       <tr><td>Memory</td><td>Starts from zero every chat</td><td>Knowledge base the team maintains and improves</td></tr>
     </tbody></table></div>
     <p class="eyebrow">The knowledge base keeps improving</p>
     <div class="loop">
       <div class="card"><h3>Something changes</h3><p class="note">A post is throttled, a rule changes, a new trend or creator appears, a product fact is updated.</p></div>
-      <div class="card"><h3>Edit one file</h3><p class="note"><code>tools/rules.json</code>, <code>references/brand-facts.md</code>, <code>references/trend-radar.md</code> or <code>creators/roster.csv</code>.</p></div>
+      <div class="card"><h3>Edit one file</h3><p class="note"><code>tools/rules.json</code>, <code>references/brand-facts.md</code>, <code>references/evidence.md</code>, <code>references/trend-radar.md</code> or <code>creators/roster.csv</code>.</p></div>
       <div class="card"><h3>Tests check it</h3><p class="note">Automated tests and CI make sure nothing broke and the skill copies are in sync.</p></div>
       <div class="card"><h3>Every future post uses it</h3><p class="note">In Claude and Codex, for the whole team, from the next request on.</p></div>
     </div>
@@ -219,6 +283,40 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   var tiles = [[D.skills.length, "skills"], [D.knowledge.length, "knowledge files"], [D.rule_count, "compliance rules"],
                [5, "platforms"], [D.dashboard.summary.creators, "creators in library"]];
   $("tiles").innerHTML = tiles.map(function (t) { return '<div class="tile"><div class="n">' + t[0] + '</div><div class="l">' + t[1] + "</div></div>"; }).join("");
+
+  var E = {}; D.evidence.facts.forEach(function (f) { E[f.id] = f; });
+  var src = function (id) { var f = E[id]; if (!f) return ""; var l = f.links[0];
+    return '<span class="idtag">' + id + "</span> " + (l ? '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.text) + "</a>" : esc(f.source)); };
+  var STATS = [
+    ["E-1", "73%", "of Chinese students in Australia enrolled through an education agent (2018), who usually arranges their OSHC too.", "Reach students on social media <b>before</b> the agent decides for them."],
+    ["E-10", "~70%", "of Xiaohongshu's monthly users search on the app; about 90% say search results shape what they buy.", "Write saveable checklists and how-tos for the searches students make."],
+    ["E-5", "39%", "of students with poorer wellbeing know what their OSHC does not cover (54% of others).", "Lead with <b>Know your cover</b>: the biggest gap, told as a first-person story."],
+    ["E-7", "1,700+", "influencers studied: engagement peaks at a middle follower count, then falls.", "Spend most creator budget on small and mid-tier student creators."]
+  ];
+  $("stats").innerHTML = STATS.map(function (s) {
+    return '<div class="card stat"><div class="big">' + s[1] + '</div><div class="what">' + esc(s[2]) + '</div><div class="so">So: ' + s[3] + '</div><div class="src">' + src(s[0]) + "</div></div>";
+  }).join("");
+  var TRUST = [["Regular users", 46.6], ["KOLs", 30.3], ["Brand accounts", 22.9]];
+  $("trustchart").innerHTML = TRUST.map(function (r) {
+    return '<div class="row"><div class="name">' + r[0] + '</div><div class="bararea"><div class="bar" style="width:' + (85 * r[1] / 50) + '%"></div><span class="val">' + r[1] + "%</span></div></div>";
+  }).join("") + '<p class="note">' + src("E-3") + " · n = 510</p>";
+  $("ecount").textContent = D.evidence.facts.length;
+  $("acount").textContent = D.evidence.assumptions.length;
+  $("etable").querySelector("tbody").innerHTML = D.evidence.facts.map(function (f) {
+    return '<tr><td><span class="idtag">' + f.id + "</span></td><td>" + esc(f.finding) + "</td><td>" + esc(f.number) + "</td><td>" +
+      (f.links.length ? f.links.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.text) + "</a>"; }).join("<br>") : esc(f.source)) +
+      '<div class="note">checked ' + esc(f.checked) + '</div></td><td class="note">' + esc(f.reliability) + "</td></tr>";
+  }).join("");
+  $("atable").querySelector("tbody").innerHTML = D.evidence.assumptions.map(function (a) {
+    return '<tr><td><span class="idtag">' + a.id + "</span></td><td>" + esc(a.assumption) + "</td><td>" + esc(a.test) + "</td><td>" + esc(a.when) + "</td></tr>";
+  }).join("");
+  var X = D.examples || {};
+  $("poststrip").innerHTML = Object.keys(X).filter(function (k) { return k.indexOf("post-") === 0; }).map(function (k, i) {
+    return '<img src="' + X[k] + '" alt="Example Xiaohongshu card ' + (i + 1) + '" loading="lazy">';
+  }).join("");
+  $("vflow").innerHTML = (X["video-title"] ? '<img src="' + X["video-title"] + '" alt="Title card">' : "") + '<span class="arrow">→</span>' +
+    '<div class="mid"><b>Your clips</b><div>Trimmed and joined</div><div>Made vertical, never stretched</div><div>Medibank colour tone</div><div>Subtitles burned in</div><div>Music ducked, loudness set</div></div>' +
+    '<span class="arrow">→</span>' + (X["video-end"] ? '<img src="' + X["video-end"] + '" alt="End card">' : "");
 
   $("skillgrid").innerHTML = D.skills.map(function (s) {
     return '<div class="card skill"><div class="dn">' + esc(s.display_name) + '</div><code>' + esc(s.name) + '</code><p>' + esc(s.short) + '</p>' +

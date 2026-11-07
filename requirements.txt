@@ -1,1 +1,2 @@
 anthropic>=2.3
+Pillow>=10  # tools/make_post.py image cards

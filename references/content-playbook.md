@@ -3,7 +3,8 @@
 ## Content pillars
 
 Every piece of content belongs to one pillar. Use these exact pillar names (the tools
-check them). Target monthly mix across platforms:
+check them). Target monthly mix across platforms (an assumption [A-4], weighted to the gaps
+in [E-5]):
 
 | Pillar | Share | Examples |
 |--------|-------|----------|
@@ -15,7 +16,8 @@ check them). Target monthly mix across platforms:
 ## Brand voice (same on every platform)
 
 Persona: **一位在澳洲读过书的学姐**, working for Medibank, who has seen many new
-students get stuck. Speaks plainly, warmly, with concrete detail.
+students get stuck. Speaks plainly, warmly, with concrete detail. Real-life situations are
+the most trusted ad style [E-2], so every piece starts from a scene.
 
 * Talk to one person: 你, not 各位同学们. (For parents on 视频号/公众号: 您 is fine.)
 * Start from a scene, not a definition: "落地第三天嗓子疼，打开地图发现附近的诊所都要预约…"

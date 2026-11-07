@@ -16,7 +16,11 @@ covers finding, scoring, briefing and reviewing them.
 
 **Profile:** Chinese students or recent graduates **currently living in Australia**,
 who post about study and life there. They have personally used (or can genuinely use)
-OSHC, so their story is real.
+OSHC, so their story is real. Why peers: [E-2] [E-3] [E-4].
+
+Why mostly KOC and 腰部: engagement peaks at a middle follower count and falls after it
+[E-7], own-style content helps small creators [E-7], and a brand little known in China
+gains less from big follower counts [E-8]. The exact split below is an assumption [A-2].
 
 Follower tiers are the same on every platform; engagement baselines differ (see
 `tools/kol_score.py`, which takes a `platform` column).
@@ -51,7 +55,9 @@ recent sponsored note for another OSHC insurer (in the last 90 days).
 
 ## 3. Scoring (what `tools/kol_score.py` does)
 
-Score out of 100. Weights are in the script and can be changed by Medibank.
+Score out of 100. Weights are in the script and can be changed by Medibank. The weights are
+a working assumption [A-5]; audience fit weighs most because a genuine experience needs a
+creator who lives here [E-9].
 
 | Criterion | Weight | How it's measured |
 |-----------|--------|-------------------|

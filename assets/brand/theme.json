@@ -1,0 +1,29 @@
+{
+  "_note": "Medibank-style colours used by make_post.py, video_edit.py and welcome.html. These are an approximation of Medibank blue chosen by the student team; replace them with the official values from Medibank's brand team before public use.",
+  "name": "Medibank blue (approximation)",
+  "colors": {
+    "primary": "#0A3D91",
+    "primary_dark": "#062A66",
+    "accent": "#00A3E0",
+    "soft": "#E9F2FB",
+    "ink": "#0B1F3A",
+    "muted": "#5B6B82",
+    "paper": "#FFFFFF",
+    "highlight": "#FFC845"
+  },
+  "fonts": [
+    "/System/Library/Fonts/PingFang.ttc",
+    "/System/Library/Fonts/STHeiti Medium.ttc",
+    "/System/Library/Fonts/Hiragino Sans GB.ttc",
+    "C:/Windows/Fonts/msyh.ttc",
+    "C:/Windows/Fonts/simhei.ttf",
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+    "/usr/share/fonts/noto-cjk/NotoSansCJK-Bold.ttc",
+    "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc"
+  ],
+  "video": {
+    "grade": "eq=contrast=1.04:saturation=1.06,colorbalance=bs=0.05:bm=0.03:rh=-0.02",
+    "subtitle_font": "PingFang SC",
+    "subtitle_outline": "#062A66"
+  }
+}

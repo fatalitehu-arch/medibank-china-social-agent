@@ -4,3 +4,4 @@ __pycache__/
 scored.csv
 .pytest_cache/
 .welcome_shown
+outputs/

@@ -106,3 +106,88 @@ def test_welcome_page_is_english_only():
     import re
     html = (Path(__file__).resolve().parent.parent / "welcome.html").read_text(encoding="utf-8")
     assert not re.search(r"[\u3000-\u303f\u4e00-\u9fff\uff00-\uffef]", html)
+
+
+# --- evidence register, finished posts, video editor ---------------------------------
+
+import json as _json
+import pytest
+import shutil as _shutil
+
+import evidence_check
+import make_post
+import video_edit
+
+_ROOT = Path(__file__).resolve().parent.parent
+
+
+def test_every_evidence_citation_exists():
+    assert evidence_check.main([]) == 0
+
+
+def test_strategy_files_cite_evidence():
+    for rel in ["references/student-strategy.md", "references/kol-playbook.md", "references/content-playbook.md",
+                "references/platforms/overview.md"]:
+        assert "[E-" in (_ROOT / rel).read_text(encoding="utf-8"), rel
+
+
+def test_make_post_text_and_compliance(tmp_path):
+    spec = _json.loads((_ROOT / "examples" / "post_spec.json").read_text(encoding="utf-8"))
+    worst, images = make_post.build(spec, tmp_path, render=False)
+    assert worst < 2 and images == []
+    md = (tmp_path / "post.md").read_text(encoding="utf-8")
+    assert spec["title"] in md and spec["hashtags"][0] in md
+
+
+def test_make_post_flags_a_selling_post(tmp_path):
+    spec = _json.loads((_ROOT / "examples" / "post_spec.json").read_text(encoding="utf-8"))
+    spec["body"] += "\n现在购买立减，加微信 abc123 领取报价"
+    worst, _ = make_post.build(spec, tmp_path, render=False)
+    assert worst == 2
+
+
+def test_make_post_renders_cards(tmp_path):
+    pytest.importorskip("PIL")
+    try:
+        font = make_post.find_font()
+    except SystemExit:
+        pytest.skip("no Chinese font on this machine")
+    spec = _json.loads((_ROOT / "examples" / "post_spec.json").read_text(encoding="utf-8"))
+    _, images = make_post.build(spec, tmp_path, font)
+    assert len(images) == 1 + len(spec["cards"]) + 1
+    from PIL import Image
+    assert Image.open(tmp_path / images[0]).size == (1080, 1440)
+
+
+def test_srt_shift_moves_every_timestamp():
+    out = video_edit.shift_srt("1\n00:00:01,500 --> 00:00:59,900\nhi\n", 1.5)
+    assert "00:00:03,000 --> 00:01:01,400" in out
+
+
+def test_video_plan_dry_run_builds_commands(tmp_path):
+    plan = _json.loads((_ROOT / "examples" / "video_plan.json").read_text(encoding="utf-8"))
+    cmds = video_edit.build_commands(plan, tmp_path / "out.mp4", tmp_path, render_cards=False)
+    assert len(cmds) == len(plan["clips"]) + 2  # one per clip, concat, final
+    assert any("subtitles=" in " ".join(c) for c in cmds)
+
+
+def test_video_render_end_to_end(tmp_path):
+    if not _shutil.which("ffmpeg"):
+        pytest.skip("ffmpeg not installed")
+    pytest.importorskip("PIL")
+    try:
+        make_post.find_font()
+    except SystemExit:
+        pytest.skip("no Chinese font on this machine")
+    import subprocess
+    clip = tmp_path / "a.mp4"
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "testsrc2=size=640x360:rate=30", "-f", "lavfi",
+                    "-i", "sine=frequency=440:sample_rate=48000", "-t", "2", "-c:v", "libx264", "-c:a", "aac", str(clip)], check=True)
+    srt = tmp_path / "s.srt"
+    srt.write_text("1\n00:00:00,200 --> 00:00:01,500\n测试字幕\n", encoding="utf-8")
+    plan = {"platform": "douyin", "clips": [{"file": str(clip)}], "subtitles": str(srt),
+            "title": {"headline": "测试", "seconds": 1}, "end": {"next": "去学校官网搜 OSHC", "seconds": 1}}
+    (tmp_path / "plan.json").write_text(_json.dumps(plan, ensure_ascii=False), encoding="utf-8")
+    assert video_edit.main([str(tmp_path / "plan.json"), "--out", str(tmp_path / "out.mp4")]) == 0
+    info = video_edit.probe(tmp_path / "out.mp4")
+    assert (info["width"], info["height"]) == (1080, 1920) and 3.5 < info["duration"] < 4.6

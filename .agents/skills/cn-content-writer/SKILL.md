@@ -1,6 +1,6 @@
 ---
 name: cn-content-writer
-description: Write Medibank owned-account content for 小红书, 微信公众号, 微信视频号, 抖音 or 微博 - posts, long articles, short-video scripts, titles, covers, hashtags and image plans. Use for 写一篇/写笔记/写推文/写脚本/想标题/改稿. Not for creator content (use cn-kol-manager).
+description: Write complete, ready-to-publish Medibank posts for 小红书, 微信公众号, 微信视频号, 抖音 or 微博 - final text, titles, hashtags and finished image cards (PNG) in Medibank colours, plus long articles and short-video scripts. Use for 写一篇/写笔记/出一篇完整的帖子/写推文/写脚本/想标题/改稿. Not for creator briefs (use cn-kol-manager).
 ---
 
 # cn-content-writer
@@ -37,6 +37,26 @@ only **after** the body is written (reading them first makes the writing stiff).
 7. **Packaging** per platform: titles/covers (`style-checks.md` limits), hashtags (counts in
    `content-playbook.md`), image or shot list. Use `assets/images/mock-offer-letter.svg`
    for offer-letter explainers; never a real student's document.
+
+## 8. Finish the post (default: deliver a complete, ready-to-publish post)
+
+Unless the user only wants a draft, finish the job:
+
+1. Write the post spec as JSON (shape: `examples/post_spec.json`): platform, account
+   (`brand` or `creator`), pillar, final `title` and 2–4 other `titles`, the full `body`
+   exactly as it will be posted, `hashtags`, `cover` (headline ≤ 12 chars per line, sub),
+   3–6 `cards` (one step or idea each, heading + body of 2–5 short lines), `end` (next step
+   in words, interaction question, qualifier line) and `evidence` (the rows in
+   `references/evidence.md` that make this angle work, e.g. E-5 for the cover gap).
+2. Run `python tools/make_post.py <spec.json>`. It checks compliance and style, renders the
+   cover, cards and end card as PNG in Medibank colours (`assets/brand/theme.json`), and writes
+   `outputs/posts/<slug>/post.md` with everything to copy and upload in order.
+3. Red verdict (exit code 1): fix the spec and run again. Never hand over a red post.
+4. Look at the images (open the PNGs) before handing over: text must not overflow a card.
+5. Hand over: the folder path, the title, the compliance verdict, and any 【待确认】 items.
+
+公众号: cards are skipped and one 900×383 cover is made; the body is the full article.
+Video posts: write the script, then hand over to `skills/cn-video-editor`.
 
 ## Output format
 

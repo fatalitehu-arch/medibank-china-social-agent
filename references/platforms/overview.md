@@ -13,6 +13,9 @@ Each platform gets content shaped for how people use it there.
 
 ## Default channel mix
 
+This split is a working assumption [A-3], weighted to 小红书 because it works as a search
+engine [E-10] and the study-abroad audience is there [E-11]. Test it before T1 2027.
+
 | Platform | Share of effort | Why |
 |----------|-----------------|-----|
 | 小红书 | 40% | Students research here before departure; search keeps notes alive for months |

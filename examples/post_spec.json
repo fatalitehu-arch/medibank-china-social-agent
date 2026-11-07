@@ -1,0 +1,18 @@
+{
+  "platform": "xiaohongshu",
+  "account": "brand",
+  "pillar": "看懂你的保险",
+  "persona": "P1 offer holder",
+  "title": "拿到offer，先看OSHC这一栏",
+  "titles": ["拿到offer，先看OSHC这一栏", "中介帮你办了保险，你看过吗", "出发前3分钟，看懂你的OSHC"],
+  "body": "收到 offer 那天，我把学费、开学时间看了好几遍，唯独 OSHC 那一行，直接跳过了。\n\n后来才知道，那一栏写着保险由谁安排、从哪天开始、到哪天结束。中介帮你办好了很正常，但保了什么、怎么用，还是要你自己知道。\n\n📄 第一步：在 offer letter 里找到 OSHC 或 Health Cover 那一行\n📄 第二步：看清保单的开始和结束日期，要覆盖你整个签证期\n📄 第三步：去学校官网搜 OSHC，看学校合作的是哪家、怎么激活\n\n具体保什么、怎么报销，以保单条款为准，学校官网和保险公司官网都写得很清楚。\n\n你当时的 OSHC 是自己办的，还是中介帮忙办的？",
+  "hashtags": ["#澳洲留学", "#OSHC", "#留学行前准备", "#offer", "#澳洲生活", "#留学生"],
+  "cover": {"headline": "拿到offer\n先看这一栏", "sub": "3 分钟看懂你的 OSHC"},
+  "cards": [
+    {"heading": "找到 OSHC 那一行", "body": "打开 offer letter，找 OSHC 或 Overseas Student Health Cover。\n\n这里会写保险由谁安排，是学校、中介还是你自己。"},
+    {"heading": "看清保单日期", "body": "开始日期：一般是你到澳洲之前。\n结束日期：要覆盖整个签证期。\n\n日期对不上，记得问清楚。"},
+    {"heading": "去学校官网搜 OSHC", "body": "学校的 OSHC 页面会写合作的保险公司、怎么激活、怎么下载 app。\n\n具体保什么，以保单条款为准。"}
+  ],
+  "end": {"next": "去学校官网\n搜 OSHC", "question": "你的 OSHC 是自己办的，还是中介办的？", "line": "具体保障以保单条款为准"},
+  "evidence": ["E-1", "E-5", "E-10"]
+}

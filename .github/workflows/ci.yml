@@ -16,7 +16,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install test dependencies
-        run: pip install -r requirements-dev.txt
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-wqy-zenhei
+          pip install -r requirements-dev.txt
       - name: Skill copies are in sync
         run: |
           python sync_skills.py
@@ -31,5 +33,9 @@ jobs:
           done
       - name: Trend scorer runs on the sample
         run: python tools/trend_score.py examples/trends_sample.csv --today 2026-11-05
+      - name: Every evidence citation exists
+        run: python tools/evidence_check.py
+      - name: Example post builds and passes compliance
+        run: python tools/make_post.py examples/post_spec.json --out /tmp/post
       - name: Welcome page is up to date
         run: python tools/build_welcome.py --check

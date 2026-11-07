@@ -2,6 +2,31 @@
 
 > This process has been field-tested. It works for any region and any topic.
 
+## The search logic
+
+Each stage narrows the pool; a creator moves on only by passing its gate.
+
+```mermaid
+flowchart LR
+  A["Keywords<br/>region + audience + scene"] --> B["Posts<br/>~20 per keyword"]
+  B -->|"new post, under 30 likes"| C["Profiles<br/>3–5 per keyword"]
+  C -->|"IP Australia, student or resident, under 2k"| D["Screened<br/>real people only"]
+  C -.->|"good fit: snowball"| C
+  D -->|"no farm, fake or ad signals"| E["Library<br/>scored /100"]
+  E --> F["Shortlist ≥ 88"]
+  E --> G["Watch 72–87"]
+  E --> H["Exclude: red flag"]
+  E --> I["Reference: 2k+"]
+```
+
+| Stage | Keep | Drop |
+|---|---|---|
+| Keywords | Lifestyle words (悉尼留学日常, 墨尔本 + 租房日常) | Insurance or doctor words (surface agencies and clinics) |
+| Posts | Posted minutes–hours ago, under 30 likes | Viral posts from big accounts |
+| Profiles | IP location Australia, student or long-term resident, under 2k followers | Hidden IP, overseas, agency, clinic, merchant |
+| Screened | Real daily life in their own voice, active in the last 1–2 weeks | Account farms, fake followers, soft-ad accounts, sells insurance or agency services |
+| Library | Score /100 sets the status | |
+
 ## Step 1: Log in by scanning the QR code
 
 - Open **www.xiaohongshu.com** in the agent's browser.

@@ -52,7 +52,7 @@ All paths in this skill and its sub-skills are **relative to the agent's root fo
 | Cut a short video from the user's footage: trim, join, vertical, subtitles, Medibank colours, title/end cards | `skills/cn-video-editor/SKILL.md` |
 | The same content adapted for other platforms | `skills/cn-repurpose/SKILL.md` |
 | A content calendar, campaign plan, channel mix, "怎么吸引学生" | `skills/cn-content-planner/SKILL.md` |
-| "How do we find (the right) creators?", "any creators you recommend?", the scouted creator library (博主库): open the pages with `python3 tools/creator_library.py --open` first; find, score, vet, brief or manage creators; review a creator draft; roster and dashboard (达人库/看板) | `skills/cn-kol-manager/SKILL.md` |
+| "How do we find (the right) creators?", "any creators you recommend?", the scouted creator library (博主库): offer the method and library pages in the side panel first; find, score, vet, brief or manage creators; review a creator draft; roster and dashboard (达人库/看板) | `skills/cn-kol-manager/SKILL.md` |
 | "能不能发", check any draft, caption or image text | `skills/cn-compliance-review/SKILL.md` |
 | Replies to comments, DMs, 公众号留言, live chat; negative posts; 舆情 | `skills/cn-community-manager/SKILL.md` |
 | A weekly/monthly report from exported data | `skills/cn-performance-review/SKILL.md` |

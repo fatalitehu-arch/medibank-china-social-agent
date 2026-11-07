@@ -55,21 +55,35 @@ recent sponsored note for another OSHC insurer (in the last 90 days).
 
 ## 3. Scoring (what `tools/kol_score.py` does)
 
-Score out of 100. Weights are in the script and can be changed by Medibank. The weights are
-a working assumption [A-5]; audience fit weighs most because a genuine experience needs a
-creator who lives here [E-9].
+Score out of 100. Six criteria, each measured 0–1 from the creator's last 10 or so posts.
+Each weight is that criterion's correlation with purchase intention in two meta-analyses
+[E-14] [E-15], divided by the sum of the six and rounded. The correlations are close
+(0.43–0.55), so the weights are close too. They are an evidence-based starting point, to be
+checked against our own results [A-5].
 
-| Criterion | Weight | How it's measured |
-|-----------|--------|-------------------|
-| Audience fit | 30 | Lives in Australia (15) + audience mostly students 18–30 (15) |
-| Engagement quality | 25 | (likes+saves+comments) ÷ followers on recent notes; saves weighted ×2 because saves mean "useful" |
-| Topic relevance | 20 | Share of recent notes on study/life in Australia |
-| Trust & safety | 15 | No hard red flags, past sponsored notes properly reported |
-| Cost efficiency | 10 | Quoted price per 1k followers vs tier median |
+| Criterion | Weight | Evidence (r with purchase intention) | How it's measured |
+|-----------|--------|--------------------------------------|-------------------|
+| Useful content | 20 | 0.55 informational value [E-14] | Share of posts that are guides, checklists, how-tos |
+| Like our students | 18 | 0.51 homophily [E-15] | Lives in Australia (half) + share of audience who are students (half) |
+| Shares own life | 17 | 0.47 self-disclosure [E-14] | Share of posts about their own real experience |
+| Topic fit | 16 | 0.45 brand fit [E-14] | Share of posts on study, life or health in Australia |
+| Talks with followers | 15 | 0.43 communication [E-14] | Share of comment threads the creator replies to |
+| Trustworthy | 14 | 0.43 trustworthiness [E-15] | Starts full; −half for diverting followers off-platform, −half for unreported past ads |
 
-**Hard stops (score = 0, reason shown):** sells agency or insurance services; promoted
-another OSHC insurer in the last 90 days; history of undisclosed ads; fake-fan flag
-from the data tool; content that breaks platform rules.
+**Not scored:**
+* **Follower count.** No positive link to purchase intention (r = −0.28, n.s.) [E-14];
+  engagement peaks at a middle count [E-7]; fraud is more common in big accounts [E-16].
+  Followers set the tier and the budget mix only [A-2].
+* **Expertise.** Weaker (r = 0.36) [E-15], and the insurance facts come from Medibank, not
+  the creator.
+* **Price.** Handled in the budget, not the score.
+
+**Hard stops (score = 0, reason shown):** sells agency or insurance services (non-insurers
+may not consult on or compare insurance [E-13]); promoted another OSHC insurer in the last
+90 days; history of undisclosed ads [E-12]; fake-fan flag from the data tool [E-16];
+content that breaks platform rules.
+
+Labelling a post 广告 does not reduce its effect (r = 0.06, n.s.) [E-14], so always label.
 
 Bands: **≥70 go**, **50–69 maybe (human look)**, **<50 no**.
 

@@ -2,9 +2,9 @@
 """Score creator candidates (小红书, 抖音, 公众号, 视频号, 微博) for the Medibank OSHC campaign.
 
 Input: a CSV exported from the platform marketplaces (蒲公英, 星图, 互选, 微任务) or a
-data tool, tidied into the columns of examples/kol_candidates.csv. The `platform` column
-picks the engagement baseline; rows without it are treated as 小红书. Scoring logic is explained in
-references/kol-playbook.md, section 3.
+data tool, tidied into the columns of examples/kol_candidates.csv. Six evidence-weighted
+criteria, each measured 0-1; hard stops score 0. Scoring logic and sources:
+references/kol-playbook.md section 3 and references/evidence.md (E-14, E-15).
 
 Usage:
     python kol_score.py candidates.csv
@@ -13,19 +13,29 @@ Usage:
 
 import argparse
 import csv
-import statistics
 import sys
 from pathlib import Path
 
-WEIGHTS = {"audience": 30, "engagement": 25, "relevance": 20, "trust": 15, "cost": 10}
+# Six criteria, each measured 0-1 and weighted by its pooled correlation with purchase
+# intention in two meta-analyses (references/evidence.md E-14, E-15): weight = r / sum(r) x 100,
+# rounded. Follower count is NOT scored: it showed no positive link to purchase intention
+# [E-14], so it only sets the tier and budget mix [A-2]. Re-test with real results [A-5].
+WEIGHTS = {"useful": 20, "like_students": 18, "own_life": 17, "topic_fit": 16, "talks": 15, "trust": 14}
 
-# Engagement rate (with saves counted twice) that earns full marks on 小红书, by tier.
-FULL_MARKS_ENGAGEMENT = {"KOC": 0.10, "腰部": 0.06, "头部": 0.03}
-
-# Platform multiplier on that threshold. Starting assumptions, not benchmarks: tune them
-# with Medibank's own campaign data. For 公众号 use reads as "likes" and 在看/收藏 as saves.
-PLATFORM_FACTOR = {"xiaohongshu": 1.0, "douyin": 1.0, "wechat-channels": 0.6,
-                   "wechat-oa": 0.4, "weibo": 0.3}
+CRITERIA = {
+    "useful": {"label": "Useful content", "r": 0.55, "source": "E-14",
+               "what": "Share of recent posts that are guides, checklists or how-tos (useful_post_share)"},
+    "like_students": {"label": "Like our students", "r": 0.51, "source": "E-15",
+                      "what": "Lives in Australia (half) + share of audience who are students (half)"},
+    "own_life": {"label": "Shares own life", "r": 0.47, "source": "E-14",
+                 "what": "Share of recent posts about their own real experience (personal_post_share)"},
+    "topic_fit": {"label": "Topic fit", "r": 0.45, "source": "E-14",
+                  "what": "Share of recent posts on study, life or health in Australia (topic_relevance_share)"},
+    "talks": {"label": "Talks with followers", "r": 0.43, "source": "E-14",
+              "what": "Share of comment threads the creator replies to (reply_rate)"},
+    "trust": {"label": "Trustworthy", "r": 0.43, "source": "E-15",
+              "what": "Starts full; loses half for diverting followers off-platform, half for unreported past ads"},
+}
 
 HARD_STOPS = {
     "sells_agency_or_insurance": "Sells agency or insurance services",
@@ -54,47 +64,38 @@ def num(row, key, default=0.0):
         return default
 
 
-def group_key(row):
-    return ((row.get("platform") or "xiaohongshu").strip(), tier(max(num(row, "followers"), 1)))
+def criteria_scores(row):
+    """Each criterion as a 0-1 value."""
+    trust = 1.0
+    if truthy(row.get("diversion_in_past_notes")):
+        trust -= 0.5
+    if not truthy(row.get("past_sponsored_reported", "yes")):
+        trust -= 0.5
+    clip = lambda x: max(0.0, min(x, 1.0))
+    return {
+        "useful": clip(num(row, "useful_post_share")),
+        "like_students": clip(0.5 * truthy(row.get("based_in_australia")) + 0.5 * num(row, "audience_student_share")),
+        "own_life": clip(num(row, "personal_post_share")),
+        "topic_fit": clip(num(row, "topic_relevance_share")),
+        "talks": clip(num(row, "reply_rate")),
+        "trust": clip(trust),
+    }
 
 
-def score_row(row, medians):
+def score_row(row):
     followers = max(num(row, "followers"), 1)
     t = tier(followers)
-    platform = (row.get("platform") or "xiaohongshu").strip()
-    factor = PLATFORM_FACTOR.get(platform, 1.0)
 
     stops = [reason for key, reason in HARD_STOPS.items() if truthy(row.get(key, ""))]
     if stops:
         return t, 0.0, "no", "; ".join(stops)
 
-    audience = (15 if truthy(row.get("based_in_australia")) else 0) + \
-        15 * min(num(row, "audience_student_share"), 1.0)
-
-    interactions = num(row, "avg_likes") + 2 * num(row, "avg_saves") + num(row, "avg_comments")
-    eng_rate = interactions / followers
-    engagement = WEIGHTS["engagement"] * min(eng_rate / (FULL_MARKS_ENGAGEMENT[t] * factor), 1.0)
-
-    relevance = WEIGHTS["relevance"] * min(num(row, "topic_relevance_share"), 1.0)
-
-    # Trust starts full; unreported past sponsorships and diversion habits cost points.
-    trust = WEIGHTS["trust"]
-    if truthy(row.get("diversion_in_past_notes")):
-        trust -= 8
-    if not truthy(row.get("past_sponsored_reported", "yes")):
-        trust -= 7
-    trust = max(trust, 0)
-
-    price = num(row, "quote_cny")
-    median = medians.get(group_key(row))
-    if price and median:
-        cost = WEIGHTS["cost"] * min(median / price, 1.0)
-    else:
-        cost = WEIGHTS["cost"] / 2  # unknown price: neutral
-
-    total = round(audience + engagement + relevance + trust + cost, 1)
+    eng_rate = (num(row, "avg_likes") + 2 * num(row, "avg_saves") + num(row, "avg_comments")) / followers
+    parts = criteria_scores(row)
+    total = round(sum(WEIGHTS[k] * v for k, v in parts.items()), 1)
     band = "go" if total >= 70 else "maybe" if total >= 50 else "no"
-    notes = f"eng {eng_rate:.1%}"
+    top = sorted(parts, key=lambda k: WEIGHTS[k] * parts[k], reverse=True)[:2]
+    notes = f"eng {eng_rate:.1%}; strongest: " + ", ".join(CRITERIA[k]["label"] for k in top)
     return t, total, band, notes
 
 
@@ -102,17 +103,9 @@ def score_file(path):
     with open(path, newline="", encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
 
-    # Median quote within each platform + tier, used for cost efficiency.
-    per_group = {}
-    for row in rows:
-        price = num(row, "quote_cny")
-        if price:
-            per_group.setdefault(group_key(row), []).append(price)
-    medians = {k: statistics.median(v) for k, v in per_group.items()}
-
     scored = []
     for row in rows:
-        t, total, band, notes = score_row(row, medians)
+        t, total, band, notes = score_row(row)
         scored.append({**row, "tier": t, "score": total, "band": band, "notes": notes})
     scored.sort(key=lambda r: r["score"], reverse=True)
     return scored

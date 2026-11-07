@@ -18,8 +18,9 @@ Output per platform: target tiers and counts, marketplace filters (蒲公英 / �
 (`examples/kol_candidates.csv`).
 
 ### 2. Score a list
-Run `python tools/kol_score.py candidates.csv --out scored.csv`. The CSV has a `platform`
-column; engagement is judged against that platform's baseline. Summarise: top picks per
+Run `python tools/kol_score.py candidates.csv --out scored.csv`. Six criteria, each 0–1,
+weighted by published effect sizes (`references/kol-playbook.md` §3). Follower count sets the
+tier only. Summarise: top picks per
 platform and tier, every hard stop and why, and the "maybe" band for a human look. Propose a
 shortlist matching the tier and channel mix.
 

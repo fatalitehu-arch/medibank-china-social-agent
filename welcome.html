@@ -174,6 +174,131 @@ ul.todo li span { color: var(--ink-3); font-size: 12px; display: block; }
 .tm { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
 @media (max-width: 700px) { .sl .row { grid-template-columns: 120px 1fr 64px; } .cal { grid-template-columns: 50px repeat(5, 120px); } }
 footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line); margin-top: 56px; padding-top: 16px; }
+/* ---- visual features v2 ---- */
+.ic { width: 22px; height: 22px; flex: none; vertical-align: middle; }
+.mt { margin-top: 14px; }
+.note.top { margin-top: 0; }
+.demo { display: flex; gap: 10px; align-items: center; background: var(--warn-soft); color: var(--ink); border: 1px solid var(--warn); border-radius: 12px; padding: 10px 14px; font-size: 14px; margin: 14px 0; }
+.demo .ic { color: var(--warn); }
+.icb { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); flex: none; }
+.icb .ic { width: 26px; height: 26px; }
+.icb.big { width: 64px; height: 64px; border-radius: 18px; }
+.icb.big .ic { width: 34px; height: 34px; }
+.icb.no { background: var(--surface-2); color: var(--ink-3); position: relative; }
+.persona { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.persona .p { display: flex; gap: 14px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.persona b { display: block; font-size: 16px; }
+.persona span { font-size: 12px; color: var(--ink-3); }
+.crit { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.crit .c { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px; cursor: default; }
+.crit .c:hover { border-color: var(--accent); }
+.crit .w { font-size: 30px; font-weight: 800; color: var(--accent); line-height: 1; font-variant-numeric: tabular-nums; }
+.crit .w small { font-size: 13px; color: var(--ink-3); font-weight: 600; }
+.crit .lb { font-weight: 700; font-size: 14px; }
+.crit .rr { font-size: 12px; color: var(--ink-3); }
+.rc { display: grid; grid-template-columns: 150px 1fr; gap: 8px; align-items: center; margin: 6px 0; font-size: 13px; }
+.rc .lab { display: flex; gap: 6px; align-items: center; color: var(--ink-2); white-space: nowrap; overflow: hidden; }
+.rc .lab .ic { width: 16px; height: 16px; color: var(--accent); }
+.rc .ax { position: relative; height: 18px; }
+.rc .ax::before { content: ""; position: absolute; left: 33.3%; top: -4px; bottom: -4px; border-left: 1px solid var(--ink-3); }
+.rc .b { position: absolute; top: 2px; height: 14px; background: var(--bar); }
+.rc .b.pos { left: 33.3%; border-radius: 0 4px 4px 0; }
+.rc .b.neg { right: 66.7%; background: var(--ink-3); border-radius: 4px 0 0 4px; opacity: .6; }
+.rc .v { position: absolute; top: 0; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rc.fol .lab { color: var(--ink); font-weight: 700; }
+.fraud { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+.fraud .t { font-size: 13px; color: var(--ink-2); margin-bottom: 6px; }
+.fraud .fr { display: grid; grid-template-columns: 110px 1fr 44px; gap: 8px; align-items: center; font-size: 13px; margin: 4px 0; }
+.fraud .pp { display: flex; gap: 2px; }
+.fraud .pp .ic { width: 18px; height: 18px; color: var(--line); }
+.fraud .pp .ic.on { color: var(--bar); }
+.fraud .fr b { text-align: right; }
+.stops { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.stops .s { display: flex; gap: 12px; align-items: center; font-size: 14px; }
+.stops .s .idtag { margin-left: 4px; }
+.legend .ic { width: 15px; height: 15px; }
+.icb .x { position: absolute; right: -5px; top: -5px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; }
+.icb .x .ic { width: 13px; height: 13px; }
+.hm { display: grid; grid-template-columns: minmax(150px, 210px) repeat(6, 44px) minmax(110px, 1fr) 96px; gap: 6px; align-items: center; min-width: 640px; }
+.hm .hd { display: grid; place-items: center; color: var(--accent); }
+.hm .hd .ic { width: 20px; height: 20px; }
+.hm .nm { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hm .nm span { display: block; font-size: 11px; color: var(--ink-3); }
+.hm .cell { height: 36px; border-radius: 8px; background: var(--surface-2); position: relative; overflow: hidden; cursor: default; }
+.hm .cell i { position: absolute; inset: 0; background: var(--bar); }
+.hm .stop { grid-column: span 6; display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--ink-3); background: var(--surface-2); border-radius: 8px; height: 36px; padding: 0 10px; }
+.hm .stop .ic { width: 18px; height: 18px; color: var(--accent); }
+.hm .tot { position: relative; height: 14px; background: var(--surface-2); border-radius: 0 4px 4px 0; }
+.hm .tot div { position: absolute; left: 0; top: 0; bottom: 0; background: var(--bar); border-radius: 0 4px 4px 0; }
+.hm .tot .tick { position: absolute; top: -4px; bottom: -4px; border-left: 1px dashed var(--ink-3); }
+.hm .bd { font-size: 12px; font-weight: 700; display: flex; gap: 4px; align-items: center; justify-content: flex-end; }
+.hm .bd .ic { width: 16px; height: 16px; }
+.bd.go { color: var(--good); } .bd.maybe { color: var(--warn); } .bd.no { color: var(--ink-3); }
+.itiles .tile { display: flex; gap: 12px; align-items: center; }
+.flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.flow .fs { flex: 1 1 120px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.flow .fs b { font-size: 22px; font-variant-numeric: tabular-nums; }
+.flow .fs span { font-size: 12px; color: var(--ink-3); }
+.flow .ar { display: flex; flex-direction: column; align-items: center; color: var(--ink-3); font-size: 12px; font-weight: 700; }
+.flow .ar .ic { width: 18px; height: 18px; }
+#scatter svg { width: 100%; height: auto; display: block; }
+#scatter text { fill: var(--ink-3); font-size: 11px; }
+#scatter .q { fill: var(--ink-3); font-size: 11px; font-weight: 700; }
+#scatter .lbl { fill: var(--ink); font-size: 11px; }
+#scatter .pt { fill: var(--bar); fill-opacity: .75; stroke: var(--surface); stroke-width: 2; }
+#scatter .pt:hover { fill-opacity: 1; }
+#scatter .gl { stroke: var(--line); }
+#scatter .md { stroke: var(--ink-3); stroke-dasharray: 3 3; }
+.cwall { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.cw { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; position: relative; }
+.cw .top { display: flex; gap: 10px; align-items: center; }
+.cw .av { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 800; flex: none; }
+.cw .who { min-width: 0; }
+.cw .who b { display: block; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cw .who span { font-size: 11px; color: var(--ink-3); display: flex; gap: 6px; align-items: center; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot.active { background: var(--good); } .dot.paused { background: var(--warn); } .dot.briefed, .dot.ended { background: var(--ink-3); }
+.cw .mb { display: grid; grid-template-columns: 18px 1fr 48px; gap: 6px; align-items: center; font-size: 12px; margin-top: 8px; }
+.cw .mb .ic { width: 16px; height: 16px; color: var(--ink-3); }
+.cw .mb .tr { height: 8px; background: var(--surface-2); border-radius: 0 4px 4px 0; }
+.cw .mb .tr div { height: 8px; background: var(--bar); border-radius: 0 4px 4px 0; }
+.cw .mb b { text-align: right; font-variant-numeric: tabular-nums; }
+.cw .cost { display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--ink-2); margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.cw .cost .ic { width: 16px; height: 16px; color: var(--ink-3); }
+.cw .al { position: absolute; top: 10px; right: 10px; color: var(--warn); cursor: help; }
+.cw .al .ic { width: 20px; height: 20px; }
+details summary { cursor: pointer; font-weight: 600; color: var(--accent); margin: 8px 0; }
+.steps3 { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 8px; }
+.steps3 .st { flex: 1 1 180px; display: flex; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+.steps3 .st b { display: block; font-size: 16px; }
+.steps3 .st span { font-size: 12px; color: var(--ink-3); }
+.steps3 .ar { color: var(--ink-3); }
+.sh { display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 16px; margin-bottom: 10px; }
+.sh .n { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 13px; }
+.tr2 { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.tr2 .row1 { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.tr2 .bar2 { height: 8px; background: var(--surface-2); border-radius: 0 4px 4px 0; margin-top: 6px; }
+.tr2 .bar2 div { height: 8px; background: var(--bar); border-radius: 0 4px 4px 0; }
+.tc { border: 2px solid var(--accent); border-radius: 14px; padding: 12px; position: relative; }
+.tc .mix { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; font-weight: 700; }
+.tc .mix .chip { font-size: 12px; }
+.tc .ttl { font-size: 16px; font-weight: 800; margin: 10px 0 6px; }
+.tc .meta { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--ink-2); }
+.tc .meta div { display: flex; gap: 8px; align-items: center; }
+.tc .meta .ic { width: 16px; height: 16px; color: var(--ink-3); }
+.tc .ok { margin-top: 10px; display: inline-flex; gap: 6px; align-items: center; background: var(--good-soft); color: var(--good); border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 700; }
+.tc .ok .ic { width: 16px; height: 16px; }
+.mk { display: flex; flex-direction: column; gap: 10px; }
+.mk div { display: flex; gap: 10px; align-items: center; font-size: 14px; }
+.mk .icb { width: 38px; height: 38px; border-radius: 12px; }
+.mk .icb .ic { width: 20px; height: 20px; }
+.mk .pass .icb { background: var(--good-soft); color: var(--good); }
+.dots { display: grid; grid-template-columns: 60px repeat(5, 1fr); gap: 6px; margin-top: 12px; align-items: center; }
+.dots .dh, .dots .wk { font-size: 12px; color: var(--ink-3); font-weight: 600; text-align: center; }
+.dots .wk { text-align: left; }
+.dots .sq { height: 44px; border-radius: 10px; color: #fff; display: flex; justify-content: space-between; align-items: flex-end; padding: 5px 7px; font-size: 11px; font-weight: 800; cursor: default; }
+.dots .sq .ic { width: 15px; height: 15px; }
+@media (max-width: 700px) { .fraud .fr { grid-template-columns: 76px 1fr 36px; font-size: 12px; } .fraud .pp .ic { width: 13px; height: 13px; } .rc { grid-template-columns: 110px 1fr; } .dots { grid-template-columns: 44px repeat(5, 1fr); } .dots .sq { font-size: 9px; padding: 4px; } }
 </style>
 </head>
 <body>
@@ -208,81 +333,88 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
   <section id="find">
     <p class="eyebrow">Feature 1</p>
     <h2>Find the right creators</h2>
-    <p class="sub">Every candidate is checked against hard stops, then scored out of 100. Mostly small and mid-tier student creators living in Australia, because students trust peers over brands <span class="idtag">E-3</span> and engagement peaks at a middle follower count <span class="idtag">E-7</span>.</p>
-    <div class="grid g2">
-      <div class="card">
-        <h3>Screening funnel</h3>
-        <p class="note" style="margin-top:0">Example batch from <code>examples/kol_candidates.csv</code>, scored by <code>tools/kol_score.py</code></p>
-        <div class="chart" id="funnel" role="img" aria-label="Screening funnel"></div>
-      </div>
+    <p class="sub">Who we pick, and the published evidence behind every point of the score.</p>
+    <div class="demo" data-icon="info"><b>Demo data.</b> The candidates are made up to show how the scoring works.</div>
+    <div class="persona" id="persona"></div>
+    <div class="grid g2 mt">
       <div class="card">
         <h3>What we score</h3>
-        <div id="weights"></div>
-        <h3 style="margin-top:16px">Hard stops (score 0)</h3>
-        <ul class="kb" id="hardstops"></ul>
+        <p class="note top">Weight = how strongly each trait predicts purchase, from two meta-analyses</p>
+        <div class="crit" id="crit"></div>
+      </div>
+      <div class="card">
+        <h3>Why not follower count?</h3>
+        <p class="note top">Correlation with purchase intention <span class="idtag">E-14</span> <span class="idtag">E-15</span></p>
+        <div id="rchart" role="img" aria-label="Correlation of each trait with purchase intention; follower count is near zero"></div>
+        <div id="fraud"></div>
       </div>
     </div>
-    <div class="card" style="margin-top:14px">
-      <h3>Scored shortlist</h3>
-      <p class="note" style="margin-top:0">Score out of 100. Lines mark the bands: <b>70+ go</b>, <b>50–69 human look</b>, below 50 no. Hover a bar for details.</p>
-      <div class="chart sl" id="shortlist" role="img" aria-label="Score per candidate creator; the same data is in the hover details"></div>
-      <p class="note">Paid collaborations only through the official marketplaces: Pugongying (Xiaohongshu), Xingtu (Douyin), Huxuan (WeChat), Weirenwu (Weibo). Demo data.</p>
+    <div class="card mt">
+      <h3>Instant no</h3>
+      <div class="stops" id="stops"></div>
+    </div>
+    <div class="card mt">
+      <h3>Candidates</h3>
+      <p class="note top">Darker square = stronger on that trait. Hover any square.</p>
+      <div class="scroll"><div class="hm" id="heat"></div></div>
     </div>
   </section>
 
   <section id="manage">
     <p class="eyebrow">Feature 2</p>
     <h2>Creator dashboard</h2>
-    <p class="sub">Who we work with and how each creator is doing: likes, comments, saves and OSHC inquiries, with the follow-ups the agent flags. <b>Demo data</b> until the team adds real exports to <code>creators/</code>. As of <span id="asof"></span>.</p>
-    <div class="tiles" id="ctiles"></div>
-    <div class="grid g2">
+    <p class="sub">See how every creator we work with is performing, in one place: posts, likes, comments, saves and OSHC inquiries, plus the follow-ups the agent flags.</p>
+    <div class="demo" data-icon="info"><b>Demo data.</b> Every number here is made up to show how the dashboard works. Real results appear once the team adds creator exports.</div>
+    <div class="tiles itiles" id="ctiles"></div>
+    <div class="card">
+      <h3>From view to inquiry</h3>
+      <div class="flow" id="cflow"></div>
+    </div>
+    <div class="grid g2 mt">
+      <div class="card">
+        <h3>Value for money</h3>
+        <p class="note top">Higher = more inquiries · further left = cheaper per inquiry · bubble = followers</p>
+        <div id="scatter" role="img" aria-label="Inquiries against cost per inquiry for each creator"></div>
+      </div>
       <div class="card">
         <h3>Inquiries per creator</h3>
-        <p class="note" style="margin-top:0">Comments and DMs asking about OSHC, answered with the standard replies, never a quote</p>
-        <div class="chart" id="inqchart" role="img" aria-label="Inquiries per creator; same numbers in the table below"></div>
-      </div>
-      <div class="card">
-        <h3>Needs attention</h3>
-        <p class="note" style="margin-top:0">Follow-ups the agent raises from the roster and post data</p>
-        <ul class="todo" id="todo"></ul>
+        <p class="note top">OSHC questions in comments and DMs</p>
+        <div class="chart" id="inqchart" role="img" aria-label="Inquiries per creator"></div>
       </div>
     </div>
-    <div class="card scroll" style="margin-top:14px">
-      <table id="ctable"><thead><tr>
-        <th>Creator</th><th>Platform</th><th>Status</th><th class="num">Posts</th><th class="num">Likes</th><th class="num">Comments</th>
-        <th class="num">Saves</th><th class="num">Inquiries</th><th class="num">CNY / inquiry</th>
-      </tr></thead><tbody></tbody></table>
-    </div>
+    <div class="cwall mt" id="cwall"></div>
+    <details class="mt">
+      <summary>Show full table</summary>
+      <div class="card scroll">
+        <table id="ctable"><thead><tr>
+          <th>Creator</th><th>Platform</th><th>Status</th><th class="num">Posts</th><th class="num">Likes</th><th class="num">Comments</th>
+          <th class="num">Saves</th><th class="num">Inquiries</th><th class="num">CNY / inquiry</th>
+        </tr></thead><tbody></tbody></table>
+      </div>
+    </details>
   </section>
 
   <section id="plan">
     <p class="eyebrow">Feature 3</p>
     <h2>Plan and create posts</h2>
-    <p class="sub">A four-week calendar across five platforms, balanced across content pillars and between creator and Medibank-owned posts. Then each slot becomes a finished post: text, titles, hashtags and image cards, checked for compliance.</p>
-    <div class="card">
-      <div class="calhead"><h3>Content calendar · T1 2027 intake</h3><div class="legend" id="legend"></div></div>
-      <div class="cal" id="cal"></div>
-      <p class="note">Each slot: platform, format and who posts it. Colour = content pillar. From <code>examples/plan_t1_2027.csv</code>, checked by <code>tools/calendar_builder.py</code>.</p>
+    <p class="sub">From a trending topic to a finished post in three steps.</p>
+    <div class="demo" data-icon="info"><b>Demo data.</b> Trends, topic and calendar are examples to show how it works.</div>
+    <div class="steps3" id="steps3"></div>
+    <div class="grid g3 mt">
+      <div class="card"><div class="sh" id="sh1"></div><div id="radar"></div></div>
+      <div class="card"><div class="sh" id="sh2"></div><div id="topic"></div></div>
+      <div class="card"><div class="sh" id="sh3"></div><div id="make"></div></div>
     </div>
-    <div class="grid g2" style="margin-top:14px">
-      <div class="card">
-        <h3>Pillar mix: planned vs target</h3>
-        <p class="note" style="margin-top:0">Target mix is a working assumption <span class="idtag">A-4</span>, weighted to the biggest knowledge gap <span class="idtag">E-5</span></p>
-        <div id="pillarmix"></div>
-      </div>
-      <div class="card">
-        <h3>Who posts</h3>
-        <p class="note" style="margin-top:0">Creator vs Medibank-owned posts; target 70 / 30 <span class="idtag">A-1</span></p>
-        <div id="streams"></div>
-        <h3 style="margin-top:16px">Trends feeding the plan</h3>
-        <div id="trendmini"></div>
-      </div>
+    <div class="card mt">
+      <h3>Finished post</h3>
+      <div class="strip" id="poststrip"></div>
+      <h3 style="margin-top:18px">Finished video</h3>
+      <div class="vflow" id="vflow"></div>
     </div>
-    <p class="eyebrow">Generated: a complete Xiaohongshu post · <code>tools/make_post.py</code></p>
-    <div class="strip" id="poststrip"></div>
-    <p class="note">One command writes <code>post.md</code> (text to paste), the images in upload order and the compliance report.</p>
-    <p class="eyebrow">Generated: a short video from your clips · <code>tools/video_edit.py</code></p>
-    <div class="vflow" id="vflow"></div>
+    <div class="card mt">
+      <div class="calhead"><h3>Where it goes: 4-week calendar</h3><div class="legend" id="legend"></div></div>
+      <div class="dots" id="dots"></div>
+    </div>
   </section>
 
   <section id="evidence">
@@ -585,24 +717,52 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
  "criteria": {
   "weights": [
    {
-    "label": "Audience fit",
-    "weight": 30
+    "key": "useful",
+    "weight": 20,
+    "label": "Useful content",
+    "r": 0.55,
+    "source": "E-14",
+    "what": "Share of recent posts that are guides, checklists or how-tos (useful_post_share)"
    },
    {
-    "label": "Engagement quality",
-    "weight": 25
+    "key": "like_students",
+    "weight": 18,
+    "label": "Like our students",
+    "r": 0.51,
+    "source": "E-15",
+    "what": "Lives in Australia (half) + share of audience who are students (half)"
    },
    {
-    "label": "Topic relevance",
-    "weight": 20
+    "key": "own_life",
+    "weight": 17,
+    "label": "Shares own life",
+    "r": 0.47,
+    "source": "E-14",
+    "what": "Share of recent posts about their own real experience (personal_post_share)"
    },
    {
-    "label": "Trust & safety",
-    "weight": 15
+    "key": "topic_fit",
+    "weight": 16,
+    "label": "Topic fit",
+    "r": 0.45,
+    "source": "E-14",
+    "what": "Share of recent posts on study, life or health in Australia (topic_relevance_share)"
    },
    {
-    "label": "Cost efficiency",
-    "weight": 10
+    "key": "talks",
+    "weight": 15,
+    "label": "Talks with followers",
+    "r": 0.43,
+    "source": "E-14",
+    "what": "Share of comment threads the creator replies to (reply_rate)"
+   },
+   {
+    "key": "trust",
+    "weight": 14,
+    "label": "Trustworthy",
+    "r": 0.43,
+    "source": "E-15",
+    "what": "Starts full; loses half for diverting followers off-platform, half for unreported past ads"
    }
   ],
   "hard_stops": [
@@ -992,6 +1152,48 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
     "reliability": "Regulation; check official SAMR text before external use"
    },
    {
+    "id": "E-14",
+    "finding": "Across 251 papers, what an influencer posts and how they behave predicts purchase intention; follower count does not",
+    "number": "Correlation r with purchase intention: informational value 0.55, self-disclosure 0.47, influencer–brand fit 0.45 (0.80 on content platforms), communication 0.43 (0.51 with actual purchase); follower count −0.28 (n.s.); ad disclosure 0.06 (n.s.)",
+    "source": "Pan, Blut, Ghiassaleh & Lee 2025, Journal of the Academy of Marketing Science 53:52–78",
+    "links": [
+     {
+      "text": "Pan, Blut, Ghiassaleh & Lee 2025, Journal of the Academy of Marketing Science 53:52–78",
+      "url": "https://doi.org/10.1007/s11747-024-01052-7"
+     }
+    ],
+    "checked": "2026-11-07",
+    "reliability": "Peer-reviewed meta-analysis; 1,531 effect sizes, 27 countries; open access"
+   },
+   {
+    "id": "E-15",
+    "finding": "Creators similar to their audience, and trusted ones, drive purchase intention more than expert ones",
+    "number": "r with purchase intention: homophily 0.51, trustworthiness 0.43, expertise 0.36",
+    "source": "Han & Balabanis 2024, Psychology & Marketing 41(2):394–426",
+    "links": [
+     {
+      "text": "Han & Balabanis 2024, Psychology & Marketing 41(2):394–426",
+      "url": "https://openaccess.city.ac.uk/id/eprint/31583/"
+     }
+    ],
+    "checked": "2026-11-07",
+    "reliability": "Peer-reviewed meta-analysis; 53 studies, n = 25,080; high heterogeneity (I² often >85%)"
+   },
+   {
+    "id": "E-16",
+    "finding": "Fake followers and bought engagement are common, and more common in bigger accounts",
+    "number": "55% of Instagram influencers involved in some fraud; 66% of 1M+ accounts vs 42% of 1k–5k",
+    "source": "HypeAuditor 2020, via Campaign",
+    "links": [
+     {
+      "text": "HypeAuditor 2020, via Campaign",
+      "url": "https://www.campaignlive.co.uk/article/half-instagram-influencers-engaged-fraud-45-accounts-fake/1713079"
+     }
+    ],
+    "checked": "2026-11-07",
+    "reliability": "Vendor data, 12M Instagram accounts; not Chinese platforms"
+   },
+   {
     "id": "E-13",
     "finding": "Only licensed insurers may run internet insurance business; non-insurers may not consult on, compare or quote insurance",
     "number": "Internet Insurance Business MeasuresArts. 3, 23 (in force 1 Feb 2021)",
@@ -1028,7 +1230,7 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
    },
    {
     "id": "A-5",
-    "assumption": "Creator score weights 30/25/20/15/10",
+    "assumption": "Creator score weights 20/18/17/16/15/14, taken from E-14 and E-15 effect sizes (r ÷ sum of r); the studies are not about students or insurance",
     "test": "Correlate score with real saves and inquiries once 10+ posts exist",
     "when": "After 10 posts"
    },
@@ -1054,104 +1256,184 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
  },
  "candidates": [
   {
-   "handle": "demo_SydneyStudentLife",
-   "platform": "wechat-oa",
-   "tier": "Mid tier",
-   "followers": "40000",
-   "score": 95.8,
+   "handle": "demo_UNSWFreshers",
+   "platform": "xiaohongshu",
+   "tier": "KOC",
+   "followers": "3500",
+   "score": 84.0,
    "band": "go",
    "reason": "",
-   "eng": "3.9%"
+   "eng": "10.6%",
+   "parts": {
+    "useful": 0.6,
+    "like_students": 0.95,
+    "own_life": 0.9,
+    "topic_fit": 0.85,
+    "talks": 0.8,
+    "trust": 1.0
+   }
   },
   {
    "handle": "demo_SydneyMastersDiary",
    "platform": "xiaohongshu",
    "tier": "KOC",
    "followers": "8200",
-   "score": 95.0,
+   "score": 81.2,
    "band": "go",
    "reason": "",
-   "eng": "13.5%"
+   "eng": "13.5%",
+   "parts": {
+    "useful": 0.7,
+    "like_students": 0.9,
+    "own_life": 0.8,
+    "topic_fit": 0.9,
+    "talks": 0.6,
+    "trust": 1.0
+   }
+  },
+  {
+   "handle": "demo_SydneyStudentLife",
+   "platform": "wechat-oa",
+   "tier": "Mid tier",
+   "followers": "40000",
+   "score": 76.0,
+   "band": "go",
+   "reason": "",
+   "eng": "3.9%",
+   "parts": {
+    "useful": 0.9,
+    "like_students": 0.93,
+    "own_life": 0.5,
+    "topic_fit": 0.9,
+    "talks": 0.3,
+    "trust": 1.0
+   }
   },
   {
    "handle": "demo_AustraliaStudyGuide",
    "platform": "xiaohongshu",
    "tier": "Top tier",
    "followers": "120000",
-   "score": 94.5,
+   "score": 72.3,
    "band": "go",
    "reason": "",
-   "eng": "4.4%"
-  },
-  {
-   "handle": "demo_UNSWFreshers",
-   "platform": "xiaohongshu",
-   "tier": "KOC",
-   "followers": "3500",
-   "score": 90.5,
-   "band": "go",
-   "reason": "",
-   "eng": "10.6%"
+   "eng": "4.4%",
+   "parts": {
+    "useful": 0.9,
+    "like_students": 0.85,
+    "own_life": 0.4,
+    "topic_fit": 0.95,
+    "talks": 0.2,
+    "trust": 1.0
+   }
   },
   {
    "handle": "demo_ADayWithKen",
    "platform": "douyin",
    "tier": "Mid tier",
    "followers": "85000",
-   "score": 85.8,
+   "score": 70.4,
    "band": "go",
    "reason": "",
-   "eng": "5.5%"
+   "eng": "5.5%",
+   "parts": {
+    "useful": 0.4,
+    "like_students": 0.8,
+    "own_life": 0.9,
+    "topic_fit": 0.7,
+    "talks": 0.5,
+    "trust": 1.0
+   }
   },
   {
    "handle": "demo_MelbourneDeer",
    "platform": "xiaohongshu",
    "tier": "Mid tier",
    "followers": "45000",
-   "score": 84.6,
-   "band": "go",
+   "score": 67.5,
+   "band": "maybe",
    "reason": "",
-   "eng": "5.4%"
+   "eng": "5.4%",
+   "parts": {
+    "useful": 0.5,
+    "like_students": 0.8,
+    "own_life": 0.7,
+    "topic_fit": 0.7,
+    "talks": 0.4,
+    "trust": 1.0
+   }
   },
   {
    "handle": "demo_AustraliaLifeVlog",
    "platform": "douyin",
    "tier": "Top tier",
    "followers": "230000",
-   "score": 81.7,
-   "band": "go",
+   "score": 59.7,
+   "band": "maybe",
    "reason": "",
-   "eng": "3.6%"
+   "eng": "3.6%",
+   "parts": {
+    "useful": 0.3,
+    "like_students": 0.75,
+    "own_life": 0.8,
+    "topic_fit": 0.6,
+    "talks": 0.2,
+    "trust": 1.0
+   }
   },
   {
    "handle": "demo_StudyInAustralia",
    "platform": "weibo",
    "tier": "Mid tier",
    "followers": "98000",
-   "score": 70.7,
-   "band": "go",
+   "score": 58.6,
+   "band": "maybe",
    "reason": "",
-   "eng": "0.8%"
+   "eng": "0.8%",
+   "parts": {
+    "useful": 0.5,
+    "like_students": 0.75,
+    "own_life": 0.5,
+    "topic_fit": 0.6,
+    "talks": 0.2,
+    "trust": 1.0
+   }
   },
   {
    "handle": "demo_StudyAbroadParents",
    "platform": "wechat-channels",
    "tier": "Mid tier",
    "followers": "26000",
-   "score": 64.3,
+   "score": 52.5,
    "band": "maybe",
    "reason": "",
-   "eng": "2.9%"
+   "eng": "2.9%",
+   "parts": {
+    "useful": 0.8,
+    "like_students": 0.1,
+    "own_life": 0.2,
+    "topic_fit": 0.8,
+    "talks": 0.3,
+    "trust": 1.0
+   }
   },
   {
    "handle": "demo_LifestyleFinds",
    "platform": "xiaohongshu",
    "tier": "Mid tier",
    "followers": "30000",
-   "score": 21.7,
+   "score": 14.0,
    "band": "no",
    "reason": "",
-   "eng": "1.6%"
+   "eng": "1.6%",
+   "parts": {
+    "useful": 0.2,
+    "like_students": 0.1,
+    "own_life": 0.3,
+    "topic_fit": 0.1,
+    "talks": 0.1,
+    "trust": 0.0
+   }
   },
   {
    "handle": "demo_AgentAmy",
@@ -1161,7 +1443,8 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
    "score": 0.0,
    "band": "no",
    "reason": "Sells agency or insurance services",
-   "eng": ""
+   "eng": "",
+   "parts": {}
   },
   {
    "handle": "demo_SydneyEats",
@@ -1171,7 +1454,8 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
    "score": 0.0,
    "band": "no",
    "reason": "Promoted another OSHC insurer in the last 90 days",
-   "eng": ""
+   "eng": "",
+   "parts": {}
   },
   {
    "handle": "demo_InsuranceWang",
@@ -1181,7 +1465,8 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
    "score": 0.0,
    "band": "no",
    "reason": "Sells agency or insurance services",
-   "eng": ""
+   "eng": "",
+   "parts": {}
   }
  ],
  "plan": {
@@ -1496,74 +1781,170 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
     return "<tr><td><b>" + esc(r.trend) + "</b></td><td>" + esc(r.what) + "</td><td>" + esc(r.where) + '</td><td><span class="pill ' + cls + '">' + esc(label) + "</span>" + (extra ? '<div class="note">' + esc(extra) + "</div>" : "") + "</td></tr>";
   }).join("");
 
-  var wmax = Math.max.apply(null, D.criteria.weights.map(function (w) { return w.weight; }));
-  $("weights").innerHTML = D.criteria.weights.map(function (w) {
-    return '<div class="wbar"><span>' + esc(w.label) + '</span><div class="track"><div class="fill" style="width:' + (100 * w.weight / wmax) + '%"></div></div><b>' + w.weight + "</b></div>";
+  /* ---------- icons ---------- */
+  var ICONS = {
+    useful: '<path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V16h8v-1.3A7 7 0 0 0 12 2z"/>',
+    like_students: '<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>',
+    own_life: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>',
+    topic_fit: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+    talks: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.5A8 8 0 1 1 21 12z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/>',
+    trust: '<path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z"/><path d="m9 12 2 2 4-4"/>',
+    pin: '<path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',
+    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2.5.6 4 2.8 4 6"/>',
+    user: '<circle cx="12" cy="7" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/>',
+    store: '<path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/>',
+    swap: '<path d="M7 4 3 8l4 4"/><path d="M3 8h14"/><path d="m17 20 4-4-4-4"/><path d="M21 16H7"/>',
+    megaphone: '<path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M17 8a5 5 0 0 1 0 8"/>',
+    bot: '<rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M9 13h.01M15 13h.01M9 17h6"/>',
+    ban: '<circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18"/>',
+    doc: '<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+    bookmark: '<path d="M6 3h12v18l-6-4-6 4z"/>',
+    eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>',
+    ask: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.5A8 8 0 1 1 21 12z"/><path d="M10 9.5a2 2 0 1 1 2.5 1.9c-.4.1-.5.4-.5.8V13M12 16h.01"/>',
+    coin: '<circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.7 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6v2M12 16v2"/>',
+    alert: '<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h.01"/>',
+    flame: '<path d="M12 22c4 0 7-2.8 7-7 0-4-3-6-4-9-1.5 2-2 3-3 3 0-2-1-4-3-5 0 4-4 6-4 11 0 4.2 3 7 7 7z"/>',
+    check: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+    pen: '<path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="m14 6 4 4"/>',
+    video: '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/>',
+    image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+    arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    phone: '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>'
+  };
+  var ic = function (n, cls) { return '<svg class="ic' + (cls ? " " + cls : "") + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[n] || "") + "</svg>"; };
+  var showTip = function (e, html) { tip.innerHTML = html; tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 270) + "px"; tip.style.top = (e.clientY + 14) + "px"; tip.style.opacity = 1; };
+  var hideTip = function () { tip.style.opacity = 0; };
+  var hover = function (el, fn) { el.addEventListener("mousemove", function (e) { var t = e.target.closest("[data-tip]"); if (t) showTip(e, fn(t)); else hideTip(); }); el.addEventListener("mouseleave", hideTip); };
+  var tip = $("tip");
+  document.querySelectorAll(".demo").forEach(function (d) { d.insertAdjacentHTML("afterbegin", ic(d.dataset.icon || "info")); });
+  var SHORT = {xiaohongshu: "XHS", "wechat-oa": "OA", "wechat-channels": "CH", douyin: "DY", weibo: "WB"};
+
+  /* ---------- 1 · Find creators ---------- */
+  var CR = D.criteria.weights, C = D.candidates || [];
+  var CRK = {}; CR.forEach(function (c) { CRK[c.key] = c; });
+  var go = C.filter(function (c) { return c.band === "go"; });
+  $("persona").innerHTML = [
+    ["pin", "Lives in Australia", "Real experience of the system", "E-15"],
+    ["like_students", "Chinese student", "Peers are trusted over brands", "E-3"],
+    ["users", "Small and mid-tier", "Engagement peaks mid-size", "E-7"],
+    ["own_life", "Shares own life", "Experience posts persuade", "E-14"]
+  ].map(function (p) { return '<div class="p"><div class="icb big">' + ic(p[0]) + "</div><div><b>" + p[1] + "</b><span>" + p[2] + ' <span class="idtag">' + p[3] + "</span></span></div></div>"; }).join("");
+  $("crit").innerHTML = CR.map(function (c) {
+    return '<div class="c" data-tip="' + c.key + '"><div class="icb">' + ic(c.key) + '</div><div class="w">' + c.weight + "<small> pts</small></div>" +
+      '<div class="lb">' + esc(c.label) + '</div><div class="rr">r = ' + c.r.toFixed(2) + ' <span class="idtag">' + c.source + "</span></div></div>";
   }).join("");
-  $("hardstops").innerHTML = D.criteria.hard_stops.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("");
+  hover($("crit"), function (t) { var c = CRK[t.dataset.tip]; return "<b>" + esc(c.label) + "</b><br>" + esc(c.what) + "<br>r = " + c.r + " with purchase intention (" + c.source + ")"; });
+  var RMIN = -0.3, RSPAN = 0.9;
+  var rrows = CR.map(function (c) { return [c.key, c.label, c.r, ""]; }).concat([["users", "Follower count", -0.28, "n.s."]]);
+  $("rchart").innerHTML = rrows.map(function (r) {
+    var w = 100 * Math.abs(r[2]) / RSPAN, pos = r[2] >= 0;
+    var label = (r[2] > 0 ? "" : "−") + Math.abs(r[2]).toFixed(2) + (r[3] ? " " + r[3] : "");
+    return '<div class="rc' + (r[0] === "users" ? " fol" : "") + '"><div class="lab">' + ic(r[0]) + esc(r[1]) + '</div><div class="ax"><div class="b ' + (pos ? "pos" : "neg") + '" style="width:' + w + '%"></div>' +
+      '<span class="v" style="' + (pos ? "left:calc(33.3% + " + w + "% + 6px)" : "left:calc(33.3% + 6px)") + '">' + label + "</span></div></div>";
+  }).join("");
+  var people = function (pct) { var on = Math.round(pct / 10), h = ""; for (var i = 0; i < 10; i++) h += ic("user", i < on ? "on" : ""); return h; };
+  $("fraud").innerHTML = '<div class="fraud"><div class="t">' + ic("bot") + ' Accounts with bought followers or engagement <span class="idtag">E-16</span></div>' +
+    [["1M+ followers", 66], ["1k–5k followers", 42]].map(function (f) { return '<div class="fr"><span>' + f[0] + '</span><div class="pp">' + people(f[1]) + "</div><b>" + f[1] + "%</b></div>"; }).join("") + "</div>";
+  var STOPI = ["store", "swap", "megaphone", "bot"], STOPE = ["E-13", "", "E-12", "E-16"];
+  $("stops").innerHTML = D.criteria.hard_stops.map(function (h, i) {
+    return '<div class="s"><div class="icb no">' + ic(STOPI[i] || "ban") + '<span class="x">' + ic("x") + "</span></div><div>" + esc(h) + (STOPE[i] ? ' <span class="idtag">' + STOPE[i] + "</span>" : "") + "</div></div>";
+  }).join("");
+  var heat = '<div></div>' + CR.map(function (c) { return '<div class="hd" title="' + esc(c.label) + '">' + ic(c.key) + "</div>"; }).join("") + '<div class="note">Score</div><div></div>';
+  C.forEach(function (c, i) {
+    heat += '<div class="nm" title="' + esc(c.handle) + '">' + esc(c.handle) + "<span>" + (PLAT[c.platform] || esc(c.platform)) + " · " + esc(c.tier) + " · " + fmt(c.followers) + "</span></div>";
+    if (c.reason) heat += '<div class="stop">' + ic("ban") + esc(c.reason) + "</div>";
+    else heat += CR.map(function (k) { var v = c.parts[k.key] || 0; return '<div class="cell" data-tip="' + i + ":" + k.key + '"><i style="opacity:' + Math.max(v, 0.04) + '"></i></div>'; }).join("");
+    var bi = c.band === "go" ? "check" : c.band === "maybe" ? "alert" : "ban";
+    heat += '<div class="tot"><div style="width:' + c.score + '%"></div><span class="tick" style="left:50%"></span><span class="tick" style="left:70%"></span></div>' +
+      '<div class="bd ' + c.band + '">' + ic(bi) + (c.reason ? "" : Math.round(c.score) + " ") + c.band + "</div>";
+  });
+  $("heat").innerHTML = heat;
+  hover($("heat"), function (t) { var p = t.dataset.tip.split(":"), c = C[+p[0]], k = CRK[p[1]]; return "<b>" + esc(c.handle) + "</b><br>" + esc(k.label) + ": " + Math.round(100 * c.parts[k.key]) + "% → " + (k.weight * c.parts[k.key]).toFixed(1) + " of " + k.weight + " pts"; });
 
+  /* ---------- 2 · Creator dashboard ---------- */
   var S = D.dashboard.summary;
-  $("asof").textContent = S.as_of;
-  var ct = [[S.active + " / " + S.creators, "active creators"], [fmt(S.posts), "posts"], [fmt(S.likes), "likes"],
-            [fmt(S.comments), "comments"], [fmt(S.saves), "saves"], [fmt(S.inquiries), "inquiries"]];
-  $("ctiles").innerHTML = ct.map(function (t) { return '<div class="tile"><div class="n">' + t[0] + '</div><div class="l">' + t[1] + "</div></div>"; }).join("");
-
+  $("ctiles").innerHTML = [["users", S.active + " / " + S.creators, "active creators"], ["doc", fmt(S.posts), "posts"], ["bookmark", fmt(S.saves), "saves"], ["ask", fmt(S.inquiries), "OSHC inquiries"]].map(function (t) {
+    return '<div class="tile"><div class="icb">' + ic(t[0]) + '</div><div><div class="n">' + t[1] + '</div><div class="l">' + t[2] + "</div></div></div>";
+  }).join("");
+  var inter = S.likes + S.comments + S.shares;
+  var FL = [["eye", S.impressions, "views"], ["heart", inter, "likes, comments, shares"], ["bookmark", S.saves, "saves"], ["ask", S.inquiries, "inquiries"]];
+  $("cflow").innerHTML = FL.map(function (f, i) {
+    var pct = i ? (100 * f[1] / FL[i - 1][1]) : 0;
+    return (i ? '<div class="ar">' + ic("arrow") + (pct < 1 ? pct.toFixed(1) : Math.round(pct)) + "%</div>" : "") + '<div class="fs"><div class="icb big">' + ic(f[0]) + "</div><b>" + fmt(f[1]) + "</b><span>" + f[2] + "</span></div>";
+  }).join("");
   var cs = D.dashboard.creators.slice().sort(function (a, b) { return b.inquiries - a.inquiries; });
   var imax = Math.max.apply(null, cs.map(function (c) { return c.inquiries; })) || 1;
+  var pts = cs.filter(function (c) { return c.posts && c.cost_per_inquiry != null; });
+  (function () {
+    var W = 520, H = 320, l = 46, r = 34, t = 14, b = 38;
+    var xmax = Math.max.apply(null, pts.map(function (p) { return p.cost_per_inquiry; })) * 1.12, ymax = imax * 1.18;
+    var fmax = Math.max.apply(null, pts.map(function (p) { return p.followers; }));
+    var X = function (v) { return l + (W - l - r) * v / xmax; }, Y = function (v) { return H - b - (H - t - b) * v / ymax; };
+    var med = function (a) { a = a.slice().sort(function (x, y) { return x - y; }); var m = a.length >> 1; return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
+    var mx = med(pts.map(function (p) { return p.cost_per_inquiry; })), my = med(pts.map(function (p) { return p.inquiries; }));
+    var g = "";
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (f) { var v = Math.round(ymax * f); g += '<line class="gl" x1="' + l + '" x2="' + (W - r) + '" y1="' + Y(v) + '" y2="' + Y(v) + '"/><text x="' + (l - 6) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + "</text>"; });
+    [0, 0.5, 1].forEach(function (f) { var v = Math.round(xmax * f / 100) * 100; g += '<text x="' + X(v) + '" y="' + (H - b + 16) + '" text-anchor="middle">' + fmt(v) + "</text>"; });
+    g += '<text x="' + ((W + l) / 2) + '" y="' + (H - 4) + '" text-anchor="middle">CNY per inquiry</text>';
+    g += '<line class="md" x1="' + X(mx) + '" x2="' + X(mx) + '" y1="' + t + '" y2="' + (H - b) + '"/><line class="md" x1="' + l + '" x2="' + (W - r) + '" y1="' + Y(my) + '" y2="' + Y(my) + '"/>';
+    g += '<text class="q" x="' + (l + 6) + '" y="' + (t + 12) + '">★ Cheap and effective</text>';
+    var placed = [];
+    pts.forEach(function (p, i) {
+      var rad = 5 + 13 * Math.sqrt(p.followers / fmax);
+      g += '<circle class="pt" data-tip="' + i + '" cx="' + X(p.cost_per_inquiry) + '" cy="' + Y(p.inquiries) + '" r="' + rad + '"/>';
+      var px = X(p.cost_per_inquiry), py = Y(p.inquiries) + 4, right = px < W * 0.62, name = p.handle.replace("demo_", "");
+      var lx = right ? px + rad + 4 : px - rad - 4, w = name.length * 6;
+      var x0 = right ? lx : lx - w, anchor = right ? "start" : "end";
+      var hit = pts.some(function (o) { if (o === p) return false; var ox = X(o.cost_per_inquiry), oy = Y(o.inquiries), orad = 5 + 13 * Math.sqrt(o.followers / fmax);
+        return ox + orad > x0 && ox - orad < x0 + w && Math.abs(oy - py + 4) < orad + 6; });
+      if (hit) { lx = px - rad; x0 = lx; py = Y(p.inquiries) + (Y(p.inquiries) < t + 70 ? -rad - 5 : rad + 12); anchor = "start"; }
+      placed.forEach(function (q) { if (Math.abs(q.y - py) < 13 && x0 < q.x1 && x0 + w > q.x0) py = q.y + 13; });
+      placed.push({x0: x0, x1: x0 + w, y: py});
+      g += '<text class="lbl" x="' + lx + '" y="' + py + '" text-anchor="' + anchor + '">' + esc(name) + "</text>";
+    });
+    $("scatter").innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '">' + g + "</svg>";
+    hover($("scatter"), function (el) { var p = pts[+el.dataset.tip]; return "<b>" + esc(p.handle) + "</b><br>" + p.inquiries + " inquiries · " + fmt(p.cost_per_inquiry) + " CNY each<br>" + fmt(p.followers) + " followers"; });
+  })();
   $("inqchart").innerHTML = cs.map(function (c, i) {
-    return '<div class="row" data-i="' + i + '"><div class="name" title="' + esc(c.handle) + '">' + esc(c.handle) + '</div><div class="bararea"><div class="bar" style="width:' +
+    return '<div class="row" data-tip="' + i + '"><div class="name" title="' + esc(c.handle) + '">' + esc(c.handle) + '</div><div class="bararea"><div class="bar" style="width:' +
       (c.inquiries ? (85 * c.inquiries / imax) : 0) + '%"></div><span class="val">' + c.inquiries + "</span></div></div>";
   }).join("");
-  var tip = $("tip");
-  $("inqchart").addEventListener("mousemove", function (e) {
-    var row = e.target.closest(".row");
-    if (!row) { tip.style.opacity = 0; return; }
-    var c = cs[+row.dataset.i];
-    tip.innerHTML = "<b>" + esc(c.handle) + "</b> · " + (PLAT[c.platform] || c.platform) + "<br>" + c.inquiries + " inquiries · " + fmt(c.saves) + " saves · " +
-      fmt(c.likes) + " likes<br>" + (c.cost_per_inquiry == null ? "no posts yet" : fmt(c.cost_per_inquiry) + " CNY per inquiry");
-    tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 270) + "px";
-    tip.style.top = (e.clientY + 14) + "px";
-    tip.style.opacity = 1;
-  });
-  $("inqchart").addEventListener("mouseleave", function () { tip.style.opacity = 0; });
-
+  hover($("inqchart"), function (row) { var c = cs[+row.dataset.tip]; return "<b>" + esc(c.handle) + "</b> · " + (PLAT[c.platform] || c.platform) + "<br>" + c.inquiries + " inquiries · " + fmt(c.saves) + " saves · " + fmt(c.likes) + " likes<br>" + (c.cost_per_inquiry == null ? "no posts yet" : fmt(c.cost_per_inquiry) + " CNY per inquiry"); });
+  var mxL = Math.max.apply(null, cs.map(function (c) { return c.likes; })) || 1, mxS = Math.max.apply(null, cs.map(function (c) { return c.saves; })) || 1;
+  $("cwall").innerHTML = cs.map(function (c) {
+    var nm = c.handle.replace("demo_", "");
+    var mb = function (icon, v, m, lab) { return '<div class="mb" title="' + lab + '">' + ic(icon) + '<div class="tr"><div style="width:' + (100 * v / m) + '%"></div></div><b>' + fmt(v) + "</b></div>"; };
+    return '<div class="cw">' + (c.flags.length ? '<span class="al" title="' + esc(c.flags.join("; ")) + '">' + ic("alert") + "</span>" : "") +
+      '<div class="top"><div class="av">' + esc(nm.charAt(0)) + '</div><div class="who"><b>' + esc(c.handle) + '</b><span><i class="dot ' + esc(c.status) + '"></i>' + esc(c.status) + " · " + (PLAT[c.platform] || esc(c.platform)) + "</span></div></div>" +
+      mb("heart", c.likes, mxL, "Likes") + mb("bookmark", c.saves, mxS, "Saves") + mb("ask", c.inquiries, imax, "Inquiries") +
+      '<div class="cost">' + ic("coin") + (c.cost_per_inquiry == null ? "No posts yet" : fmt(c.cost_per_inquiry) + " CNY per inquiry") + "</div></div>";
+  }).join("");
   $("ctable").querySelector("tbody").innerHTML = cs.map(function (c) {
-    return "<tr><td><b>" + esc(c.handle) + '</b><br><span class="note">' + esc(c.tier) + " · " + fmt(c.followers) + " followers · score " + c.kol_score + "</span></td><td>" +
+    return "<tr><td><b>" + esc(c.handle) + '</b><br><span class="note">' + esc(c.tier) + " · " + fmt(c.followers) + " followers</span></td><td>" +
       (PLAT[c.platform] || esc(c.platform)) + '</td><td><span class="pill s-' + esc(c.status) + '">' + esc(c.status) + '</span></td><td class="num">' + c.posts +
       '</td><td class="num">' + fmt(c.likes) + '</td><td class="num">' + fmt(c.comments) + '</td><td class="num">' + fmt(c.saves) + '</td><td class="num"><b>' + c.inquiries +
       '</b></td><td class="num">' + fmt(c.cost_per_inquiry) + "</td></tr>";
   }).join("");
 
-  /* ---------- 1 · Find creators ---------- */
-  var C = D.candidates || [];
-  var passed = C.filter(function (c) { return !c.reason; }), over50 = C.filter(function (c) { return c.score >= 50; }), go = C.filter(function (c) { return c.band === "go"; });
-  var steps = [["Candidates screened", C.length, ""], ["Pass the hard stops", passed.length, "sells agency or insurance services, or promoted another insurer"],
-               ["Score 50 or more", over50.length, "weak fit on the 5 weighted criteria"], ["Ready to brief (score 70+)", go.length, "borderline, check before briefing"]];
-  $("funnel").innerHTML = steps.map(function (st, i) {
-    var prev = i ? steps[i - 1][1] : st[1];
-    return '<div class="fun"><div class="lab"><span>' + st[0] + "</span><b>" + st[1] + '</b></div><div class="fb" style="width:' + (C.length ? 100 * st[1] / C.length : 0) + '%"></div>' +
-      (prev > st[1] ? '<div class="drop">−' + (prev - st[1]) + " out: " + esc(st[2]) + "</div>" : "") + "</div>";
-  }).join("");
-  $("shortlist").innerHTML = C.map(function (c, i) {
-    var why = c.reason ? c.reason : c.band === "no" ? "Score below 50" : c.band === "maybe" ? "Check before briefing" : "";
-    return '<div class="row" data-i="' + i + '"><div class="name" title="' + esc(c.handle) + '">' + esc(c.handle) + '<div class="meta">' + (PLAT[c.platform] || esc(c.platform)) + " · " + esc(c.tier) + " · " + fmt(c.followers) +
-      '</div></div><div><div class="track2"><div class="bar' + (c.band === "no" ? " no" : "") + '" style="width:' + c.score + '%"></div><span class="tick" style="left:50%"></span><span class="tick" style="left:70%"></span></div>' +
-      (why ? '<div class="why">' + esc(why) + "</div>" : "") + '</div><div class="band ' + c.band + '">' + (c.reason ? "stop" : Math.round(c.score)) + " · " + c.band + "</div></div>";
-  }).join("") ;
-  $("shortlist").addEventListener("mousemove", function (e) {
-    var row = e.target.closest(".row"); if (!row) { tip.style.opacity = 0; return; }
-    var c = C[+row.dataset.i];
-    tip.innerHTML = "<b>" + esc(c.handle) + "</b><br>" + (PLAT[c.platform] || c.platform) + " · " + esc(c.tier) + " · " + fmt(c.followers) + " followers<br>engagement " + esc(c.eng) + " · score " + c.score + (c.reason ? "<br>" + esc(c.reason) : "");
-    tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 270) + "px"; tip.style.top = (e.clientY + 14) + "px"; tip.style.opacity = 1;
-  });
-  $("shortlist").addEventListener("mouseleave", function () { tip.style.opacity = 0; });
-
-  /* ---------- 2 · Dashboard to-do ---------- */
-  var todo = [];
-  cs.forEach(function (c) { c.flags.forEach(function (f) { todo.push("<li><div><b>" + esc(c.handle) + "</b>: " + esc(f) + "<span>" + (PLAT[c.platform] || esc(c.platform)) + " · " + esc(c.status) + "</span></div></li>"); }); });
-  $("todo").innerHTML = todo.length ? todo.join("") : "<li><div>Nothing to follow up</div></li>";
-
   /* ---------- 3 · Plan & create ---------- */
+  var STEPS = [["flame", "Find trends", "Scored for audience, OSHC link, freshness, safety"], ["check", "Confirm topic", "Agent proposes, the team approves"], ["pen", "Write and make", "Finished post, cards and video"]];
+  $("steps3").innerHTML = STEPS.map(function (s, i) { return (i ? '<span class="ar">' + ic("arrow") + "</span>" : "") + '<div class="st"><div class="icb big">' + ic(s[0]) + "</div><div><b>" + (i + 1) + " · " + s[1] + "</b><span>" + s[2] + "</span></div></div>"; }).join("");
+  STEPS.forEach(function (s, i) { $("sh" + (i + 1)).innerHTML = '<span class="n">' + (i + 1) + "</span>" + ic(s[0]) + s[1]; });
+  var TR = D.trends.rows.map(function (r) { var m = r.verdict.match(/\((\d+)\)/), cut = r.verdict.indexOf(":"); return {name: r.trend, where: r.where, score: m ? +m[1] : 0, label: (cut < 0 ? r.verdict : r.verdict.slice(0, cut)).replace(/\s*\(\d+\)/, ""), use: r.verdict.indexOf("use") === 0, avoid: r.verdict.indexOf("avoid") === 0}; });
+  $("radar").innerHTML = TR.slice(0, 5).map(function (r) {
+    return '<div class="tr2"><div class="row1"><b>' + esc(r.name) + '</b><span class="pill ' + (r.use ? "v-use" : r.avoid ? "v-avoid" : "v-adapt") + '">' + esc(r.label) + " " + r.score + '</span></div><div class="bar2"><div style="width:' + r.score + '%"></div></div></div>';
+  }).join("") + '<p class="note">Score out of 100 <span class="idtag">A-6</span></p>';
+  var t0 = TR[0] || {name: "Trend"};
+  $("topic").innerHTML = '<div class="tc"><div class="mix">' + ic("flame") + '<span class="chip">' + esc(t0.name) + '</span>×<span class="chip">Know your cover</span></div>' +
+    '<div class="ttl">“Offer in hand? Check this one line first”</div><div class="meta"><div>' + ic("phone") + "Xiaohongshu · Carousel</div><div>" + ic("user") + "Creator · KOC</div><div>" + ic("calendar") + "Week 1 · Tue</div></div>" +
+    '<span class="ok">' + ic("check") + "Team approved</span></div>";
+  $("make").innerHTML = '<div class="mk">' + [["pen", "Text, titles and hashtags", ""], ["image", "Image cards in Medibank red", ""], ["video", "Short video with subtitles", ""], ["trust", "Compliance check: green", "pass"]].map(function (m) {
+    return '<div class="' + m[2] + '"><span class="icb">' + ic(m[0]) + "</span>" + m[1] + "</div>";
+  }).join("") + "</div>";
   var root = document.documentElement;
   var P = D.plan || {pillars: [], posts: []};
   var isDark = function () { var t = root.getAttribute("data-theme"); return t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches; };
@@ -1579,47 +1960,30 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
   var MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   var paintPlan = function () {
     var col = {}; P.pillars.forEach(function (p) { col[p.key] = isDark() ? p.dark : p.light; });
-    $("legend").innerHTML = P.pillars.map(function (p) { return '<span><i style="background:' + col[p.key] + '"></i>' + esc(p.key) + "</span>"; }).join("");
+    $("legend").innerHTML = P.pillars.map(function (p) { return '<span><i style="background:' + col[p.key] + '"></i>' + esc(p.key) + "</span>"; }).join("") + "<span>" + ic("user") + " = creator post</span>";
     var html = "<div></div>" + ["Mon", "Tue", "Wed", "Thu", "Fri"].map(function (d) { return '<div class="dh">' + d + "</div>"; }).join("");
     order.forEach(function (k, wi) {
-      html += '<div class="wk">Week ' + (wi + 1) + '<br><span class="note">' + MON[+k.slice(5, 7) - 1] + " " + (+k.slice(8)) + "</span></div>";
+      html += '<div class="wk">Wk ' + (wi + 1) + "<br>" + MON[+k.slice(5, 7) - 1] + " " + (+k.slice(8)) + "</div>";
       for (var di = 0; di < 5; di++) {
-        var list = weeks[k][di] || [];
-        html += list.length ? '<div>' + list.map(function (p) {
-          return '<div class="slot" style="border-left-color:' + (col[p.pillar] || "var(--ink-3)") + '" title="' + esc(p.date + " · " + p.pillar + " · KPI: " + p.kpi) + '"><b>' + (PLAT[p.platform] || esc(p.platform)) + "</b>" +
-            esc(p.format) + '<br><span class="who">' + (p.stream === "creator" ? "Creator" + (p.tier ? " · " + esc(p.tier) : "") : "Medibank") + "</span></div>";
-        }).join("") + "</div>" : '<div class="slot" style="border-left-color:var(--line);opacity:.5">–</div>';
+        var p = (weeks[k][di] || [])[0];
+        html += p ? '<div class="sq" style="background:' + (col[p.pillar] || "var(--ink-3)") + '" title="' + esc((PLAT[p.platform] || p.platform) + " · " + p.format + " · " + p.pillar + (p.stream === "creator" ? " · creator " + p.tier : " · Medibank")) + '">' + (SHORT[p.platform] || "") + (p.stream === "creator" ? ic("user") : "") + "</div>" : "<div></div>";
       }
     });
-    $("cal").innerHTML = html;
-    var total = P.posts.length || 1;
-    $("pillarmix").innerHTML = P.pillars.map(function (p) {
-      var pct = Math.round(100 * p.planned / total);
-      return '<div class="pm"><span>' + esc(p.key) + '</span><div class="tr"><div class="f" style="width:' + pct + "%;background:" + col[p.key] + '"></div><span class="tg" style="left:' + p.target + '%" title="Target ' + p.target + '%"></span></div><b>' + pct + '% <span class="note">/ ' + p.target + "%</span></b></div>";
-    }).join("") + '<p class="note">Bar = share of planned posts. Black line = target mix <span class="idtag">A-4</span>.</p>';
+    $("dots").innerHTML = html;
   };
   paintPlan();
-  var cr = P.posts.filter(function (p) { return p.stream === "creator"; }).length, ow = P.posts.length - cr;
-  var cp = P.posts.length ? Math.round(100 * cr / P.posts.length) : 0;
-  $("streams").innerHTML = '<div class="split"><div style="flex:' + cr + ';background:var(--bar)">Creators ' + cp + '%</div><div style="flex:' + ow + ';background:var(--ink-3)">Medibank ' + (100 - cp) + "%</div></div>" +
-    '<p class="note">' + cr + " creator posts, " + ow + ' Medibank posts in the calendar.</p>';
-  $("trendmini").innerHTML = D.trends.rows.slice(0, 5).map(function (r) {
-    var cut = r.verdict.indexOf(":"), label = cut < 0 ? r.verdict : r.verdict.slice(0, cut);
-    var cls = r.verdict.indexOf("use") === 0 ? "v-use" : r.verdict.indexOf("adapt") === 0 ? "v-adapt" : r.verdict.indexOf("avoid") === 0 ? "v-avoid" : "v-watch";
-    return '<div class="tm"><span><b>' + esc(r.trend) + '</b><br><span class="note">' + esc(r.where) + '</span></span><span><span class="pill ' + cls + '">' + esc(label) + "</span></span></div>";
-  }).join("");
 
   /* ---------- Feature cards in the hero ---------- */
   $("f1big").textContent = go.length + " of " + C.length;
-  $("f1sub").textContent = "candidates ready to brief, scored on 5 weighted criteria";
+  $("f1sub").textContent = "candidates ready to brief, scored on 6 evidence-weighted traits";
   $("f1mini").innerHTML = C.map(function (c) { return '<i class="' + (c.band === "go" ? "" : "off") + '" style="height:' + Math.max(c.score, 4) + '%"></i>'; }).join("");
   $("f2big").textContent = fmt(S.inquiries) + " inquiries";
   $("f2sub").textContent = S.active + " active creators · " + fmt(S.saves) + " saves tracked";
   $("f2mini").innerHTML = cs.map(function (c) { return '<i style="height:' + Math.max(100 * c.inquiries / imax, 4) + '%"></i>'; }).join("");
-  $("f3big").textContent = P.posts.length + " posts";
-  $("f3sub").textContent = order.length + "-week calendar across 4 content pillars, written as finished cards";
-  var pmax = Math.max.apply(null, P.pillars.map(function (p) { return p.planned; }).concat([1]));
-  $("f3mini").innerHTML = P.pillars.map(function (p) { return '<i style="height:' + (100 * p.planned / pmax) + '%"></i>'; }).join("");
+  $("f3big").textContent = "Trend → post";
+  $("f3sub").textContent = "find trends, confirm the topic, then write the post and cut the video";
+  var pmax = Math.max.apply(null, TR.map(function (r) { return r.score; }).concat([1]));
+  $("f3mini").innerHTML = TR.map(function (r) { return '<i style="height:' + (100 * r.score / pmax) + '%"></i>'; }).join("");
 
   $("rulecount").textContent = D.rule_count;
   $("built").textContent = S.as_of;

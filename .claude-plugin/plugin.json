@@ -1,7 +1,7 @@
 {
   "name": "medibank-cn-social",
   "displayName": "Medibank China Social Agent",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Content-creation agent for Medibank on Chinese social media (小红书, 公众号, 视频号, 抖音, 微博): what to post, which trends to ride, which creators to work with, with a compliance check on every post.",
   "author": {
     "name": "UNSW CDEV3000 MB Group 6"

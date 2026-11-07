@@ -20,13 +20,17 @@ def test_kol_hard_stops_and_bands():
     assert scored["示例_生活好物分享"]["band"] == "no"
 
 
-def test_kol_platform_baseline_changes_engagement_score():
-    row = {"platform": "xiaohongshu", "followers": "40000", "based_in_australia": "yes",
-           "audience_student_share": "0.8", "avg_likes": "500", "avg_saves": "100",
-           "avg_comments": "20", "topic_relevance_share": "0.9"}
-    xhs = kol_score.score_row(row, {})[1]
-    weibo = kol_score.score_row({**row, "platform": "weibo"}, {})[1]
-    assert weibo > xhs  # same numbers count for more on a lower-engagement platform
+def test_kol_weights_follow_evidence_and_ignore_followers():
+    assert sum(kol_score.WEIGHTS.values()) == 100
+    total_r = sum(c["r"] for c in kol_score.CRITERIA.values())
+    for key, c in kol_score.CRITERIA.items():
+        assert abs(kol_score.WEIGHTS[key] - 100 * c["r"] / total_r) < 1.5
+    row = {"platform": "xiaohongshu", "followers": "4000", "based_in_australia": "yes",
+           "audience_student_share": "0.8", "topic_relevance_share": "0.9", "useful_post_share": "0.5",
+           "personal_post_share": "0.5", "reply_rate": "0.5"}
+    small = kol_score.score_row(row)[1]
+    big = kol_score.score_row({**row, "followers": "400000"})[1]
+    assert small == big  # follower count sets the tier, never the score
 
 
 def test_note_lint_platform_limits():

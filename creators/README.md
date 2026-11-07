@@ -19,11 +19,15 @@ Full rules: `references/kol-playbook.md`. Scoring: `tools/kol_score.py`.
 
 | Criterion | Weight |
 |-----------|--------|
-| Audience fit: lives in Australia, audience mostly students 18–30 | 30 |
-| Engagement quality: (likes + 2 × saves + comments) ÷ followers | 25 |
-| Topic relevance: share of posts on study and life in Australia | 20 |
-| Trust & safety: sponsored posts properly disclosed | 15 |
-| Cost efficiency: price vs tier median | 10 |
+| Useful content: share of posts that are guides and checklists | 20 |
+| Like our students: lives in Australia, audience mostly students | 18 |
+| Shares own life: share of posts about their own experience | 17 |
+| Topic fit: share of posts on study, life or health in Australia | 16 |
+| Talks with followers: share of comments they reply to | 15 |
+| Trustworthy: no follower diversion, past ads disclosed | 14 |
+
+Weights come from published effect sizes (`references/evidence.md` E-14, E-15). Follower
+count is not scored; it only sets the tier.
 
 **Hard stops:** sells agency or insurance services; promoted another OSHC insurer in the
 last 90 days; history of undisclosed ads; fake-fan flag. Bands: ≥70 go, 50–69 human look,

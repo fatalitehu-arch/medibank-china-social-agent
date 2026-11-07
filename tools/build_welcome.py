@@ -101,10 +101,6 @@ def english(obj):
     return to_english(obj)
 
 
-WEIGHT_LABELS = {"audience": "Audience fit", "engagement": "Engagement quality", "relevance": "Topic relevance",
-                 "trust": "Trust & safety", "cost": "Cost efficiency"}
-
-
 def frontmatter(path):
     m = re.match(r"---\n(.*?)\n---\n", path.read_text(encoding="utf-8"), re.S)
     return dict(line.split(": ", 1) for line in m.group(1).splitlines() if ": " in line) if m else {}
@@ -218,10 +214,13 @@ def candidates():
     out = []
     for r in rows:
         handle = next((r[k] for k in ("handle", "creator", "name") if r.get(k)), "")
+        stopped = not r["notes"].startswith("eng ")
+        parts = kol_score.criteria_scores(r)
         out.append({"handle": handle, "platform": r.get("platform", ""), "tier": r["tier"],
                     "followers": r.get("followers"), "score": r["score"], "band": r["band"],
-                    "reason": "" if r["notes"].startswith("eng ") else r["notes"],
-                    "eng": r["notes"][4:] if r["notes"].startswith("eng ") else ""})
+                    "reason": r["notes"] if stopped else "",
+                    "eng": "" if stopped else r["notes"][4:].split(";")[0],
+                    "parts": {} if stopped else {k: round(v, 2) for k, v in parts.items()}})
     return out
 
 
@@ -247,7 +246,7 @@ def data():
         "tools": tools(),
         "rule_count": rule_count(),
         "trends": trends(),
-        "criteria": {"weights": [{"label": WEIGHT_LABELS.get(k, k), "weight": v} for k, v in kol_score.WEIGHTS.items()],
+        "criteria": {"weights": [{"key": k, "weight": v, **kol_score.CRITERIA[k]} for k, v in kol_score.WEIGHTS.items()],
                      "hard_stops": list(kol_score.HARD_STOPS.values())},
         "dashboard": creator_dashboard.build(roster, posts, creator_dashboard.as_of(posts)),
         "evidence": evidence(),

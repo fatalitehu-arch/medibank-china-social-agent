@@ -1,0 +1,34 @@
+{
+  "_note": "Claims that must always travel with their qualifiers on screen (from references/brand-facts.md). motion_video.py and video_edit.py refuse to render when a trigger appears (with its context, if given) but a required qualifier is missing anywhere in the video's on-screen text. Update together with brand-facts.md.",
+  "rules": [
+    {
+      "id": "Q-1",
+      "claim": "Online Doctor has no out-of-pocket cost",
+      "triggers": ["免费", "无需自付", "不用自己付", "不用自己掏", "不用掏钱", "零自付", "无自付", "不花钱"],
+      "context": ["Online Doctor", "线上问诊", "在线问诊", "线上看医生", "视频问诊"],
+      "require": [["试行"], ["16"], ["家属"]],
+      "source": "references/brand-facts.md: Online Doctor (trial basis, members aged 16+, not for dependants)"
+    },
+    {
+      "id": "Q-2",
+      "claim": "Claiming GP and other medical costs back",
+      "triggers": ["报销", "理赔", "claim", "Claim"],
+      "require": [["以保单条款为准", "以官网条款为准", "以条款为准"]],
+      "source": "references/brand-facts.md: basic OSHC pays 85% of the MBS fee; gap fees may apply"
+    },
+    {
+      "id": "Q-3",
+      "claim": "GP costs covered",
+      "triggers": ["看 GP", "看GP", "GP 费用", "GP费用"],
+      "require": [["自付差额", "gap", "差额"]],
+      "source": "references/brand-facts.md: gap fees may apply"
+    },
+    {
+      "id": "Q-4",
+      "claim": "Showing the Medibank app screens",
+      "triggers": ["[phone]"],
+      "require": [["示意"]],
+      "source": "Mock app screens must be labelled as illustrations until replaced by a real screen recording"
+    }
+  ]
+}

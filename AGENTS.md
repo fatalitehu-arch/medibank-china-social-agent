@@ -28,6 +28,7 @@ it does not sell (no prices, comparisons, purchase links, "DM to buy", or data c
 | `python tools/creator_dashboard.py` | Creator library dashboard from `creators/` |
 | `python tools/make_post.py <spec.json>` | Finished post: text, image cards (needs Pillow) and compliance report in `outputs/posts/` |
 | `python tools/video_edit.py <plan.json>` | Edited vertical video in Medibank colours (needs ffmpeg); `--dry-run`, `--probe FILE` |
+| `python tools/motion_video.py <board.json>` | Animated explainer video, no footage needed (Pillow + ffmpeg); `--check`, `--frames`, `--pack` (剪映 asset pack) |
 | `python tools/evidence_check.py` | Every `[E-n]`/`[A-n]` citation points to a row in `references/evidence.md` |
 | `python tools/build_welcome.py` | Rebuild `welcome.html` from the repository |
 

@@ -102,7 +102,7 @@ in words.
 | `medibank-cn-social` (router) | Anything vague: "下个月社媒怎么做" | Picks the platform and the sub-skill, runs multi-step work |
 | `cn-trend-scout` | "最近有什么热点可以蹭？" / "心动的offer 8 能不能借势？" | Trend radar: what's hot on each platform (dated sources), score and verdict (use now / adapt / watch / avoid), post angles and creator types, what to avoid |
 | `cn-content-writer` | "写一篇小红书：第一次在悉尼看 GP" / "写一篇公众号长文" / "写一个抖音 60 秒脚本" | **A finished post**: final text, titles, hashtags and image cards (PNG, Medibank colours) in `outputs/posts/`, with the compliance verdict; also articles and video scripts |
-| `cn-video-editor` | "把这三段素材剪成 45 秒抖音竖屏，加字幕" | **An edited vertical video** from your footage: trimmed, joined, subtitled, Medibank colour tone, title and end cards, music ducked (needs ffmpeg) |
+| `cn-video-editor` | "把这三段素材剪成 45 秒抖音竖屏，加字幕" | **A vertical video**: an animated explainer with no footage (pop-in text, icons, mock app screens, sound effects), or an edit of your footage (trimmed, subtitled, Medibank colour tone, title and end cards); claim qualifiers checked; 剪映 asset pack (needs ffmpeg) |
 | `cn-repurpose` | "把这篇公众号改成另外四个平台" | One idea, five native versions, each scanned at its own platform level |
 | `cn-content-planner` | "2027 T1 开学季 4 周计划" | Cross-platform calendar (platform, owned/creator, persona, pillar, format, KPI, risk) checked by `calendar_builder.py` |
 | `cn-kol-manager` | "找 UNSW 新生相关的博主" / "给这批博主打分" / "写星图 brief" / "审这篇博主稿" | Search plan per marketplace, scored shortlist, vetting, brief, draft review with change requests |
@@ -140,6 +140,7 @@ an assumption. `python tools/evidence_check.py` fails if a cited row is missing.
 pip install Pillow                                    # once, for image cards
 python tools/make_post.py examples/post_spec.json     # → outputs/posts/<title>/ post.md + 01–05.png + compliance.txt
 python tools/video_edit.py my_plan.json               # → outputs/videos/my_plan.mp4 (needs ffmpeg)
+python tools/motion_video.py examples/motion_storyboard.json --pack   # animated explainer + 剪映 asset pack
 ```
 
 The agent writes the spec or edit plan for you; these commands are what it runs. Colours

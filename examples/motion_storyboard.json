@@ -1,0 +1,65 @@
+{
+  "platform": "douyin",
+  "account": "brand",
+  "pillar": "用好 app 和热线",
+  "topic": "留学生在澳洲看病，钱怎么报（Online Doctor + App 报销）",
+  "evidence": "references/brand-facts.md (Online Doctor, OSHC app); Medibank OSHC page and 'What to do if you get sick in Australia' (accessed 2026-11-07)",
+  "scenes": [
+    {"seconds": 3, "bg": "red",
+     "items": [
+       {"type": "text", "text": "留学生在澳洲看病\n钱怎么{报}？", "size": 100, "y": 0.30, "at": 0, "anim": "pop", "sfx": null},
+       {"type": "icon", "name": "thermometer", "x": 0.33, "y": 0.55, "size": 240, "at": 0.5},
+       {"type": "icon", "name": "wallet", "x": 0.67, "y": 0.55, "size": 240, "at": 0.8}],
+     "subs": "在澳洲看病，钱怎么报？",
+     "sfx": [{"at": 0, "name": "whoosh"}]},
+
+    {"seconds": 4, "bg": "white", "section": "先分两种情况",
+     "items": [
+       {"type": "card", "icon": "phone", "label": "小病", "sub": "感冒 · 嗓子疼", "bg": "soft", "ring": "paper", "x": 0.29, "y": 0.45, "w": 400, "h": 500, "at": 0.3, "anim": "slide-left", "sfx": "whoosh"},
+       {"type": "card", "icon": "clinic", "label": "要去诊所", "sub": "看 GP", "bg": "soft", "ring": "paper", "x": 0.71, "y": 0.45, "w": 400, "h": 500, "at": 1.4, "anim": "slide-right", "sfx": "whoosh"}],
+     "subs": [[0, "先分两种情况"], [1.4, "小病，和要去诊所的"]]},
+
+    {"seconds": 8, "bg": "soft", "section": "小病：先线上问", "tag": "1",
+     "items": [
+       {"type": "phone", "y": 0.47, "width": 470, "until": 5.3, "screens": [
+         {"at": 0, "title": "Medibank OSHC", "rows": ["我的保障", "Online Doctor", "提交报销", "找诊所"], "hl": 1, "tap_at": 2.6},
+         {"at": 3.4, "title": "Online Doctor", "rows": ["视频问诊", "语音问诊"], "hl": 0, "tap_at": 1.0}]},
+       {"type": "icon", "name": "video", "y": 0.36, "size": 300, "fg": "primary", "ring": "paper", "at": 5.6},
+       {"type": "text", "text": "{24/7}\n视频 / 语音问诊", "size": 100, "y": 0.56, "at": 5.9, "sfx": "ding"}],
+     "subs": [[0, "感冒、嗓子疼这种小病"], [2.0, "先打开 Medibank OSHC App"], [3.4, "找到 Online Doctor"], [5.6, "24 小时都能问医生"]]},
+
+    {"seconds": 5, "bg": "red",
+     "items": [
+       {"type": "text", "text": "线上问诊本身\n{无需自付}", "size": 112, "y": 0.34, "at": 0, "sfx": "ding"},
+       {"type": "note", "text": "试行服务 · 限 16 岁以上会员 · 家属不适用\n等待时间视医生情况而定", "size": 40, "y": 0.56, "at": 1.0}],
+     "subs": [[0, "线上问诊本身"], [1.6, "不用自己付钱"]]},
+
+    {"seconds": 5, "bg": "white", "section": "去诊所看 GP", "tag": "2",
+     "items": [
+       {"type": "icon", "name": "clinic", "x": 0.33, "y": 0.36, "size": 270, "at": 0.2},
+       {"type": "icon", "name": "receipt", "x": 0.67, "y": 0.36, "size": 270, "at": 1.0},
+       {"type": "text", "text": "一般先付钱\n{记得留好发票}", "size": 92, "y": 0.58, "at": 2.2, "sfx": "ding"}],
+     "subs": [[0, "去诊所看 GP，一般先付钱"], [2.2, "记得留好发票（收据）"]]},
+
+    {"seconds": 11, "bg": "soft", "section": "在 App 里报销 4 步",
+     "items": [
+       {"type": "steps", "items": ["登录 Medibank OSHC App", "点 Make a claim", "拍发票，选{服务类别}", "提交"], "y": 0.26, "row": 160, "at": 0.4, "interval": 2.3},
+       {"type": "icon", "name": "upload", "y": 0.62, "size": 200, "fg": "primary", "ring": "paper", "at": 7.6, "sfx": "pop"}],
+     "subs": [[0, "回家打开 App"], [2.6, "点 Make a claim"], [5.0, "拍下发票，选好服务类别"], [7.4, "提交就行"]]},
+
+    {"seconds": 4.5, "bg": "white",
+     "items": [
+       {"type": "icon", "name": "card", "y": 0.36, "size": 300, "at": 0},
+       {"type": "icon", "name": "check", "x": 0.63, "y": 0.29, "size": 150, "fg": "paper", "ring": "primary", "at": 0.8, "sfx": "success"},
+       {"type": "text", "text": "钱打到你的\n{澳洲银行卡}", "size": 96, "y": 0.58, "at": 1.4, "sfx": null}],
+     "subs": [[0, "报销款打到你的银行卡"], [2.2, "记得先在 App 里绑好卡"]]},
+
+    {"seconds": 4.5, "bg": "red",
+     "items": [
+       {"type": "text", "text": "收藏这条\n生病不慌", "size": 124, "y": 0.30, "at": 0, "sfx": null},
+       {"type": "text", "text": "你在澳洲看过 GP 吗？", "size": 58, "y": 0.47, "at": 0.8, "anim": "fade"},
+       {"type": "note", "text": "可能有自付差额（gap），具体保障以保单条款为准\nMedibank OSHC · 留学生健康科普", "size": 34, "y": 0.60, "at": 0.4}],
+     "subs": "评论区聊聊你的看病经历",
+     "sfx": [{"at": 0, "name": "whoosh"}]}
+  ]
+}

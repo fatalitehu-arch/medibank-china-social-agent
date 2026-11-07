@@ -195,3 +195,66 @@ def test_video_render_end_to_end(tmp_path):
     assert video_edit.main([str(tmp_path / "plan.json"), "--out", str(tmp_path / "out.mp4")]) == 0
     info = video_edit.probe(tmp_path / "out.mp4")
     assert (info["width"], info["height"]) == (1080, 1920) and 3.5 < info["duration"] < 4.6
+
+
+# --- animated explainer videos (motion_video.py) ---------------------------------------
+
+import motion_video
+
+
+def _board():
+    return _json.loads((_ROOT / "examples" / "motion_storyboard.json").read_text(encoding="utf-8"))
+
+
+def test_motion_example_storyboard_passes_checks():
+    worst, report = motion_video.check_board(_board(), "douyin")
+    assert worst < 2, report
+
+
+def test_free_online_doctor_without_qualifiers_is_red():
+    problems = motion_video.check_qualifiers(["线上问诊本身无需自付"])
+    assert problems and "Q-1" in problems[0]
+    assert not motion_video.check_qualifiers(["线上问诊本身无需自付", "试行服务 · 16 岁以上 · 家属不适用"])
+
+
+def test_claims_need_the_policy_line():
+    assert any("Q-2" in p for p in motion_video.check_qualifiers(["在 App 里报销"]))
+    assert not motion_video.check_qualifiers(["在 App 里报销", "具体保障以保单条款为准"])
+
+
+def test_long_subtitle_is_red():
+    board = _board()
+    board["scenes"][0]["subs"] = "这是一条非常非常非常非常长的字幕超过十六个字"
+    worst, report = motion_video.check_board(board, "douyin")
+    assert worst == 2 and any("subtitle" in r for r in report)
+
+
+def test_video_edit_refuses_unqualified_claim(tmp_path):
+    srt = tmp_path / "s.srt"
+    srt.write_text("1\n00:00:00,200 --> 00:00:01,500\n线上问诊本身无需自付\n", encoding="utf-8")
+    plan = {"platform": "douyin", "clips": [{"file": "x.mp4"}], "subtitles": str(srt)}
+    assert any("Q-1" in p for p in video_edit.text_problems(plan))
+
+
+def test_motion_render_end_to_end(tmp_path):
+    if not _shutil.which("ffmpeg"):
+        pytest.skip("ffmpeg not installed")
+    pytest.importorskip("PIL")
+    try:
+        motion_video.find_font()
+    except SystemExit:
+        pytest.skip("no Chinese font on this machine")
+    board = {"platform": "douyin", "scenes": [
+        {"seconds": 1, "bg": "red", "section": "测试", "items": [{"type": "text", "text": "钱怎么{报}？"},
+                                                                  {"type": "icon", "name": "receipt", "y": 0.6}],
+         "subs": "测试字幕", "sfx": [{"at": 0, "name": "whoosh"}]},
+        {"seconds": 1, "items": [{"type": "steps", "items": ["一", "二"], "interval": 0.3},
+                                 {"type": "phone", "screens": [{"title": "App", "rows": ["A", "B"], "hl": 1}]}],
+         "subs": [[0, "第二段"]]}]}
+    (tmp_path / "b.json").write_text(_json.dumps(board, ensure_ascii=False), encoding="utf-8")
+    out = tmp_path / "m.mp4"
+    assert motion_video.main([str(tmp_path / "b.json"), "--out", str(out), "--pack"]) == 0
+    info = video_edit.probe(out)
+    assert (info["width"], info["height"]) == (1080, 1920) and 1.9 < info["duration"] < 2.2 and info["audio"]
+    pack = tmp_path / "m_剪映素材包"
+    assert (pack / "字幕.srt").exists() and (pack / "无字幕版.mp4").exists() and len(list((pack / "分段").iterdir())) == 2

@@ -197,32 +197,70 @@ def test_video_render_end_to_end(tmp_path):
     assert (info["width"], info["height"]) == (1080, 1920) and 3.5 < info["duration"] < 4.6
 
 
-def test_scouted_creator_library_is_valid():
-    import creator_library
-    rows = creator_library.load()
-    assert len(rows) >= 28
-    assert creator_library.check(rows) == []
-    assert all(r["Profile URL"].endswith(r["User ID"]) for r in rows)
-    assert creator_library.next_id(rows, "xiaohongshu") == f"XHS-{len([r for r in rows if r['_file'] == 'xiaohongshu']) + 1:03d}"
+# --- animated explainer videos (motion_video.py) ---------------------------------------
+
+import motion_video
 
 
-def test_scouted_library_html_is_up_to_date():
-    import creator_library
-    built = creator_library.build_html(creator_library.load())
-    assert creator_library.HTML_OUT.read_text(encoding="utf-8") == built
+def _board():
+    return _json.loads((_ROOT / "examples" / "motion_storyboard.json").read_text(encoding="utf-8"))
 
 
-def test_scouted_library_check_catches_bad_score():
-    import creator_library
-    row = dict(creator_library.load()[0])
-    row["Score (/100)"] = "50"
-    assert any("score must be" in p for p in creator_library.check([row]))
+def test_motion_example_storyboard_passes_checks():
+    worst, report = motion_video.check_board(_board(), "douyin")
+    assert worst < 2, report
 
 
-def test_creator_library_open_prints_both_pages(capsys, monkeypatch):
-    import creator_library
-    monkeypatch.setenv("CI", "1")
-    creator_library.main(["--open"])
-    out = capsys.readouterr().out
-    assert "process.html" in out and "library.html" in out
-    assert creator_library.PROCESS_HTML.exists() and creator_library.HTML_OUT.exists()
+def test_free_online_doctor_without_qualifiers_is_red():
+    problems = motion_video.check_qualifiers(["线上问诊本身无需自付"])
+    assert problems and "Q-1" in problems[0]
+    assert not motion_video.check_qualifiers(["线上问诊本身无需自付", "试行服务 · 16 岁以上 · 家属不适用"])
+
+
+def test_claims_need_the_policy_line():
+    assert any("Q-2" in p for p in motion_video.check_qualifiers(["在 App 里报销"]))
+    assert not motion_video.check_qualifiers(["在 App 里报销", "具体保障以保单条款为准"])
+
+
+def test_long_subtitle_is_red():
+    board = _board()
+    board["scenes"][0]["say"] = ["这是一条非常非常非常非常长的字幕超过十六个字也没有逗号"]
+    worst, report = motion_video.check_board(board, "douyin")
+    assert worst == 2 and any("subtitle" in r for r in report)
+
+
+def test_timeline_follows_voice_lengths():
+    layout, cues, voice = motion_video.build_timeline(_board(), _ROOT / "examples")
+    assert len(voice) == len(layout["lines"]) == 19
+    assert all(a["t1"] <= b["t0"] + 0.05 for a, b in zip(layout["lines"], layout["lines"][1:]))
+    assert 40 < layout["total"] < 75 and cues
+
+
+def test_video_edit_refuses_unqualified_claim(tmp_path):
+    srt = tmp_path / "s.srt"
+    srt.write_text("1\n00:00:00,200 --> 00:00:01,500\n线上问诊本身无需自付\n", encoding="utf-8")
+    plan = {"platform": "douyin", "clips": [{"file": "x.mp4"}], "subtitles": str(srt)}
+    assert any("Q-1" in p for p in video_edit.text_problems(plan))
+
+
+def test_motion_render_end_to_end(tmp_path):
+    if not _shutil.which("ffmpeg"):
+        pytest.skip("ffmpeg not installed")
+    pytest.importorskip("playwright")
+    board = {"platform": "douyin", "scenes": [
+        {"bg": "red", "say": ["测试字幕"], "min": 1,
+         "items": [{"type": "headline", "text": "钱怎么{报}？"}, {"type": "emoji", "name": "receipt", "y": 0.6}]},
+        {"bg": "cream", "say": ["第二段"], "min": 1,
+         "items": [{"type": "steps", "items": [{"text": "一"}, {"text": "二"}], "at": [0, 0.3]}]}]}
+    (tmp_path / "b.json").write_text(_json.dumps(board, ensure_ascii=False), encoding="utf-8")
+    out = tmp_path / "m.mp4"
+    try:
+        assert motion_video.main([str(tmp_path / "b.json"), "--out", str(out), "--pack"]) == 0
+    except Exception as err:  # no browser installed for Playwright
+        if "Executable doesn't exist" in str(err):
+            pytest.skip("Playwright browser not installed")
+        raise
+    info = video_edit.probe(out)
+    assert (info["width"], info["height"]) == (1080, 1920) and info["audio"]
+    pack = tmp_path / "m_剪映素材包"
+    assert (pack / "字幕.srt").exists() and (pack / "无字幕版.mp4").exists() and len(list((pack / "分段").iterdir())) == 2

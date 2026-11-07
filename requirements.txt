@@ -1,2 +1,4 @@
 anthropic>=2.3
 Pillow>=10  # tools/make_post.py image cards
+playwright>=1.45    # tools/motion_video.py (then: playwright install chromium)
+edge-tts>=6.1       # tools/make_voice.py

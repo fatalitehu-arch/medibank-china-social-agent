@@ -34,3 +34,13 @@ SOFTWARE.
 ## vivy-yi/xiaohongshu-skills
 
 The creator tiers and vetting checklist in `references/kol-playbook.md` were informed by the KOL-collaboration and influencer-matrix concepts in https://github.com/vivy-yi/xiaohongshu-skills. That repository has no license file, so no text or code from it is included here; the playbook is written from scratch.
+
+## Microsoft Fluent Emoji
+
+The 3D icons in `assets/emoji/` come from https://github.com/microsoft/fluentui-emoji (MIT License,
+Copyright (c) Microsoft Corporation; full text in `assets/emoji/LICENSE`).
+
+## Noto Sans SC / Noto Serif SC
+
+`tools/motion_video.py` downloads these fonts at run time (not stored in this repository) from
+https://github.com/notofonts/noto-cjk under the SIL Open Font License 1.1.

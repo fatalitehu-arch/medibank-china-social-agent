@@ -258,7 +258,8 @@ def data():
 def render():
     payload = english(data())
     payload["examples"] = examples()
-    payload["samples"] = examples("samples")  # images: not text, so not passed through english()
+    payload["samples"] = examples("samples")
+    payload["goal"] = examples("goal")  # images: not text, so not passed through english()
     blob = json.dumps(payload, ensure_ascii=False, indent=1).replace("</", "<\\/")
     html = TEMPLATE.read_text(encoding="utf-8")
     theme = json.loads((ROOT / "assets" / "brand" / "theme.json").read_text(encoding="utf-8"))

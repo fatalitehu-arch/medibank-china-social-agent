@@ -311,6 +311,25 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
 #lb { position: fixed; inset: 0; background: rgba(0,0,0,.82); display: none; align-items: center; justify-content: center; z-index: 20; cursor: zoom-out; padding: 20px; }
 #lb.on { display: flex; }
 #lb img { max-width: 100%; max-height: 100%; border-radius: 12px; }
+.gpath { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 22px; margin-top: 8px; }
+.gp { background: #fff; color: #1a1a1a; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 8px; position: relative; box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.gp.off { background: #fbefee; }
+.gp + .gp::before { content: "→"; position: absolute; left: -19px; top: 50%; transform: translateY(-50%); color: #fff; font-weight: 800; font-size: 18px; }
+.gp .k { color: __C_primary__; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+.gp .t { font-size: 13px; font-weight: 600; line-height: 1.35; }
+.gp .vis { height: 112px; border-radius: 10px; overflow: hidden; display: grid; place-items: center; background: #f6eeee; position: relative; }
+.gp .vis img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.gp .thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; width: 100%; height: 100%; padding: 6px; }
+.gp .vis .thumbs img { width: 100%; height: 100%; min-width: 0; border-radius: 6px; object-fit: cover; object-position: top; }
+.gp .vis .ic { width: 52px; height: 52px; }
+.gp .bubble { background: #fff; border: 2px solid __C_primary__; border-radius: 16px; padding: 8px 10px; font-size: 12px; font-weight: 700; color: __C_primary__; margin: 0 8px; text-align: center; }
+.gp .offer { display: flex; gap: 8px; align-items: center; padding: 8px; width: 100%; height: 100%; background: #fff; }
+.gp .offer img { width: 64px; height: auto; object-fit: contain; }
+.gp .offer .doc { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+.gp .offer .doc i { display: block; height: 5px; border-radius: 3px; background: #e5dcdc; }
+.gp .offer .doc b { font-size: 10px; background: #FAE94E; color: #1a1a1a; border-radius: 4px; padding: 2px 4px; }
+.gp .ic { width: 44px; height: 44px; color: __C_primary__; }
+@media (max-width: 900px) { .gpath { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gp + .gp::before { display: none; } }
 </style>
 </head>
 <body>
@@ -332,13 +351,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   </div>
   <div class="goal">
     <div class="gl">The end goal</div>
-    <div class="path">
-      <div class="step"><div class="k">On social media</div>Posts and creator content on five platforms</div>
-      <div class="step"><div class="k">Student thinks</div>"Insurance matters. I should choose it myself."</div>
-      <div class="step off"><div class="k">Off platform</div>UNSW offer letter link → UNSW Medibank OSHC site</div>
-      <div class="step off"><div class="k">Off platform</div>AI chatbot explains Medibank OSHC</div>
-      <div class="step off"><div class="k">Off platform</div>Student compares insurers and decides</div>
-    </div>
+    <div class="gpath" id="gpath"></div>
   </div>
 </div></header>
 <main>
@@ -733,6 +746,16 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   document.querySelector(".samples").addEventListener("click", function (e) { var f = e.target.closest("figure"); if (!f) return; lb.querySelector("img").src = SM[f.dataset.k]; lb.classList.add("on"); });
   lb.addEventListener("click", function () { lb.classList.remove("on"); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") lb.classList.remove("on"); });
+
+  /* ---------- End-goal path in the hero ---------- */
+  var G = D.goal || {}, xs = Object.keys(SM).filter(function (k) { return k.indexOf("xhs-") === 0; }).slice(0, 3);
+  $("gpath").innerHTML = [
+    ["", "On social media", '<div class="thumbs">' + xs.map(function (k) { return '<img src="' + SM[k] + '" alt="">'; }).join("") + "</div>", "Experience posts and creator content on five platforms"],
+    ["", "Student thinks", '<div class="bubble">“Insurance matters. I should choose it myself.”</div>', "Awareness, not a sales pitch"],
+    ["off", "UNSW offer letter", '<div class="offer">' + (G.unsw ? '<img src="' + G.unsw + '" alt="UNSW">' : "") + '<div class="doc"><i></i><i style="width:80%"></i><b>OSHC → UNSW Medibank site</b><i style="width:60%"></i></div></div>', "The offer letter links to the UNSW Medibank OSHC site"],
+    ["off", "Medibank OSHC chatbot", G.chatbot ? '<img src="' + G.chatbot + '" alt="Medibank OSHC Assistant chatbot">' : ic("talks"), "Our AI assistant explains the cover in about 3 minutes"],
+    ["off", "Student decides", ic("check"), "Compares insurers and chooses for themselves"]
+  ].map(function (g) { return '<div class="gp ' + g[0] + '"><div class="k">' + g[1] + '</div><div class="vis">' + g[2] + '</div><div class="t">' + g[3] + "</div></div>"; }).join("");
 
   /* ---------- Feature cards in the hero ---------- */
   $("f1big").textContent = go.length + " of " + C.length;

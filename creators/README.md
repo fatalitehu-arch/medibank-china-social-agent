@@ -1,4 +1,16 @@
-# Creator library (达人库)
+# Creators (博主)
+
+## Scouted creator library (博主库): `scouted/`
+
+Real creators found with the field-tested search method (`references/creator-finding.md`,
+visual: `assets/creator-finding/process.html`). One CSV per platform; **Xiaohongshu is the main
+platform** and the only one scanned so far (28 creators: 8 Shortlist, 10 Watch, 3 Exclude,
+7 Reference). Each row has the Library ID, Xiaohongshu ID, User ID and profile link, a scan
+score out of 100 and a status. Rules and the full table: `scouted/README.md`. Visual:
+`scouted/library.html`. Tool: `python tools/creator_library.py` (`--check --html` after adding rows).
+
+## Signed creators: roster and results (达人库)
+
 
 The creators Medibank works with on Chinese social media, and how each one is doing.
 **The rows here are demo data (示例_ handles, made-up numbers).** Replace them with real

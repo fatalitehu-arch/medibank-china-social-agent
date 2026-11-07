@@ -258,3 +258,33 @@ def test_motion_render_end_to_end(tmp_path):
     assert (info["width"], info["height"]) == (1080, 1920) and 1.9 < info["duration"] < 2.2 and info["audio"]
     pack = tmp_path / "m_剪映素材包"
     assert (pack / "字幕.srt").exists() and (pack / "无字幕版.mp4").exists() and len(list((pack / "分段").iterdir())) == 2
+
+def test_scouted_creator_library_is_valid():
+    import creator_library
+    rows = creator_library.load()
+    assert len(rows) >= 28
+    assert creator_library.check(rows) == []
+    assert all(r["Profile URL"].endswith(r["User ID"]) for r in rows)
+    assert creator_library.next_id(rows, "xiaohongshu") == f"XHS-{len([r for r in rows if r['_file'] == 'xiaohongshu']) + 1:03d}"
+
+
+def test_scouted_library_html_is_up_to_date():
+    import creator_library
+    built = creator_library.build_html(creator_library.load())
+    assert creator_library.HTML_OUT.read_text(encoding="utf-8") == built
+
+
+def test_scouted_library_check_catches_bad_score():
+    import creator_library
+    row = dict(creator_library.load()[0])
+    row["Score (/100)"] = "50"
+    assert any("score must be" in p for p in creator_library.check([row]))
+
+
+def test_creator_library_open_prints_both_pages(capsys, monkeypatch):
+    import creator_library
+    monkeypatch.setenv("CI", "1")
+    creator_library.main(["--open"])
+    out = capsys.readouterr().out
+    assert "process.html" in out and "library.html" in out
+    assert creator_library.PROCESS_HTML.exists() and creator_library.HTML_OUT.exists()

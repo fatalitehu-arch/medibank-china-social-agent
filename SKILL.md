@@ -52,7 +52,7 @@ All paths in this skill and its sub-skills are **relative to the agent's root fo
 | Cut a short video from the user's footage: trim, join, vertical, subtitles, Medibank colours, title/end cards | `skills/cn-video-editor/SKILL.md` |
 | The same content adapted for other platforms | `skills/cn-repurpose/SKILL.md` |
 | A content calendar, campaign plan, channel mix, "怎么吸引学生" | `skills/cn-content-planner/SKILL.md` |
-| Find, score, vet, brief or manage creators; review a creator draft; the creator library and dashboard (达人库/看板) | `skills/cn-kol-manager/SKILL.md` |
+| "How do we find (the right) creators?", "any creators you recommend?", the scouted creator library (博主库): open the pages with `python3 tools/creator_library.py --open` first; find, score, vet, brief or manage creators; review a creator draft; roster and dashboard (达人库/看板) | `skills/cn-kol-manager/SKILL.md` |
 | "能不能发", check any draft, caption or image text | `skills/cn-compliance-review/SKILL.md` |
 | Replies to comments, DMs, 公众号留言, live chat; negative posts; 舆情 | `skills/cn-community-manager/SKILL.md` |
 | A weekly/monthly report from exported data | `skills/cn-performance-review/SKILL.md` |
@@ -70,7 +70,7 @@ trend-scout → planner → writer/kol-manager → video-editor → repurpose �
 | `references/platforms/` | One file per platform plus an overview: formats, specs, marketplace, platform-specific don'ts |
 | `tools/` | Python 3.9+ scripts: `compliance_scan.py` (with `--platform`), `note_lint.py`, `kol_score.py`, `calendar_builder.py`, `performance_report.py`, `trend_score.py`, `creator_dashboard.py`, `evidence_check.py`, `build_welcome.py`; `make_post.py` (finished posts with image cards; needs Pillow) and `video_edit.py` (needs ffmpeg) |
 | `assets/brand/theme.json` | Medibank colours and fonts used by post cards, videos and the welcome page |
-| `creators/` | Creator library: `roster.csv` (who we work with) and `posts.csv` (their results); demo rows until replaced |
+| `creators/` | `scouted/`: the creator library of real creators found with the tested search method (`references/creator-finding.md`), one CSV per platform, Xiaohongshu first, with IDs, scores and status, plus `library.html`. `roster.csv` (who we work with) and `posts.csv` (their results) are demo rows until replaced |
 | `assets/templates/` | Creator brief, onboarding pack, content calendar, comment-reply library, monthly report, Legal sign-off |
 | `assets/images/` | Mock offer letter and campaign funnel (SVG) |
 | `examples/` | Sample drafts, creator CSV, metrics CSV, sample outputs |

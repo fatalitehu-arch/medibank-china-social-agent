@@ -51,9 +51,11 @@ recent sponsored note for another OSHC insurer (in the last 90 days).
    Filters below use 蒲公英 terms; the other marketplaces have equivalents.
    Filter: category 教育/留学 or 生活; follower location 澳大利亚 or creator IP 澳大利亚;
    audience 18–30.
-2. Search 小红书 and 抖音 for: `澳洲留学 行前`, `OSHC`, `澳洲看病`, `悉尼 GP`, `UNSW 新生`,
-   `墨大 新生`, `澳洲 留学生 保险`, `offer 怎么看`. Note who ranks in the top results and
-   whose comments are full of real questions.
+2. Search 小红书 and 抖音 with lifestyle keywords (region + audience + scene), e.g.
+   `澳洲留学生活`, `悉尼留学日常`, `墨尔本留学`, `UNSW 日常`, `澳洲华人日常`, `悉尼 + 早八`.
+   Not insurance or doctor words: we want lifestyle creators, and the topic goes in the brief.
+   The tested method and the creators already found: `references/creator-finding.md`,
+   `creators/scouted/`.
 3. Third-party data tools (千瓜数据, 灰豚数据, 新红) for engagement history and fake-fan
    checks. [VERIFY Medibank has a licence for one of these]
 4. Export candidates to CSV (template: `examples/kol_candidates.csv`) and score them.

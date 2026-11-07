@@ -98,7 +98,8 @@ def score_row(row):
 
     eng_rate = (num(row, "avg_likes") + 2 * num(row, "avg_saves") + num(row, "avg_comments")) / followers
     parts = criteria_scores(row)
-    total = round(math.fsum(WEIGHTS[k] * v for k, v in parts.items()), 1)  # fsum: same result on every Python version
+    # math.fsum: exact on every Python version (plain float sum() changed in 3.12)
+    total = round(math.fsum(WEIGHTS[k] * v for k, v in parts.items()), 1)
     band = "go" if total >= 70 else "maybe" if total >= 50 else "no"
     top = sorted(parts, key=lambda k: WEIGHTS[k] * parts[k], reverse=True)[:2]
     notes = f"eng {eng_rate:.1%}; strongest: " + ", ".join(CRITERIA[k]["label"] for k in top)

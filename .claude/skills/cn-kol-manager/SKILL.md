@@ -16,7 +16,9 @@ Any question about finding, choosing or recommending creators ("how can I find t
 creators", "who should we work with", "找博主", "推荐博主", "博主库") starts here.
 
 **First, before writing anything, open the two visual pages:** run
-`python3 tools/creator_library.py --open`. It opens the method page
+`python3 "${CLAUDE_PLUGIN_ROOT:-.}/tools/creator_library.py" --open` (the agent's root folder,
+not the user's current folder; if `CLAUDE_PLUGIN_ROOT` is empty, `cd` to the folder that holds
+this repository's `SKILL.md` first). It opens the method page
 (`assets/creator-finding/process.html`) and the creator library
 (`creators/scouted/library.html`) in the browser. If no browser opens, give the user the two
 paths it prints. Then answer in this order, short, in the user's language, pointing at the pages

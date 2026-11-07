@@ -197,8 +197,8 @@ def evidence():
     return {"facts": facts, "assumptions": tests}
 
 
-def examples():
-    folder = ROOT / "assets" / "welcome" / "examples"
+def examples(name="examples"):
+    folder = ROOT / "assets" / "welcome" / name
     pics = {}
     for f in sorted(folder.glob("*.jpg")):
         pics[f.stem] = "data:image/jpeg;base64," + base64.b64encode(f.read_bytes()).decode()
@@ -257,7 +257,8 @@ def data():
 
 def render():
     payload = english(data())
-    payload["examples"] = examples()  # images: not text, so not passed through english()
+    payload["examples"] = examples()
+    payload["samples"] = examples("samples")  # images: not text, so not passed through english()
     blob = json.dumps(payload, ensure_ascii=False, indent=1).replace("</", "<\\/")
     html = TEMPLATE.read_text(encoding="utf-8")
     theme = json.loads((ROOT / "assets" / "brand" / "theme.json").read_text(encoding="utf-8"))

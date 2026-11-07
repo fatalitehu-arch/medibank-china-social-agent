@@ -2,7 +2,7 @@
 interface:
   display_name: "评论与舆情"
   short_description: "Replies, 留言, live Q&A, listening and crisis handling"
-  brand_color: "#0B6E99"
+  brand_color: "#CB2D2E"
   default_prompt: "这几条评论怎么回？"
 policy:
   allow_implicit_invocation: true

@@ -2,7 +2,7 @@
 interface:
   display_name: "博主合作管理"
   short_description: "Find, score, brief and review creators on 蒲公英/星图/互选/微任务"
-  brand_color: "#0B6E99"
+  brand_color: "#CB2D2E"
   default_prompt: "给 examples/kol_candidates.csv 里的博主打分并给出名单。"
 policy:
   allow_implicit_invocation: true

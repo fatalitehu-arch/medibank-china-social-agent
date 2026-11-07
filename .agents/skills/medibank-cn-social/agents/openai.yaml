@@ -2,7 +2,7 @@
 interface:
   display_name: "Medibank 中国社媒 Agent"
   short_description: "小红书·公众号·视频号·抖音·微博 content, creators and compliance"
-  brand_color: "#0B6E99"
+  brand_color: "#CB2D2E"
   default_prompt: "帮我做下个月五个平台的内容计划，并检查合规。"
 policy:
   allow_implicit_invocation: true

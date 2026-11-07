@@ -2,7 +2,7 @@
 interface:
   display_name: "合规审稿"
   short_description: "Check any draft against PRC, AU and platform rules"
-  brand_color: "#0B6E99"
+  brand_color: "#CB2D2E"
   default_prompt: "帮我审一下这篇抖音脚本能不能发。"
 policy:
   allow_implicit_invocation: true

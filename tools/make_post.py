@@ -106,7 +106,9 @@ class Renderer:
         d = self.ImageDraw.Draw(img)
         r = int(self.w * 0.55)
         d.ellipse((self.w - r * 0.9, -r * 0.35, self.w + r * 0.6, r * 1.15), fill=rgb(C["primary_dark"]))
-        d.ellipse((-r * 0.5, self.h - r * 0.6, r * 0.6, self.h + r * 0.5), fill=rgb(C["accent"]))
+        # second circle sits above the footer so the footer text always lands on the main colour
+        cy, cr = self.h - int(150 * self.s) - r * 0.42, r * 0.42
+        d.ellipse((-cr, cy - cr, cr, cy + cr), fill=rgb(C["accent"]))
         pad = int(72 * self.s)
         y = int(self.h * (0.12 if self.h > self.w else 0.14))
         chip = spec.get("pillar", "")
@@ -159,7 +161,7 @@ class Renderer:
         pad = int(72 * self.s)
         y = int(self.h * 0.32)
         if end.get("next"):
-            self.text_block(d, (pad, y - int(70 * self.s)), "下一步", 38, rgb(C["accent"]), self.w - 2 * pad)
+            self.text_block(d, (pad, y - int(70 * self.s)), "下一步", 38, rgb(C["primary"]), self.w - 2 * pad)
             y = self.text_block(d, (pad, y), end["next"], 76, rgb(C["primary"]), self.w - 2 * pad, 1.25) + int(60 * self.s)
         if end.get("question"):
             y = self.text_block(d, (pad, y), end["question"], 46, rgb(C["ink"]), self.w - 2 * pad) + int(40 * self.s)

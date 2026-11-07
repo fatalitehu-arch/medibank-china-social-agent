@@ -2,7 +2,7 @@
 interface:
   display_name: "视频剪辑"
   short_description: "Cut, subtitle and brand short videos for 抖音, 视频号 and 小红书"
-  brand_color: "#0A3D91"
+  brand_color: "#CB2D2E"
   default_prompt: "把 raw/ 里的三段素材剪成一条 45 秒的抖音竖屏视频，加字幕、片头片尾。"
 policy:
   allow_implicit_invocation: true

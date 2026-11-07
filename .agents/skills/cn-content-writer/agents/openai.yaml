@@ -2,7 +2,7 @@
 interface:
   display_name: "内容写作"
   short_description: "Write compliant posts, articles and video scripts per platform"
-  brand_color: "#0B6E99"
+  brand_color: "#CB2D2E"
   default_prompt: "写一篇小红书：offer letter 里 OSHC 那一栏怎么看。"
 policy:
   allow_implicit_invocation: true

@@ -143,8 +143,8 @@ python tools/video_edit.py my_plan.json               # → outputs/videos/my_pl
 ```
 
 The agent writes the spec or edit plan for you; these commands are what it runs. Colours
-live in `assets/brand/theme.json` (an approximation of Medibank blue; swap in the official
-values from Medibank's brand team).
+live in `assets/brand/theme.json`: Medibank red `#CB2D2E` with white and black, sampled from
+medibank.com.au (swap in official values from Medibank's brand team if they differ).
 
 ### Creator library (达人库)
 

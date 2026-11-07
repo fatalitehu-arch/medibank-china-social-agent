@@ -35,8 +35,8 @@ clips, music or logos the team has no licence for (TR-2 in `references/complianc
 ## What the tool does
 
 * Fits any clip to 1080×1920 (1080×1440 for 小红书) with a blurred fill, never stretching.
-* Applies the Medibank colour tone from `assets/brand/theme.json` (cooler, slightly brighter).
-* Burns subtitles in white with a Medibank-blue outline.
+* Applies the Medibank colour tone from `assets/brand/theme.json` (slightly warmer and brighter).
+* Burns subtitles in white with a dark outline, readable on any footage.
 * Adds title and end cards drawn in Medibank colours (same renderer as the post cards).
 * Ducks music under speech and normalises loudness to −16 LUFS for phone playback.
 

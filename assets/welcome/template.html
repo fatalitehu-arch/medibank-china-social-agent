@@ -6,24 +6,24 @@
 <title>China Social Agent</title>
 <style>
 :root {
-  --bg: #f4f7fc; --surface: #ffffff; --surface-2: __C_soft__; --ink: __C_ink__; --ink-2: #3c4e68;
-  --ink-3: __C_muted__; --line: #d8e2f0; --accent: __C_primary__; --accent-2: __C_accent__; --accent-soft: __C_soft__;
-  --hl: __C_highlight__; --hero: __C_primary__; --hero-2: __C_primary_dark__; --bar: #1f66cc;
-  --good: #1d7a46; --good-soft: #e1f2e7; --warn: #8a5a00; --warn-soft: #fbefd5; --bad: #a33a1a; --bad-soft: #f8e2da;
+  --bg: #f8f6f5; --surface: #ffffff; --surface-2: __C_soft__; --ink: __C_ink__; --ink-2: #444444;
+  --ink-3: __C_muted__; --line: #e7dfdd; --accent: __C_primary__; --accent-2: __C_accent__; --accent-soft: __C_soft__;
+  --hl: __C_highlight__; --hero: __C_primary__; --hero-2: __C_primary_dark__; --bar: #cb2d2e;
+  --good: #1d7a46; --good-soft: #e1f2e7; --warn: #8a5a00; --warn-soft: #fbefd5; --bad: #7a1f3d; --bad-soft: #f5e1e8;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #08142b; --surface: #0f1f3d; --surface-2: #152a50; --ink: #e8eef8; --ink-2: #b6c4da;
-    --ink-3: #8a9bb6; --line: #22375e; --accent: #7cb6ff; --accent-2: #4cc3f0; --accent-soft: #17305a;
-    --hl: __C_highlight__; --hero: #0c2f73; --hero-2: #071d4a; --bar: #3a8fe0;
-    --good: #6fcf97; --good-soft: #17301f; --warn: #e6b450; --warn-soft: #33290f; --bad: #f08a6c; --bad-soft: #3a1d14;
+    --bg: #121111; --surface: #1c1a1a; --surface-2: #2a2222; --ink: #f2eeee; --ink-2: #c9c1c1;
+    --ink-3: #9a9090; --line: #352d2d; --accent: #ef7c7a; --accent-2: #3a2a2a; --accent-soft: #3a2424;
+    --hl: __C_highlight__; --hero: #9e2223; --hero-2: #7a1a1b; --bar: #e5605f;
+    --good: #6fcf97; --good-soft: #17301f; --warn: #e6b450; --warn-soft: #33290f; --bad: #e88fb0; --bad-soft: #3a1d29;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #08142b; --surface: #0f1f3d; --surface-2: #152a50; --ink: #e8eef8; --ink-2: #b6c4da;
-  --ink-3: #8a9bb6; --line: #22375e; --accent: #7cb6ff; --accent-2: #4cc3f0; --accent-soft: #17305a;
-  --hl: __C_highlight__; --hero: #0c2f73; --hero-2: #071d4a; --bar: #3a8fe0;
-  --good: #6fcf97; --good-soft: #17301f; --warn: #e6b450; --warn-soft: #33290f; --bad: #f08a6c; --bad-soft: #3a1d14;
+  --bg: #121111; --surface: #1c1a1a; --surface-2: #2a2222; --ink: #f2eeee; --ink-2: #c9c1c1;
+  --ink-3: #9a9090; --line: #352d2d; --accent: #ef7c7a; --accent-2: #3a2a2a; --accent-soft: #3a2424;
+  --hl: __C_highlight__; --hero: #9e2223; --hero-2: #7a1a1b; --bar: #e5605f;
+  --good: #6fcf97; --good-soft: #17301f; --warn: #e6b450; --warn-soft: #33290f; --bad: #e88fb0; --bad-soft: #3a1d29;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -94,19 +94,19 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .loop .card::before { counter-increment: s; content: counter(s); position: absolute; top: 10px; left: 18px; font-weight: 700; color: var(--accent); }
 pre { background: var(--surface-2); border-radius: 10px; padding: 12px; overflow-x: auto; font-size: 13px; margin: 8px 0 0; }
 .theme { margin-left: auto; background: none; border: 1px solid var(--line); color: var(--ink-2); border-radius: 8px; padding: 3px 8px; font-size: 13px; cursor: pointer; }
-.hero { background: radial-gradient(circle at 85% 10%, var(--hero-2) 0 28%, transparent 28.2%), radial-gradient(circle at 0% 100%, var(--accent-2) 0 16%, transparent 16.2%), var(--hero); color: #fff; }
+.hero { background: radial-gradient(circle at 85% 10%, var(--hero-2) 0 28%, transparent 28.2%), radial-gradient(circle at 0% 100%, rgba(255,255,255,.14) 0 16%, transparent 16.2%), var(--hero); color: #fff; }
 .hero .in { max-width: 1120px; margin: 0 auto; padding: 56px 16px 40px; }
 .hero h1 { color: #fff; max-width: 780px; }
-.hero .sub { color: #dbe7fb; }
+.hero .sub { color: #fde6e6; }
 .hero .eyebrow { color: var(--hl); margin-top: 0; }
 .hero .chip { background: rgba(255,255,255,.14); color: #fff; }
 .hero .tile { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); color: #fff; }
-.hero .tile .l { color: #dbe7fb; }
+.hero .tile .l { color: #fde6e6; }
 .hero h3 { color: #fff; }
-.hero .step { background: rgba(255,255,255,.95); color: #0b1f3a; border: 0; }
+.hero .step { background: rgba(255,255,255,.96); color: #1a1a1a; border: 0; }
 .hero .step.off { background: rgba(255,255,255,.72); }
 .hero .step .k { color: __C_primary__; }
-.hero .note { color: #c7d6f2; }
+.hero .note { color: #f7d3d3; }
 .stat { display: flex; flex-direction: column; gap: 6px; }
 .stat .big { font-size: 46px; font-weight: 800; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
 .stat .what { font-size: 15px; color: var(--ink); }

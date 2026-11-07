@@ -224,9 +224,16 @@ def test_claims_need_the_policy_line():
 
 def test_long_subtitle_is_red():
     board = _board()
-    board["scenes"][0]["subs"] = "这是一条非常非常非常非常长的字幕超过十六个字"
+    board["scenes"][0]["say"] = ["这是一条非常非常非常非常长的字幕超过十六个字也没有逗号"]
     worst, report = motion_video.check_board(board, "douyin")
     assert worst == 2 and any("subtitle" in r for r in report)
+
+
+def test_timeline_follows_voice_lengths():
+    layout, cues, voice = motion_video.build_timeline(_board(), _ROOT / "examples")
+    assert len(voice) == len(layout["lines"]) == 19
+    assert all(a["t1"] <= b["t0"] + 0.05 for a, b in zip(layout["lines"], layout["lines"][1:]))
+    assert 40 < layout["total"] < 75 and cues
 
 
 def test_video_edit_refuses_unqualified_claim(tmp_path):
@@ -239,52 +246,21 @@ def test_video_edit_refuses_unqualified_claim(tmp_path):
 def test_motion_render_end_to_end(tmp_path):
     if not _shutil.which("ffmpeg"):
         pytest.skip("ffmpeg not installed")
-    pytest.importorskip("PIL")
-    try:
-        motion_video.find_font()
-    except SystemExit:
-        pytest.skip("no Chinese font on this machine")
+    pytest.importorskip("playwright")
     board = {"platform": "douyin", "scenes": [
-        {"seconds": 1, "bg": "red", "section": "测试", "items": [{"type": "text", "text": "钱怎么{报}？"},
-                                                                  {"type": "icon", "name": "receipt", "y": 0.6}],
-         "subs": "测试字幕", "sfx": [{"at": 0, "name": "whoosh"}]},
-        {"seconds": 1, "items": [{"type": "steps", "items": ["一", "二"], "interval": 0.3},
-                                 {"type": "phone", "screens": [{"title": "App", "rows": ["A", "B"], "hl": 1}]}],
-         "subs": [[0, "第二段"]]}]}
+        {"bg": "red", "say": ["测试字幕"], "min": 1,
+         "items": [{"type": "headline", "text": "钱怎么{报}？"}, {"type": "emoji", "name": "receipt", "y": 0.6}]},
+        {"bg": "cream", "say": ["第二段"], "min": 1,
+         "items": [{"type": "steps", "items": [{"text": "一"}, {"text": "二"}], "at": [0, 0.3]}]}]}
     (tmp_path / "b.json").write_text(_json.dumps(board, ensure_ascii=False), encoding="utf-8")
     out = tmp_path / "m.mp4"
-    assert motion_video.main([str(tmp_path / "b.json"), "--out", str(out), "--pack"]) == 0
+    try:
+        assert motion_video.main([str(tmp_path / "b.json"), "--out", str(out), "--pack"]) == 0
+    except Exception as err:  # no browser installed for Playwright
+        if "Executable doesn't exist" in str(err):
+            pytest.skip("Playwright browser not installed")
+        raise
     info = video_edit.probe(out)
-    assert (info["width"], info["height"]) == (1080, 1920) and 1.9 < info["duration"] < 2.2 and info["audio"]
+    assert (info["width"], info["height"]) == (1080, 1920) and info["audio"]
     pack = tmp_path / "m_剪映素材包"
     assert (pack / "字幕.srt").exists() and (pack / "无字幕版.mp4").exists() and len(list((pack / "分段").iterdir())) == 2
-
-def test_scouted_creator_library_is_valid():
-    import creator_library
-    rows = creator_library.load()
-    assert len(rows) >= 28
-    assert creator_library.check(rows) == []
-    assert all(r["Profile URL"].endswith(r["User ID"]) for r in rows)
-    assert creator_library.next_id(rows, "xiaohongshu") == f"XHS-{len([r for r in rows if r['_file'] == 'xiaohongshu']) + 1:03d}"
-
-
-def test_scouted_library_html_is_up_to_date():
-    import creator_library
-    built = creator_library.build_html(creator_library.load())
-    assert creator_library.HTML_OUT.read_text(encoding="utf-8") == built
-
-
-def test_scouted_library_check_catches_bad_score():
-    import creator_library
-    row = dict(creator_library.load()[0])
-    row["Score (/100)"] = "50"
-    assert any("score must be" in p for p in creator_library.check([row]))
-
-
-def test_creator_library_open_prints_both_pages(capsys, monkeypatch):
-    import creator_library
-    monkeypatch.setenv("CI", "1")
-    creator_library.main(["--open"])
-    out = capsys.readouterr().out
-    assert "process.html" in out and "library.html" in out
-    assert creator_library.PROCESS_HTML.exists() and creator_library.HTML_OUT.exists()

@@ -30,23 +30,29 @@ or logos the team has no licence for (TR-2 in `references/compliance.md`).
 
 ## Animated explainer (no footage)
 
-1. Write the storyboard JSON (shape and every option: `examples/motion_storyboard.json` and the
-   docstring of `tools/motion_video.py`). Scene types: `text` (`{词}` = yellow highlight), `icon`
-   (thermometer, wallet, phone, video, clinic, receipt, card, check, clock, camera, upload),
-   `card` (icon + label), `phone` (mock app screens with tap ripples), `steps` (numbered rows
-   that light up one by one), `note` (fine print). Animations: pop, slide-left/right/up, fade.
-   Optional `section` = black pill title at the top, `tag` = red number in it.
-2. `python tools/motion_video.py board.json --check`: compliance scan, qualifier rules,
-   subtitle length. Fix anything red.
-3. `python tools/motion_video.py board.json --frames 2,10,20,30 --out outputs/videos/x.mp4`
-   → PNG stills. Look at them: nothing cut off, nothing in the bottom 20% (抖音 caption area) or
-   the right edge (like/comment buttons), keywords readable.
-4. Render: `python tools/motion_video.py board.json --pack --out outputs/videos/<name>.mp4`.
-   Sound effects (whoosh, pop, ding, click, success) are synthesised, so no licence is needed.
-   There is no voice-over: suggest 剪映「文本朗读」on the .srt, or the user records one.
-5. `--pack` also writes `<name>_剪映素材包/`: numbered scene clips, a no-subtitle version,
-   `字幕.srt`, the sound effects (single and pre-aligned) and `时间表.csv`. The user usually
-   finishes in 剪映 (its drafts can't be generated), so always deliver the pack.
+Needs ffmpeg and Playwright (`pip install playwright edge-tts && playwright install chromium`).
+
+1. **Storyboard JSON** (shape and every option: `examples/motion_storyboard.json` and the docstring of
+   `tools/motion_video.py`). Each scene has `say` (voice lines = subtitles, `{词}` = yellow) and
+   `items` timed to the voice with `"at": "L1+0.4"` (0.4 s after the scene's 2nd line starts).
+   Item types: headline (宋体), text (黑体), big, chip, emoji (3D icons in `assets/emoji/`, Microsoft
+   Fluent Emoji, MIT), card, note, phone (real app screenshot with highlight rings and tap ripples:
+   `assets/app-screens/`, personal data blurred), steps. Scenes alternate red / cream / white.
+2. **Voice-over:** `python tools/make_voice.py board.json` (Microsoft Edge neural voices; default
+   晓晓, `--voice zh-CN-YunxiNeural --name yunxi` for a male voice). Needs internet; if the sandbox
+   can't reach the TTS service, run it on the user's computer and copy `voice/` back. Scene length
+   follows the voice, so subtitles and animation stay in sync automatically.
+3. `python tools/motion_video.py board.json --check`: compliance scan, qualifier rules, subtitle
+   length (≤ 16 per line; a longer line breaks at its comma). Fix anything red.
+4. `--frames 2,10,20,30 --out outputs/videos/x.mp4` → stills. Look at them: nothing cut off,
+   nothing important in the bottom 20 % (抖音 caption) or right edge (like/comment buttons).
+5. Render: `python tools/motion_video.py board.json --pack --out outputs/videos/<name>.mp4`.
+   Fonts: 苹方 (黑体) and 宋体 on a Mac; Noto Sans/Serif SC elsewhere (downloaded once).
+6. `--pack` writes `<name>_剪映素材包/`: scene clips, a no-subtitle version, `字幕.srt`, aligned voice
+   and sound-effect tracks, `时间表.csv`. The user often finishes in 剪映, so always deliver it.
+
+App screenshots: only the user's own, with names, member numbers and anything personal blurred, and
+labelled 真实 App 界面 · 个人信息已打码 (the phone item does this).
 
 ## Footage edit (the user's own clips)
 

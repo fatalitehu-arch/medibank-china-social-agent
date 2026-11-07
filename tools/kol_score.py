@@ -45,12 +45,17 @@ HARD_STOPS = {
 }
 
 
+TIERS = ["<500", "500–1k", "1k–2k", "2k+"]  # Medibank works mostly with creators under 2k followers
+
+
 def tier(followers):
-    if followers < 10_000:
-        return "KOC"
-    if followers < 100_000:
-        return "腰部"
-    return "头部"
+    if followers < 500:
+        return "<500"
+    if followers < 1_000:
+        return "500–1k"
+    if followers < 2_000:
+        return "1k–2k"
+    return "2k+"
 
 
 def truthy(value):

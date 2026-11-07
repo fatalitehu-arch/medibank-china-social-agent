@@ -330,6 +330,15 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
 .gp .offer .doc b { font-size: 10px; background: #FAE94E; color: #1a1a1a; border-radius: 4px; padding: 2px 4px; }
 .gp .ic { width: 44px; height: 44px; color: #CB2D2E; }
 @media (max-width: 900px) { .gpath { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gp + .gp::before { display: none; } }
+.fraud .fr.dim { opacity: .45; }
+.tiers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 4px 0 14px; }
+.tb { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.tb.dim { opacity: .6; }
+.tb .pp2 { display: flex; gap: 1px; color: var(--accent); height: 22px; }
+.tb .pp2 .ic { width: 18px; height: 18px; }
+.tb b { font-size: 18px; }
+.tb span { font-size: 12px; color: var(--ink-3); }
+@media (max-width: 700px) { .tiers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
 </head>
 <body>
@@ -380,6 +389,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
     <div class="demo" data-icon="info"><b>Demo data.</b> The candidates are made up to show how the scoring works.</div>
     <div class="card">
       <h3>Candidates</h3>
+      <div class="tiers" id="tiers"></div>
       <p class="note top">Darker square = stronger on that trait. Hover any square.</p>
       <div class="scroll"><div class="hm" id="heat"></div></div>
     </div>
@@ -1242,8 +1252,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
    },
    {
     "id": "A-2",
-    "assumption": "Budget split KOC ~40%, mid tier ~45%, top tier ~15% (shape from E-7, E-8; the exact split is ours)",
-    "test": "Cost per save and cost per inquiry by tier (`tools/creator_dashboard.py`)",
+    "assumption": "Most creators under 2k followers, in bands <500 · 500–1k · 1k–2k · 2k+ (direction from E-3, E-7, E-8, E-14; the bands and mix are ours)",
+    "test": "Cost per save and cost per inquiry by band (`tools/creator_dashboard.py`)",
     "when": "After month 1"
    },
    {
@@ -1288,12 +1298,12 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_UNSWFreshers",
    "platform": "xiaohongshu",
-   "tier": "KOC",
-   "followers": "3500",
+   "tier": "<500",
+   "followers": "380",
    "score": 84.0,
    "band": "go",
    "reason": "",
-   "eng": "10.6%",
+   "eng": "10.5%",
    "parts": {
     "useful": 0.6,
     "like_students": 0.95,
@@ -1306,12 +1316,12 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_SydneyMastersDiary",
    "platform": "xiaohongshu",
-   "tier": "KOC",
-   "followers": "8200",
+   "tier": "500–1k",
+   "followers": "820",
    "score": 81.2,
    "band": "go",
    "reason": "",
-   "eng": "13.5%",
+   "eng": "13.4%",
    "parts": {
     "useful": 0.7,
     "like_students": 0.9,
@@ -1324,8 +1334,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_SydneyStudentLife",
    "platform": "wechat-oa",
-   "tier": "Mid tier",
-   "followers": "40000",
+   "tier": "500–1k",
+   "followers": "640",
    "score": 76.0,
    "band": "go",
    "reason": "",
@@ -1342,8 +1352,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_AustraliaStudyGuide",
    "platform": "xiaohongshu",
-   "tier": "Top tier",
-   "followers": "120000",
+   "tier": "2k+",
+   "followers": "3200",
    "score": 72.3,
    "band": "go",
    "reason": "",
@@ -1358,10 +1368,28 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
    }
   },
   {
+   "handle": "demo_MelbourneDeer",
+   "platform": "xiaohongshu",
+   "tier": "1k–2k",
+   "followers": "1450",
+   "score": 70.5,
+   "band": "go",
+   "reason": "",
+   "eng": "5.4%",
+   "parts": {
+    "useful": 0.5,
+    "like_students": 0.8,
+    "own_life": 0.7,
+    "topic_fit": 0.7,
+    "talks": 0.6,
+    "trust": 1.0
+   }
+  },
+  {
    "handle": "demo_ADayWithKen",
    "platform": "douyin",
-   "tier": "Mid tier",
-   "followers": "85000",
+   "tier": "500–1k",
+   "followers": "960",
    "score": 70.4,
    "band": "go",
    "reason": "",
@@ -1376,32 +1404,14 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
    }
   },
   {
-   "handle": "demo_MelbourneDeer",
-   "platform": "xiaohongshu",
-   "tier": "Mid tier",
-   "followers": "45000",
-   "score": 67.5,
-   "band": "maybe",
-   "reason": "",
-   "eng": "5.4%",
-   "parts": {
-    "useful": 0.5,
-    "like_students": 0.8,
-    "own_life": 0.7,
-    "topic_fit": 0.7,
-    "talks": 0.4,
-    "trust": 1.0
-   }
-  },
-  {
    "handle": "demo_AustraliaLifeVlog",
    "platform": "douyin",
-   "tier": "Top tier",
-   "followers": "230000",
+   "tier": "2k+",
+   "followers": "2400",
    "score": 59.7,
    "band": "maybe",
    "reason": "",
-   "eng": "3.6%",
+   "eng": "3.5%",
    "parts": {
     "useful": 0.3,
     "like_students": 0.75,
@@ -1414,12 +1424,12 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_StudyInAustralia",
    "platform": "weibo",
-   "tier": "Mid tier",
-   "followers": "98000",
+   "tier": "<500",
+   "followers": "450",
    "score": 58.6,
    "band": "maybe",
    "reason": "",
-   "eng": "0.8%",
+   "eng": "1.1%",
    "parts": {
     "useful": 0.5,
     "like_students": 0.75,
@@ -1432,8 +1442,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_StudyAbroadParents",
    "platform": "wechat-channels",
-   "tier": "Mid tier",
-   "followers": "26000",
+   "tier": "1k–2k",
+   "followers": "1700",
    "score": 52.5,
    "band": "maybe",
    "reason": "",
@@ -1450,8 +1460,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_LifestyleFinds",
    "platform": "xiaohongshu",
-   "tier": "Mid tier",
-   "followers": "30000",
+   "tier": "1k–2k",
+   "followers": "1100",
    "score": 14.0,
    "band": "no",
    "reason": "",
@@ -1468,8 +1478,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_AgentAmy",
    "platform": "xiaohongshu",
-   "tier": "Mid tier",
-   "followers": "60000",
+   "tier": "1k–2k",
+   "followers": "1900",
    "score": 0.0,
    "band": "no",
    "reason": "Sells agency or insurance services",
@@ -1479,8 +1489,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_SydneyEats",
    "platform": "xiaohongshu",
-   "tier": "Mid tier",
-   "followers": "52000",
+   "tier": "2k+",
+   "followers": "2600",
    "score": 0.0,
    "band": "no",
    "reason": "Promoted another OSHC insurer in the last 90 days",
@@ -1490,8 +1500,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "handle": "demo_InsuranceWang",
    "platform": "douyin",
-   "tier": "Top tier",
-   "followers": "150000",
+   "tier": "2k+",
+   "followers": "5200",
    "score": 0.0,
    "band": "no",
    "reason": "Sells agency or insurance services",
@@ -1874,8 +1884,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   var go = C.filter(function (c) { return c.band === "go"; });
   $("persona").innerHTML = [
     ["pin", "Lives in Australia", "Real experience of the system", "E-15"],
-    ["like_students", "Chinese student", "Peers are trusted over brands", "E-3"],
-    ["users", "Small and mid-tier", "Engagement peaks mid-size", "E-7"],
+    ["like_students", "Chinese student", "Peers are trusted over brands", "E-4"],
+    ["users", "Under 2k followers", "Close to regular users, the most trusted voice", "E-3"],
     ["own_life", "Shares own life", "Experience posts persuade", "E-14"]
   ].map(function (p) { return '<div class="p"><div class="icb big">' + ic(p[0]) + "</div><div><b>" + p[1] + "</b><span>" + p[2] + ' <span class="idtag">' + p[3] + "</span></span></div></div>"; }).join("");
   $("crit").innerHTML = CR.map(function (c) {
@@ -1892,8 +1902,9 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
       '<span class="v" style="' + (pos ? "left:calc(33.3% + " + w + "% + 6px)" : "left:calc(33.3% + 6px)") + '">' + label + "</span></div></div>";
   }).join("");
   var people = function (pct) { var on = Math.round(pct / 10), h = ""; for (var i = 0; i < 10; i++) h += ic("user", i < on ? "on" : ""); return h; };
-  $("fraud").innerHTML = '<div class="fraud"><div class="t">' + ic("bot") + ' Accounts with bought followers or engagement <span class="idtag">E-16</span></div>' +
-    [["1M+ followers", 66], ["1k–5k followers", 42]].map(function (f) { return '<div class="fr"><span>' + f[0] + '</span><div class="pp">' + people(f[1]) + "</div><b>" + f[1] + "%</b></div>"; }).join("") + "</div>";
+  $("fraud").innerHTML = '<div class="fraud"><div class="t">' + ic("bot") + ' Even small accounts buy followers <span class="idtag">E-16</span></div>' +
+    [["1k–5k followers", 42, ""], ["1M+ followers", 66, " dim"]].map(function (f) { return '<div class="fr' + f[2] + '"><span>' + f[0] + '</span><div class="pp">' + people(f[1]) + "</div><b>" + f[1] + "%</b></div>"; }).join("") +
+    '<p class="note">Small accounts are cleaner, but not clean. No published figure exists below 1k, so we check every account.</p></div>';
   var STOPI = ["store", "swap", "megaphone", "bot"], STOPE = ["E-13", "", "E-12", "E-16"];
   $("stops").innerHTML = D.criteria.hard_stops.map(function (h, i) {
     return '<div class="s"><div class="icb no">' + ic(STOPI[i] || "ban") + '<span class="x">' + ic("x") + "</span></div><div>" + esc(h) + (STOPE[i] ? ' <span class="idtag">' + STOPE[i] + "</span>" : "") + "</div></div>";
@@ -1908,6 +1919,12 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
       '<div class="bd ' + c.band + '">' + ic(bi) + (c.reason ? "" : Math.round(c.score) + " ") + c.band + "</div>";
   });
   $("heat").innerHTML = heat;
+  var TIERS = ["<500", "500–1k", "1k–2k", "2k+"];
+  $("tiers").innerHTML = TIERS.map(function (tr, i) {
+    var all = C.filter(function (c) { return c.tier === tr; }), ok = all.filter(function (c) { return c.band === "go"; });
+    var people2 = ""; for (var j = 0; j <= i; j++) people2 += ic("user");
+    return '<div class="tb' + (i === 3 ? " dim" : "") + '"><div class="pp2">' + people2 + '</div><b>' + esc(tr) + '</b><span>' + all.length + " candidates · " + ok.length + " go</span></div>";
+  }).join("");
   hover($("heat"), function (t) { var p = t.dataset.tip.split(":"), c = C[+p[0]], k = CRK[p[1]]; return "<b>" + esc(c.handle) + "</b><br>" + esc(k.label) + ": " + Math.round(100 * c.parts[k.key]) + "% → " + (k.weight * c.parts[k.key]).toFixed(1) + " of " + k.weight + " pts"; });
 
   /* ---------- 2 · Creator dashboard ---------- */

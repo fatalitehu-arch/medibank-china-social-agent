@@ -18,18 +18,23 @@ covers finding, scoring, briefing and reviewing them.
 who post about study and life there. They have personally used (or can genuinely use)
 OSHC, so their story is real. Why peers: [E-2] [E-3] [E-4].
 
-Why mostly KOC and 腰部: engagement peaks at a middle follower count and falls after it
-[E-7], own-style content helps small creators [E-7], and a brand little known in China
-gains less from big follower counts [E-8]. The exact split below is an assumption [A-2].
+Why small creators: ordinary users are the most trusted voice on 小红书 [E-3], engagement
+falls as follower counts grow past the middle [E-7], a brand little known in China gains
+less from big follower counts [E-8], and follower count itself does not predict purchase
+[E-14]. Medibank's choice is to work mostly with creators **under 2k followers**; the exact
+mix is an assumption [A-2].
 
-Follower tiers are the same on every platform; engagement baselines differ (see
-`tools/kol_score.py`, which takes a `platform` column).
+| Band | Followers | Role in the campaign |
+|------|-----------|----------------------|
+| <500 | under 500 | Real students telling one story each; closest to a friend's post |
+| 500–1k | 500–999 | Core: student storytellers with a small, engaged following |
+| 1k–2k | 1,000–1,999 | Core: regular student creators, checklists and first-person stories |
+| 2k+ | 2,000 and up | Few; only when the fit is strong |
 
-| Tier | Followers | Role in the campaign | Share of budget |
-|------|-----------|----------------------|-----------------|
-| KOC (素人/小博主) | 1k–10k | Many authentic first-person stories; high trust; cheap | ~40% |
-| 腰部 KOL | 10k–100k | Core reach in 澳洲留学 niche; tutorials and checklists | ~45% |
-| 头部 KOL | 100k+ | One or two per intake for awareness peaks (O-Week) | ~15% |
+**Paid route check:** small accounts may be below the 蒲公英 entry threshold (reported as
+5,000 followers in 2022–23; some reports mention selected 1k–5k creators) [VERIFY with
+Xiaohongshu]. Any paid or gifted post must still be labelled 广告 [E-12]; never pay off-platform
+without disclosure.
 
 Priority niches: 澳洲留学/悉尼生活/墨尔本生活, 留学行前准备, 学校新生 (UNSW, USYD,
 Monash, UniMelb…), 留学生日常 vlog, 健康/心理 (with care).

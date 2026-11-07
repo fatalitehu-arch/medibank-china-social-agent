@@ -330,6 +330,15 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
 .gp .offer .doc b { font-size: 10px; background: #FAE94E; color: #1a1a1a; border-radius: 4px; padding: 2px 4px; }
 .gp .ic { width: 44px; height: 44px; color: __C_primary__; }
 @media (max-width: 900px) { .gpath { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gp + .gp::before { display: none; } }
+.fraud .fr.dim { opacity: .45; }
+.tiers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 4px 0 14px; }
+.tb { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.tb.dim { opacity: .6; }
+.tb .pp2 { display: flex; gap: 1px; color: var(--accent); height: 22px; }
+.tb .pp2 .ic { width: 18px; height: 18px; }
+.tb b { font-size: 18px; }
+.tb span { font-size: 12px; color: var(--ink-3); }
+@media (max-width: 700px) { .tiers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
 </head>
 <body>
@@ -380,6 +389,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
     <div class="demo" data-icon="info"><b>Demo data.</b> The candidates are made up to show how the scoring works.</div>
     <div class="card">
       <h3>Candidates</h3>
+      <div class="tiers" id="tiers"></div>
       <p class="note top">Darker square = stronger on that trait. Hover any square.</p>
       <div class="scroll"><div class="hm" id="heat"></div></div>
     </div>
@@ -618,8 +628,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   var go = C.filter(function (c) { return c.band === "go"; });
   $("persona").innerHTML = [
     ["pin", "Lives in Australia", "Real experience of the system", "E-15"],
-    ["like_students", "Chinese student", "Peers are trusted over brands", "E-3"],
-    ["users", "Small and mid-tier", "Engagement peaks mid-size", "E-7"],
+    ["like_students", "Chinese student", "Peers are trusted over brands", "E-4"],
+    ["users", "Under 2k followers", "Close to regular users, the most trusted voice", "E-3"],
     ["own_life", "Shares own life", "Experience posts persuade", "E-14"]
   ].map(function (p) { return '<div class="p"><div class="icb big">' + ic(p[0]) + "</div><div><b>" + p[1] + "</b><span>" + p[2] + ' <span class="idtag">' + p[3] + "</span></span></div></div>"; }).join("");
   $("crit").innerHTML = CR.map(function (c) {
@@ -636,8 +646,9 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
       '<span class="v" style="' + (pos ? "left:calc(33.3% + " + w + "% + 6px)" : "left:calc(33.3% + 6px)") + '">' + label + "</span></div></div>";
   }).join("");
   var people = function (pct) { var on = Math.round(pct / 10), h = ""; for (var i = 0; i < 10; i++) h += ic("user", i < on ? "on" : ""); return h; };
-  $("fraud").innerHTML = '<div class="fraud"><div class="t">' + ic("bot") + ' Accounts with bought followers or engagement <span class="idtag">E-16</span></div>' +
-    [["1M+ followers", 66], ["1k–5k followers", 42]].map(function (f) { return '<div class="fr"><span>' + f[0] + '</span><div class="pp">' + people(f[1]) + "</div><b>" + f[1] + "%</b></div>"; }).join("") + "</div>";
+  $("fraud").innerHTML = '<div class="fraud"><div class="t">' + ic("bot") + ' Even small accounts buy followers <span class="idtag">E-16</span></div>' +
+    [["1k–5k followers", 42, ""], ["1M+ followers", 66, " dim"]].map(function (f) { return '<div class="fr' + f[2] + '"><span>' + f[0] + '</span><div class="pp">' + people(f[1]) + "</div><b>" + f[1] + "%</b></div>"; }).join("") +
+    '<p class="note">Small accounts are cleaner, but not clean. No published figure exists below 1k, so we check every account.</p></div>';
   var STOPI = ["store", "swap", "megaphone", "bot"], STOPE = ["E-13", "", "E-12", "E-16"];
   $("stops").innerHTML = D.criteria.hard_stops.map(function (h, i) {
     return '<div class="s"><div class="icb no">' + ic(STOPI[i] || "ban") + '<span class="x">' + ic("x") + "</span></div><div>" + esc(h) + (STOPE[i] ? ' <span class="idtag">' + STOPE[i] + "</span>" : "") + "</div></div>";
@@ -652,6 +663,12 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
       '<div class="bd ' + c.band + '">' + ic(bi) + (c.reason ? "" : Math.round(c.score) + " ") + c.band + "</div>";
   });
   $("heat").innerHTML = heat;
+  var TIERS = ["<500", "500–1k", "1k–2k", "2k+"];
+  $("tiers").innerHTML = TIERS.map(function (tr, i) {
+    var all = C.filter(function (c) { return c.tier === tr; }), ok = all.filter(function (c) { return c.band === "go"; });
+    var people2 = ""; for (var j = 0; j <= i; j++) people2 += ic("user");
+    return '<div class="tb' + (i === 3 ? " dim" : "") + '"><div class="pp2">' + people2 + '</div><b>' + esc(tr) + '</b><span>' + all.length + " candidates · " + ok.length + " go</span></div>";
+  }).join("");
   hover($("heat"), function (t) { var p = t.dataset.tip.split(":"), c = C[+p[0]], k = CRK[p[1]]; return "<b>" + esc(c.handle) + "</b><br>" + esc(k.label) + ": " + Math.round(100 * c.parts[k.key]) + "% → " + (k.weight * c.parts[k.key]).toFixed(1) + " of " + k.weight + " pts"; });
 
   /* ---------- 2 · Creator dashboard ---------- */

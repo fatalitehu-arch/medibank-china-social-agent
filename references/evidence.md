@@ -34,7 +34,7 @@ supports a claim, it says so and adds an A- row instead of stating it as fact.
 | ID | Assumption | Used in | How to test | Decide by |
 |----|------------|---------|-------------|-----------|
 | A-1 | 70% creator content, 30% brand-owned | `student-strategy.md` | Compare saves and inquiries per ¥1,000 for creator vs brand posts in the creator dashboard | After month 1 |
-| A-2 | Budget split KOC ~40%, mid tier ~45%, top tier ~15% (shape from E-7, E-8; the exact split is ours) | `kol-playbook.md` | Cost per save and cost per inquiry by tier (`tools/creator_dashboard.py`) | After month 1 |
+| A-2 | Most creators under 2k followers, in bands <500 · 500–1k · 1k–2k · 2k+ (direction from E-3, E-7, E-8, E-14; the bands and mix are ours) | `kol-playbook.md`, `tools/kol_score.py` | Cost per save and cost per inquiry by band (`tools/creator_dashboard.py`) | After month 1 |
 | A-3 | Channel split 小红书 40 · WeChat 30 · 抖音 20 · 微博 10 (小红书 first because of E-10, E-11) | `platforms/overview.md` | 10-question survey of UNSW Chinese students: which apps they used to research OSHC and studying in Australia | Before T1 2027 intake |
 | A-4 | Pillar mix: 看懂你的保险 35 · 在澳洲看病 30 · 用好 app 和热线 20 · 身心健康 15 (weighted to the gaps in E-5) | `content-playbook.md` | Saves per 1k impressions by pillar (`tools/performance_report.py`) | After month 2 |
 | A-5 | Creator score weights 20/18/17/16/15/14, taken from E-14 and E-15 effect sizes (r ÷ sum of r); the studies are not about students or insurance | `kol-playbook.md`, `tools/kol_score.py` | Correlate score with real saves and inquiries once 10+ posts exist | After 10 posts |

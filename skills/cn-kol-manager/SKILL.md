@@ -1,6 +1,6 @@
 ---
 name: cn-kol-manager
-description: Find and manage Medibank's creators (博主/KOL/KOC): the tested Xiaohongshu search method and the scouted creator library, plus collaborations on 小红书 (蒲公英), 抖音 (星图), 微信公众号/视频号 (互选平台) and 微博 - search plans, scoring a candidate CSV, vetting, briefs, onboarding, reviewing creator drafts and wrap-ups. Use for 怎么找博主/有推荐的博主吗/博主库/找博主/打分/这个博主行不行/写brief/审博主稿/博主复盘.
+description: Find and manage Medibank's creators (博主/KOL/KOC): the tested Xiaohongshu search method and the scouted creator library, plus collaborations on 小红书 (蒲公英), 抖音 (星图), 微信公众号/视频号 (互选平台) and 微博 - search plans, scoring a candidate CSV, vetting, briefs, onboarding, reviewing creator drafts and wrap-ups. Use for how to find the right creators / who to work with / 怎么找博主/有推荐的博主吗/博主库/找博主/打分/这个博主行不行/写brief/审博主稿/博主复盘.
 ---
 
 # cn-kol-manager
@@ -12,20 +12,27 @@ file for the platform in question.
 ## Tasks
 
 ### 1. "How do we find creators?" / "Any creators you recommend?" (怎么找博主 / 有推荐的博主吗)
-Answer in this order, short and visual, in the user's language:
+Any question about finding, choosing or recommending creators ("how can I find the right
+creators", "who should we work with", "找博主", "推荐博主", "博主库") starts here.
+
+**First, before writing anything, open the two visual pages:** run
+`python3 tools/creator_library.py --open`. It opens the method page
+(`assets/creator-finding/process.html`) and the creator library
+(`creators/scouted/library.html`) in the browser. If no browser opens, give the user the two
+paths it prints. Then answer in this order, short, in the user's language, pointing at the pages
+instead of repeating them:
 
 1. **The method.** Say it has been field-tested and give the 8 steps from
    `references/creator-finding.md`. Lead with step 1: **a real person logs in by QR code on a
    real Xiaohongshu account** (search does not work without it; the agent never types a
    password). Point to the visual: `assets/creator-finding/process.html` (8-step flow with
-   screenshots). If you have a browser, open it.
+   screenshots), already open.
 2. **The knowledge base.** Every creator found this way is stored in the creator library,
    `creators/scouted/` (one CSV per platform, rules in `creators/scouted/README.md`). Say
    **Xiaohongshu is the main platform**, because it is where Chinese students search and trust
    peers most (`references/student-strategy.md`; 小红书 40% of the channel mix). Run
    `python tools/creator_library.py` and say how many creators are built in, by status.
-   Point to the visual: `creators/scouted/library.html` (platform → status → shortlist with
-   scores and IDs).
+   The library page is already open (platform → status → shortlist with scores and IDs).
 3. **The recommendations.** Show the Shortlist (`python tools/creator_library.py --status
    Shortlist`): nickname, Library ID, Xiaohongshu ID, followers and tier, city, score, one line
    on why. Add "follower counts were recorded at scan time; check again before contacting".

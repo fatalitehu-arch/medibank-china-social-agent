@@ -12,17 +12,21 @@ Usage:
     python creator_library.py --check               # validate every row (CI)
     python creator_library.py --html                # rebuild creators/scouted/library.html
     python creator_library.py --next-id xiaohongshu # next free Library ID when adding a creator
+    python creator_library.py --open                # open the process page and the library in the browser
 """
 
 import argparse
 import csv
 import html
+import os
+import webbrowser
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SCOUTED = ROOT / "creators" / "scouted"
 HTML_OUT = SCOUTED / "library.html"
+PROCESS_HTML = ROOT / "assets" / "creator-finding" / "process.html"
 
 PLATFORMS = {  # file stem -> (display name, ID prefix, profile URL prefix)
     "xiaohongshu": ("Xiaohongshu", "XHS", "https://www.xiaohongshu.com/user/profile/"),
@@ -220,13 +224,31 @@ then <code>python tools/creator_library.py --check --html</code>.</section>
 """
 
 
+def open_pages():
+    """Open the method page and the library page in the default browser; print their paths."""
+    opened = False
+    for page in (PROCESS_HTML, HTML_OUT):
+        print(f"{page.relative_to(ROOT)}: {page.as_uri()}")
+        if not os.environ.get("CI"):
+            try:
+                opened = webbrowser.open(page.as_uri()) or opened
+            except webbrowser.Error:
+                pass
+    print("Opened in the browser." if opened else "No browser here: open the paths above.")
+    return opened
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("--status", choices=STATUSES)
     p.add_argument("--check", action="store_true", help="validate every row; exit 1 on problems")
     p.add_argument("--html", action="store_true", help=f"rebuild {HTML_OUT.relative_to(ROOT)}")
     p.add_argument("--next-id", choices=list(PLATFORMS), help="print the next free Library ID")
+    p.add_argument("--open", action="store_true", help="open the process page and the library in the browser")
     args = p.parse_args(argv)
+    if args.open:
+        open_pages()
+        return 0
     rows = load()
     if args.next_id:
         print(next_id(rows, args.next_id))

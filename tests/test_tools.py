@@ -217,3 +217,12 @@ def test_scouted_library_check_catches_bad_score():
     row = dict(creator_library.load()[0])
     row["Score (/100)"] = "50"
     assert any("score must be" in p for p in creator_library.check([row]))
+
+
+def test_creator_library_open_prints_both_pages(capsys, monkeypatch):
+    import creator_library
+    monkeypatch.setenv("CI", "1")
+    creator_library.main(["--open"])
+    out = capsys.readouterr().out
+    assert "process.html" in out and "library.html" in out
+    assert creator_library.PROCESS_HTML.exists() and creator_library.HTML_OUT.exists()

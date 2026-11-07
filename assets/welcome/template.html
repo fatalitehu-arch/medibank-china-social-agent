@@ -124,44 +124,175 @@ details summary { cursor: pointer; color: var(--accent); font-weight: 600; margi
 .vflow .mid div::before { content: "✓ "; color: var(--accent); font-weight: 700; }
 .arrow { color: var(--ink-3); font-size: 22px; flex: none; }
 @media (max-width: 560px) { .strip img, .vflow img { height: 220px; } .vflow .mid { height: 220px; width: 180px; } }
+.features { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin: 26px 0 8px; }
+.feature { display: flex; flex-direction: column; gap: 4px; background: #fff; color: #1a1a1a; border-radius: 16px; padding: 18px; text-decoration: none; box-shadow: 0 6px 18px rgba(0,0,0,.12); transition: transform .12s; }
+.feature:hover { transform: translateY(-2px); }
+.feature .num { width: 30px; height: 30px; border-radius: 50%; background: __C_primary__; color: #fff; display: grid; place-items: center; font-weight: 800; }
+.feature .ft { font-size: 19px; font-weight: 800; margin-top: 6px; }
+.feature .fbig { font-size: 34px; font-weight: 800; color: __C_primary__; line-height: 1.1; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.feature .fs { font-size: 13px; color: #555; }
+.feature .mini { display: flex; gap: 3px; align-items: flex-end; height: 36px; margin-top: 10px; }
+.feature .mini i { flex: 1; background: __C_primary__; border-radius: 3px 3px 0 0; min-height: 3px; }
+.feature .mini i.off { background: #e3d6d4; }
+.goal { margin-top: 26px; }
+.goal .gl { font-weight: 700; margin-bottom: 6px; }
+.fun { margin: 10px 0; }
+.fun .lab { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-2); margin-bottom: 3px; }
+.fun .lab b { color: var(--ink); font-size: 15px; }
+.fun .fb { height: 26px; background: var(--bar); border-radius: 0 6px 6px 0; }
+.fun .drop { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.sl { position: relative; }
+.sl .row { grid-template-columns: minmax(150px, 230px) 1fr 92px; }
+.sl .row .meta { font-size: 11px; color: var(--ink-3); }
+.sl .track2 { position: relative; height: 18px; background: var(--surface-2); border-radius: 0 4px 4px 0; }
+.sl .track2 .bar { position: absolute; left: 0; top: 0; bottom: 0; }
+.sl .bar.no { background: var(--ink-3); opacity: .45; }
+.sl .tick { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 1px dashed var(--ink-3); }
+.sl .why { font-size: 12px; color: var(--ink-3); }
+.band { font-size: 12px; font-weight: 700; text-align: right; }
+.band.go { color: var(--good); } .band.maybe { color: var(--warn); } .band.no { color: var(--ink-3); }
+ul.todo { list-style: none; padding: 0; margin: 4px 0 0; }
+ul.todo li { display: grid; grid-template-columns: 10px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+ul.todo li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); margin-top: 7px; }
+ul.todo li span { color: var(--ink-3); font-size: 12px; display: block; }
+.calhead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.cal { display: grid; grid-template-columns: 70px repeat(5, minmax(120px, 1fr)); gap: 6px; margin-top: 12px; overflow-x: auto; }
+.cal .dh { font-size: 12px; color: var(--ink-3); font-weight: 600; text-align: center; }
+.cal .wk { font-size: 12px; color: var(--ink-3); font-weight: 600; align-self: center; }
+.cal .slot { border-radius: 10px; padding: 8px 10px; border-left: 5px solid; background: var(--surface-2); font-size: 12px; min-height: 66px; }
+.cal .slot b { display: block; font-size: 13px; color: var(--ink); }
+.cal .slot .who { display: inline-block; margin-top: 4px; padding: 0 6px; border-radius: 999px; font-size: 11px; font-weight: 600; border: 1px solid var(--line); background: var(--surface); }
+.pm b { white-space: nowrap; }
+.pm { display: grid; grid-template-columns: 130px 1fr 96px; gap: 10px; align-items: center; margin: 10px 0; font-size: 13px; }
+.pm .tr { position: relative; height: 16px; background: var(--surface-2); border-radius: 0 4px 4px 0; }
+.pm .tr .f { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0; }
+.pm .tr .tg { position: absolute; top: -4px; bottom: -4px; border-left: 2px solid var(--ink); }
+.split { display: flex; height: 30px; border-radius: 8px; overflow: hidden; margin: 8px 0 4px; gap: 2px; }
+.split div { display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 700; }
+.tm { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+@media (max-width: 700px) { .sl .row { grid-template-columns: 120px 1fr 64px; } .cal { grid-template-columns: 50px repeat(5, 120px); } }
 footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line); margin-top: 56px; padding-top: 16px; }
 </style>
 </head>
 <body>
 <nav><div class="in">
-  <b>China Social Agent</b>
-  <a href="#evidence">Evidence</a><a href="#make">See it work</a><a href="#skills">Skills</a><a href="#knowledge">Knowledge base</a><a href="#creators">Creators</a>
-  <a href="#why">Why this agent</a><a href="#start">Get started</a>
+  <b>Content Portfolio</b>
+  <a href="#find">1 · Find creators</a><a href="#manage">2 · Creator dashboard</a><a href="#plan">3 · Plan &amp; create</a>
+  <a href="#evidence">Evidence</a><a href="#inside">What's inside</a><a href="#start">Get started</a>
   <button class="theme" id="theme" type="button" aria-label="Switch light or dark theme">Theme</button>
 </div></nav>
 <header class="hero" id="top"><div class="in">
-    <p class="eyebrow">Welcome</p>
-    <h1>Your agent for Chinese social media content</h1>
-    <p class="sub">It helps Medibank's international student team decide <b>what to post</b>, <b>which trends to ride</b>
-      and <b>which creators to work with</b>, and checks every post for compliance before it goes out.</p>
-    <div class="platforms" id="platforms"></div>
-    <div class="tiles" id="tiles"></div>
-    <h3>The end goal</h3>
-    <p class="sub" style="margin-bottom:8px">Chinese students realise student insurance matters and choose their insurer themselves, instead of leaving it all to their education agent.</p>
+  <p class="eyebrow">Medibank · China social media · Content portfolio</p>
+  <h1>Medibank's content portfolio for Chinese social media</h1>
+  <p class="sub">One agent that runs Medibank's content for Chinese international students: it <b>finds the right creators</b>, <b>tracks them on a live dashboard</b>, and <b>plans and produces every post</b>, within China's advertising and insurance rules.</p>
+  <div class="platforms" id="platforms"></div>
+  <div class="features">
+    <a class="feature" href="#find"><span class="num">1</span><span class="ft">Find the right creators</span><span class="fbig" id="f1big"></span><span class="fs" id="f1sub"></span><span class="mini" id="f1mini"></span></a>
+    <a class="feature" href="#manage"><span class="num">2</span><span class="ft">Creator dashboard</span><span class="fbig" id="f2big"></span><span class="fs" id="f2sub"></span><span class="mini" id="f2mini"></span></a>
+    <a class="feature" href="#plan"><span class="num">3</span><span class="ft">Plan and create posts</span><span class="fbig" id="f3big"></span><span class="fs" id="f3sub"></span><span class="mini" id="f3mini"></span></a>
+  </div>
+  <div class="goal">
+    <div class="gl">The end goal</div>
     <div class="path">
       <div class="step"><div class="k">On social media</div>Posts and creator content on five platforms</div>
       <div class="step"><div class="k">Student thinks</div>"Insurance matters. I should choose it myself."</div>
-      <div class="step off"><div class="k">Off platform</div>Link in the UNSW offer letter → UNSW Medibank OSHC site</div>
+      <div class="step off"><div class="k">Off platform</div>UNSW offer letter link → UNSW Medibank OSHC site</div>
       <div class="step off"><div class="k">Off platform</div>AI chatbot explains Medibank OSHC</div>
       <div class="step off"><div class="k">Off platform</div>Student compares insurers and decides</div>
     </div>
-    <p class="note">Content on Chinese platforms informs, never sells: no prices, comparisons, links or "DM me". The comparing happens off the platform.</p>
+  </div>
 </div></header>
 <main>
+  <section id="find">
+    <p class="eyebrow">Feature 1</p>
+    <h2>Find the right creators</h2>
+    <p class="sub">Every candidate is checked against hard stops, then scored out of 100. Mostly small and mid-tier student creators living in Australia, because students trust peers over brands <span class="idtag">E-3</span> and engagement peaks at a middle follower count <span class="idtag">E-7</span>.</p>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Screening funnel</h3>
+        <p class="note" style="margin-top:0">Example batch from <code>examples/kol_candidates.csv</code>, scored by <code>tools/kol_score.py</code></p>
+        <div class="chart" id="funnel" role="img" aria-label="Screening funnel"></div>
+      </div>
+      <div class="card">
+        <h3>What we score</h3>
+        <div id="weights"></div>
+        <h3 style="margin-top:16px">Hard stops (score 0)</h3>
+        <ul class="kb" id="hardstops"></ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>Scored shortlist</h3>
+      <p class="note" style="margin-top:0">Score out of 100. Lines mark the bands: <b>70+ go</b>, <b>50–69 human look</b>, below 50 no. Hover a bar for details.</p>
+      <div class="chart sl" id="shortlist" role="img" aria-label="Score per candidate creator; the same data is in the hover details"></div>
+      <p class="note">Paid collaborations only through the official marketplaces: Pugongying (Xiaohongshu), Xingtu (Douyin), Huxuan (WeChat), Weirenwu (Weibo). Demo data.</p>
+    </div>
+  </section>
+
+  <section id="manage">
+    <p class="eyebrow">Feature 2</p>
+    <h2>Creator dashboard</h2>
+    <p class="sub">Who we work with and how each creator is doing: likes, comments, saves and OSHC inquiries, with the follow-ups the agent flags. <b>Demo data</b> until the team adds real exports to <code>creators/</code>. As of <span id="asof"></span>.</p>
+    <div class="tiles" id="ctiles"></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Inquiries per creator</h3>
+        <p class="note" style="margin-top:0">Comments and DMs asking about OSHC, answered with the standard replies, never a quote</p>
+        <div class="chart" id="inqchart" role="img" aria-label="Inquiries per creator; same numbers in the table below"></div>
+      </div>
+      <div class="card">
+        <h3>Needs attention</h3>
+        <p class="note" style="margin-top:0">Follow-ups the agent raises from the roster and post data</p>
+        <ul class="todo" id="todo"></ul>
+      </div>
+    </div>
+    <div class="card scroll" style="margin-top:14px">
+      <table id="ctable"><thead><tr>
+        <th>Creator</th><th>Platform</th><th>Status</th><th class="num">Posts</th><th class="num">Likes</th><th class="num">Comments</th>
+        <th class="num">Saves</th><th class="num">Inquiries</th><th class="num">CNY / inquiry</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+
+  <section id="plan">
+    <p class="eyebrow">Feature 3</p>
+    <h2>Plan and create posts</h2>
+    <p class="sub">A four-week calendar across five platforms, balanced across content pillars and between creator and Medibank-owned posts. Then each slot becomes a finished post: text, titles, hashtags and image cards, checked for compliance.</p>
+    <div class="card">
+      <div class="calhead"><h3>Content calendar · T1 2027 intake</h3><div class="legend" id="legend"></div></div>
+      <div class="cal" id="cal"></div>
+      <p class="note">Each slot: platform, format and who posts it. Colour = content pillar. From <code>examples/plan_t1_2027.csv</code>, checked by <code>tools/calendar_builder.py</code>.</p>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card">
+        <h3>Pillar mix: planned vs target</h3>
+        <p class="note" style="margin-top:0">Target mix is a working assumption <span class="idtag">A-4</span>, weighted to the biggest knowledge gap <span class="idtag">E-5</span></p>
+        <div id="pillarmix"></div>
+      </div>
+      <div class="card">
+        <h3>Who posts</h3>
+        <p class="note" style="margin-top:0">Creator vs Medibank-owned posts; target 70 / 30 <span class="idtag">A-1</span></p>
+        <div id="streams"></div>
+        <h3 style="margin-top:16px">Trends feeding the plan</h3>
+        <div id="trendmini"></div>
+      </div>
+    </div>
+    <p class="eyebrow">Generated: a complete Xiaohongshu post · <code>tools/make_post.py</code></p>
+    <div class="strip" id="poststrip"></div>
+    <p class="note">One command writes <code>post.md</code> (text to paste), the images in upload order and the compliance report.</p>
+    <p class="eyebrow">Generated: a short video from your clips · <code>tools/video_edit.py</code></p>
+    <div class="vflow" id="vflow"></div>
+  </section>
+
   <section id="evidence">
     <h2>Built on evidence</h2>
-    <p class="sub">Every strategy choice points to a source in <code>references/evidence.md</code>. Published data is marked <span class="idtag">E-</span>; where there is no data yet, the agent says so and marks a working assumption <span class="idtag">A-</span> with a plan to test it.</p>
+    <p class="sub">Every strategy choice points to a source in <code>references/evidence.md</code>: <span class="idtag">E-</span> for published data, <span class="idtag">A-</span> for an assumption with a plan to test it.</p>
     <div class="grid g4" id="stats"></div>
     <div class="card" style="margin-top:14px">
       <h3>Who students trust on Xiaohongshu</h3>
       <p class="note" style="margin-top:0">Share of users who trust each kind of account when researching products or services <span class="idtag">E-3</span></p>
-      <div class="chart cmp" id="trustchart" role="img" aria-label="Bar chart: regular users 46.6%, KOLs 30.3%, brand accounts 22.9%"></div>
-      <p class="note">So creators carry the message, and Medibank's own account is the hub they point back to.</p>
+      <div class="chart cmp" id="trustchart" role="img" aria-label="Regular users 46.6%, KOLs 30.3%, brand accounts 22.9%"></div>
     </div>
     <details><summary>All <span id="ecount"></span> sources</summary>
       <div class="card scroll"><table id="etable"><thead><tr><th>ID</th><th>Finding</th><th>Number</th><th>Source</th><th>Reliability</th></tr></thead><tbody></tbody></table></div>
@@ -171,98 +302,37 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
     </details>
   </section>
 
-  <section id="make">
-    <h2>See it work</h2>
-    <p class="sub">Ask for a post and you get the finished thing: final text, titles, hashtags and image cards in Medibank colours, checked for compliance. Ask for a video and it cuts your clips into a branded vertical video.</p>
-    <p class="eyebrow">A complete Xiaohongshu post · <code>tools/make_post.py</code></p>
-    <div class="strip" id="poststrip"></div>
-    <p class="note">From <code>examples/post_spec.json</code>: one command writes <code>post.md</code> (text to paste), the five images in upload order, and the compliance report.</p>
-    <p class="eyebrow">A short video · <code>tools/video_edit.py</code></p>
-    <div class="vflow" id="vflow"></div>
-    <p class="note">Your footage stays yours: the agent never uses clips, music or logos the team has no licence for.</p>
-  </section>
-
-  <section id="skills">
-    <h2>What's inside: skills</h2>
-    <p class="sub">Ask in plain Chinese or English. The router picks the right skill; you can also call one by name.</p>
+  <section id="inside">
+    <h2>What's inside</h2>
+    <p class="sub">Ask in plain Chinese or English. The router picks the right skill.</p>
+    <div class="tiles" id="tiles"></div>
     <div class="grid g3" id="skillgrid"></div>
-    <p class="eyebrow">Tools the agent runs</p>
-    <div class="card scroll"><table id="tooltable"><thead><tr><th>Tool</th><th>What it does</th></tr></thead><tbody></tbody></table></div>
-  </section>
-
-  <section id="knowledge">
-    <h2>Knowledge base</h2>
-    <p class="sub">Everything the agent knows lives in plain files you can read and edit. Change a file, and every future answer uses it.</p>
-    <div class="grid g3" id="kbgrid"></div>
-    <p class="eyebrow">Trend radar · snapshot <span id="trenddate"></span></p>
-    <div class="card scroll"><table id="trendtable"><thead><tr><th>Trend</th><th>What it is</th><th>Where</th><th>Verdict</th></tr></thead><tbody></tbody></table>
-      <p class="note">Trends go stale in days. Ask the agent "What trends can we ride right now?" to refresh it with dated sources.</p></div>
-  </section>
-
-  <section id="creators">
-    <h2>Creator library</h2>
-    <p class="sub">Selection criteria, the creators Medibank works with, and how each one is doing. <b>Rows are demo data</b> until the team adds real creators in <code>creators/</code>.</p>
-    <div class="grid g2">
-      <div class="card">
-        <h3>Selection criteria</h3>
-        <p class="note" style="margin-top:0">Score out of 100 from <code>tools/kol_score.py</code>: ≥70 go, 50–69 human look, &lt;50 no.</p>
-        <div id="weights"></div>
-      </div>
-      <div class="card">
-        <h3>Hard stops</h3>
-        <ul class="kb" id="hardstops"></ul>
-        <p class="note">Paid collaborations only through the official platform marketplaces (Pugongying on Xiaohongshu, Xingtu on Douyin, Huxuan on WeChat, Weirenwu on Weibo).</p>
-      </div>
-    </div>
-    <p class="eyebrow">Creator dashboard · as of <span id="asof"></span></p>
-    <div class="tiles" id="ctiles"></div>
-    <div class="card">
-      <h3>Inquiries per creator</h3>
-      <p class="note" style="margin-top:0">Comments and DMs asking about OSHC. Answered with the standard replies, never with a quote.</p>
-      <div class="chart" id="inqchart" role="img" aria-label="Bar chart of inquiries per creator; the same numbers are in the table below"></div>
-    </div>
-    <div class="card scroll" style="margin-top:14px">
-      <table id="ctable"><thead><tr>
-        <th>Creator</th><th>Platform</th><th>Status</th><th class="num">Posts</th><th class="num">Likes</th><th class="num">Comments</th>
-        <th class="num">Saves</th><th class="num">Inquiries</th><th class="num">CNY / inquiry</th><th>Follow up</th>
-      </tr></thead><tbody></tbody></table>
-    </div>
-  </section>
-
-  <section id="why">
-    <h2>Why this agent, not a normal AI chat</h2>
-    <p class="sub">A normal AI can write posts. This one knows what Medibank cannot say in China, and its knowledge stays up to date.</p>
-    <div class="card scroll"><table class="compare"><thead><tr><th>What matters</th><th>Normal AI chat</th><th>This agent</th></tr></thead><tbody>
-      <tr><td>Compliance</td><td>Writes "best price", "DM me" freely</td><td>Every draft scanned against <span id="rulecount"></span> rules with rule IDs, per platform</td></tr>
-      <tr><td>Facts</td><td>May invent prices, cover or follower counts</td><td>Only facts from the knowledge base; unknowns marked "to be confirmed"</td></tr>
-      <tr><td>Trends</td><td>Training data months old</td><td>Searches current trends with dated sources, scores the risk</td></tr>
-      <tr><td>Creators</td><td>Generic advice</td><td>Scoring rules, hard stops, a roster and a dashboard</td></tr>
-      <tr><td>Consistency</td><td>Different answer each time</td><td>Same rules and tools every time, tested automatically</td></tr>
-      <tr><td>Evidence</td><td>States opinions as facts</td><td>Every strategy names its source or says it is an assumption to test</td></tr>
-      <tr><td>Output</td><td>Text you still have to design</td><td>Finished posts with image cards, and edited vertical videos, in Medibank colours</td></tr>
-      <tr><td>Memory</td><td>Starts from zero every chat</td><td>Knowledge base the team maintains and improves</td></tr>
-    </tbody></table></div>
-    <p class="eyebrow">The knowledge base keeps improving</p>
-    <div class="loop">
-      <div class="card"><h3>Something changes</h3><p class="note">A post is throttled, a rule changes, a new trend or creator appears, a product fact is updated.</p></div>
-      <div class="card"><h3>Edit one file</h3><p class="note"><code>tools/rules.json</code>, <code>references/brand-facts.md</code>, <code>references/evidence.md</code>, <code>references/trend-radar.md</code> or <code>creators/roster.csv</code>.</p></div>
-      <div class="card"><h3>Tests check it</h3><p class="note">Automated tests and CI make sure nothing broke and the skill copies are in sync.</p></div>
-      <div class="card"><h3>Every future post uses it</h3><p class="note">In Claude and Codex, for the whole team, from the next request on.</p></div>
-    </div>
+    <details><summary>Tools the agent runs</summary>
+      <div class="card scroll"><table id="tooltable"><thead><tr><th>Tool</th><th>What it does</th></tr></thead><tbody></tbody></table></div>
+    </details>
+    <details><summary>Knowledge base</summary>
+      <div class="grid g3" id="kbgrid"></div>
+    </details>
+    <details><summary>Trend radar · snapshot <span id="trenddate"></span></summary>
+      <div class="card scroll"><table id="trendtable"><thead><tr><th>Trend</th><th>What it is</th><th>Where</th><th>Verdict</th></tr></thead><tbody></tbody></table></div>
+    </details>
+    <details><summary>Why this agent, not a normal AI chat</summary>
+      <div class="card scroll"><table class="compare"><thead><tr><th>What matters</th><th>Normal AI chat</th><th>This agent</th></tr></thead><tbody>
+        <tr><td>Compliance</td><td>Writes "best price", "DM me" freely</td><td>Every draft scanned against <span id="rulecount"></span> rules with rule IDs, per platform</td></tr>
+        <tr><td>Facts</td><td>May invent prices, cover or follower counts</td><td>Only facts from the knowledge base; unknowns marked "to be confirmed"</td></tr>
+        <tr><td>Evidence</td><td>States opinions as facts</td><td>Every strategy names its source or says it is an assumption to test</td></tr>
+        <tr><td>Output</td><td>Text you still have to design</td><td>Finished posts with image cards and edited videos, in Medibank colours</td></tr>
+        <tr><td>Creators</td><td>Generic advice</td><td>Scoring rules, hard stops, a roster and a dashboard</td></tr>
+        <tr><td>Memory</td><td>Starts from zero every chat</td><td>A knowledge base the team maintains, tested automatically</td></tr>
+      </tbody></table></div>
+    </details>
   </section>
 
   <section id="start">
     <h2>Get started</h2>
     <div class="grid g2">
-      <div class="card"><h3>Install as a Claude Code plugin</h3><pre>/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent</pre><p class="note">Or give Claude Code the GitHub link and ask it to install the plugin. Try: "What trends can we ride right now?"</p></div>
-      <div class="card"><h3>Claude Code (cloned copy)</h3><pre>cd medibank-china-social-agent
-claude</pre><p class="note">Skills load from <code>.claude/skills/</code>.</p></div>
-      <div class="card"><h3>Codex</h3><pre>cd medibank-china-social-agent
-codex</pre><p class="note">Skills load from <code>.agents/skills/</code>. Try: $medibank-cn-social</p></div>
-      <div class="card"><h3>Claude.ai Project (no code)</h3><p class="note">Upload <code>SKILL.md</code>, <code>skills/*/SKILL.md</code>, <code>references/</code> and <code>assets/templates/</code> to a Project. Steps in README.md.</p></div>
-      <div class="card"><h3>Command line</h3><pre>python -m social_agent welcome
-python -m social_agent creators
-python -m social_agent trendscore examples/trends_sample.csv</pre></div>
+      <div class="card"><h3>Install in Claude Code</h3><pre>/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent</pre><p class="note">Or give Claude Code the GitHub link and ask it to install the plugin.</p></div>
+      <div class="card"><h3>Try asking</h3><ul class="kb"><li>"Score the creators in examples/kol_candidates.csv"</li><li>"Show me the creator dashboard"</li><li>"Plan four weeks of posts for the T1 intake"</li><li>"Write a finished Xiaohongshu post about the OSHC line in the offer letter"</li></ul></div>
     </div>
   </section>
 
@@ -312,7 +382,7 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
   }).join("");
   var X = D.examples || {};
   $("poststrip").innerHTML = Object.keys(X).filter(function (k) { return k.indexOf("post-") === 0; }).map(function (k, i) {
-    return '<img src="' + X[k] + '" alt="Example Xiaohongshu card ' + (i + 1) + '" loading="lazy">';
+    return '<img src="' + X[k] + '" alt="Example Xiaohongshu card ' + (i + 1) + '">';
   }).join("");
   $("vflow").innerHTML = (X["video-title"] ? '<img src="' + X["video-title"] + '" alt="Title card">' : "") + '<span class="arrow">→</span>' +
     '<div class="mid"><b>Your clips</b><div>Trimmed and joined</div><div>Made vertical, never stretched</div><div>Medibank colour tone</div><div>Subtitles burned in</div><div>Music ducked, loudness set</div></div>' +
@@ -374,19 +444,107 @@ python -m social_agent trendscore examples/trends_sample.csv</pre></div>
     return "<tr><td><b>" + esc(c.handle) + '</b><br><span class="note">' + esc(c.tier) + " · " + fmt(c.followers) + " followers · score " + c.kol_score + "</span></td><td>" +
       (PLAT[c.platform] || esc(c.platform)) + '</td><td><span class="pill s-' + esc(c.status) + '">' + esc(c.status) + '</span></td><td class="num">' + c.posts +
       '</td><td class="num">' + fmt(c.likes) + '</td><td class="num">' + fmt(c.comments) + '</td><td class="num">' + fmt(c.saves) + '</td><td class="num"><b>' + c.inquiries +
-      '</b></td><td class="num">' + fmt(c.cost_per_inquiry) + "</td><td>" + (c.flags.length ? c.flags.map(function (f) { return '<div class="flag">' + esc(f) + "</div>"; }).join("") : "–") + "</td></tr>";
+      '</b></td><td class="num">' + fmt(c.cost_per_inquiry) + "</td></tr>";
   }).join("");
+
+  /* ---------- 1 · Find creators ---------- */
+  var C = D.candidates || [];
+  var passed = C.filter(function (c) { return !c.reason; }), over50 = C.filter(function (c) { return c.score >= 50; }), go = C.filter(function (c) { return c.band === "go"; });
+  var steps = [["Candidates screened", C.length, ""], ["Pass the hard stops", passed.length, "sells agency or insurance services, or promoted another insurer"],
+               ["Score 50 or more", over50.length, "weak fit on the 5 weighted criteria"], ["Ready to brief (score 70+)", go.length, "borderline, check before briefing"]];
+  $("funnel").innerHTML = steps.map(function (st, i) {
+    var prev = i ? steps[i - 1][1] : st[1];
+    return '<div class="fun"><div class="lab"><span>' + st[0] + "</span><b>" + st[1] + '</b></div><div class="fb" style="width:' + (C.length ? 100 * st[1] / C.length : 0) + '%"></div>' +
+      (prev > st[1] ? '<div class="drop">−' + (prev - st[1]) + " out: " + esc(st[2]) + "</div>" : "") + "</div>";
+  }).join("");
+  $("shortlist").innerHTML = C.map(function (c, i) {
+    var why = c.reason ? c.reason : c.band === "no" ? "Score below 50" : c.band === "maybe" ? "Check before briefing" : "";
+    return '<div class="row" data-i="' + i + '"><div class="name" title="' + esc(c.handle) + '">' + esc(c.handle) + '<div class="meta">' + (PLAT[c.platform] || esc(c.platform)) + " · " + esc(c.tier) + " · " + fmt(c.followers) +
+      '</div></div><div><div class="track2"><div class="bar' + (c.band === "no" ? " no" : "") + '" style="width:' + c.score + '%"></div><span class="tick" style="left:50%"></span><span class="tick" style="left:70%"></span></div>' +
+      (why ? '<div class="why">' + esc(why) + "</div>" : "") + '</div><div class="band ' + c.band + '">' + (c.reason ? "stop" : Math.round(c.score)) + " · " + c.band + "</div></div>";
+  }).join("") ;
+  $("shortlist").addEventListener("mousemove", function (e) {
+    var row = e.target.closest(".row"); if (!row) { tip.style.opacity = 0; return; }
+    var c = C[+row.dataset.i];
+    tip.innerHTML = "<b>" + esc(c.handle) + "</b><br>" + (PLAT[c.platform] || c.platform) + " · " + esc(c.tier) + " · " + fmt(c.followers) + " followers<br>engagement " + esc(c.eng) + " · score " + c.score + (c.reason ? "<br>" + esc(c.reason) : "");
+    tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 270) + "px"; tip.style.top = (e.clientY + 14) + "px"; tip.style.opacity = 1;
+  });
+  $("shortlist").addEventListener("mouseleave", function () { tip.style.opacity = 0; });
+
+  /* ---------- 2 · Dashboard to-do ---------- */
+  var todo = [];
+  cs.forEach(function (c) { c.flags.forEach(function (f) { todo.push("<li><div><b>" + esc(c.handle) + "</b>: " + esc(f) + "<span>" + (PLAT[c.platform] || esc(c.platform)) + " · " + esc(c.status) + "</span></div></li>"); }); });
+  $("todo").innerHTML = todo.length ? todo.join("") : "<li><div>Nothing to follow up</div></li>";
+
+  /* ---------- 3 · Plan & create ---------- */
+  var root = document.documentElement;
+  var P = D.plan || {pillars: [], posts: []};
+  var isDark = function () { var t = root.getAttribute("data-theme"); return t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches; };
+  var monday = function (iso) { var d = new Date(iso + "T00:00:00"); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; };
+  var ymd = function (d) { return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); };
+  var weeks = {}, order = [];
+  P.posts.forEach(function (p) {
+    var k = ymd(monday(p.date)), di = (new Date(p.date + "T00:00:00").getDay() + 6) % 7;
+    if (!weeks[k]) { weeks[k] = {}; order.push(k); }
+    (weeks[k][di] = weeks[k][di] || []).push(p);
+  });
+  order.sort();
+  var MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var paintPlan = function () {
+    var col = {}; P.pillars.forEach(function (p) { col[p.key] = isDark() ? p.dark : p.light; });
+    $("legend").innerHTML = P.pillars.map(function (p) { return '<span><i style="background:' + col[p.key] + '"></i>' + esc(p.key) + "</span>"; }).join("");
+    var html = "<div></div>" + ["Mon", "Tue", "Wed", "Thu", "Fri"].map(function (d) { return '<div class="dh">' + d + "</div>"; }).join("");
+    order.forEach(function (k, wi) {
+      html += '<div class="wk">Week ' + (wi + 1) + '<br><span class="note">' + MON[+k.slice(5, 7) - 1] + " " + (+k.slice(8)) + "</span></div>";
+      for (var di = 0; di < 5; di++) {
+        var list = weeks[k][di] || [];
+        html += list.length ? '<div>' + list.map(function (p) {
+          return '<div class="slot" style="border-left-color:' + (col[p.pillar] || "var(--ink-3)") + '" title="' + esc(p.date + " · " + p.pillar + " · KPI: " + p.kpi) + '"><b>' + (PLAT[p.platform] || esc(p.platform)) + "</b>" +
+            esc(p.format) + '<br><span class="who">' + (p.stream === "creator" ? "Creator" + (p.tier ? " · " + esc(p.tier) : "") : "Medibank") + "</span></div>";
+        }).join("") + "</div>" : '<div class="slot" style="border-left-color:var(--line);opacity:.5">–</div>';
+      }
+    });
+    $("cal").innerHTML = html;
+    var total = P.posts.length || 1;
+    $("pillarmix").innerHTML = P.pillars.map(function (p) {
+      var pct = Math.round(100 * p.planned / total);
+      return '<div class="pm"><span>' + esc(p.key) + '</span><div class="tr"><div class="f" style="width:' + pct + "%;background:" + col[p.key] + '"></div><span class="tg" style="left:' + p.target + '%" title="Target ' + p.target + '%"></span></div><b>' + pct + '% <span class="note">/ ' + p.target + "%</span></b></div>";
+    }).join("") + '<p class="note">Bar = share of planned posts. Black line = target mix <span class="idtag">A-4</span>.</p>';
+  };
+  paintPlan();
+  var cr = P.posts.filter(function (p) { return p.stream === "creator"; }).length, ow = P.posts.length - cr;
+  var cp = P.posts.length ? Math.round(100 * cr / P.posts.length) : 0;
+  $("streams").innerHTML = '<div class="split"><div style="flex:' + cr + ';background:var(--bar)">Creators ' + cp + '%</div><div style="flex:' + ow + ';background:var(--ink-3)">Medibank ' + (100 - cp) + "%</div></div>" +
+    '<p class="note">' + cr + " creator posts, " + ow + ' Medibank posts in the calendar.</p>';
+  $("trendmini").innerHTML = D.trends.rows.slice(0, 5).map(function (r) {
+    var cut = r.verdict.indexOf(":"), label = cut < 0 ? r.verdict : r.verdict.slice(0, cut);
+    var cls = r.verdict.indexOf("use") === 0 ? "v-use" : r.verdict.indexOf("adapt") === 0 ? "v-adapt" : r.verdict.indexOf("avoid") === 0 ? "v-avoid" : "v-watch";
+    return '<div class="tm"><span><b>' + esc(r.trend) + '</b><br><span class="note">' + esc(r.where) + '</span></span><span><span class="pill ' + cls + '">' + esc(label) + "</span></span></div>";
+  }).join("");
+
+  /* ---------- Feature cards in the hero ---------- */
+  $("f1big").textContent = go.length + " of " + C.length;
+  $("f1sub").textContent = "candidates ready to brief, scored on 5 weighted criteria";
+  $("f1mini").innerHTML = C.map(function (c) { return '<i class="' + (c.band === "go" ? "" : "off") + '" style="height:' + Math.max(c.score, 4) + '%"></i>'; }).join("");
+  $("f2big").textContent = fmt(S.inquiries) + " inquiries";
+  $("f2sub").textContent = S.active + " active creators · " + fmt(S.saves) + " saves tracked";
+  $("f2mini").innerHTML = cs.map(function (c) { return '<i style="height:' + Math.max(100 * c.inquiries / imax, 4) + '%"></i>'; }).join("");
+  $("f3big").textContent = P.posts.length + " posts";
+  $("f3sub").textContent = order.length + "-week calendar across 4 content pillars, written as finished cards";
+  var pmax = Math.max.apply(null, P.pillars.map(function (p) { return p.planned; }).concat([1]));
+  $("f3mini").innerHTML = P.pillars.map(function (p) { return '<i style="height:' + (100 * p.planned / pmax) + '%"></i>'; }).join("");
 
   $("rulecount").textContent = D.rule_count;
   $("built").textContent = S.as_of;
 
-  var KEY = "welcome-theme", root = document.documentElement;
+  var KEY = "welcome-theme";
   try { var saved = localStorage.getItem(KEY); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
   $("theme").addEventListener("click", function () {
     var dark = root.getAttribute("data-theme") ? root.getAttribute("data-theme") === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
     var next = dark ? "light" : "dark";
     root.setAttribute("data-theme", next);
     try { localStorage.setItem(KEY, next); } catch (e) {}
+    paintPlan();
   });
 })();
 </script>

@@ -21,6 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 
+import calendar_builder  # noqa: E402
 import creator_dashboard  # noqa: E402
 import kol_score  # noqa: E402
 
@@ -63,6 +64,7 @@ EN_TERMS = [
     ("蒲公英", "Pugongying"), ("巨量星图", "Xingtu"), ("互选平台", "Huxuan"), ("微任务", "Weirenwu"),
     ("头部", "Top tier"), ("腰部", "Mid tier"), ("尾部", "Small"), ("安徽花鼓灯", "Anhui flower-drum lantern dance"),
     ('"我画地为牢"', '"I drew my own prison" (a line about self-imposed limits)'),
+    ("图文", "Carousel"),
     ("舆情", ""), ("术语表", ""), ("博主", ""), ("热点", ""), ("看懂自己的保险", ""),
 ]
 EN_HANDLES = {
@@ -70,6 +72,8 @@ EN_HANDLES = {
     "示例_悉尼留学生活号": "demo_SydneyStudentLife", "示例_留学家长课堂": "demo_StudyAbroadParents",
     "示例_留学生阿Ken的一天": "demo_ADayWithKen", "示例_澳洲生活vlog": "demo_AustraliaLifeVlog",
     "示例_澳洲留学那些事": "demo_StudyInAustralia", "示例_UNSW新生说": "demo_UNSWFreshers",
+    "示例_澳洲留学全攻略": "demo_AustraliaStudyGuide", "示例_生活好物分享": "demo_LifestyleFinds",
+    "示例_留学规划师Amy": "demo_AgentAmy", "示例_悉尼吃喝玩乐": "demo_SydneyEats", "示例_保险科普小王": "demo_InsuranceWang",
 }
 CJK = re.compile(r"[\u3000-\u303f\u4e00-\u9fff\uff00-\uffef]")
 
@@ -205,6 +209,34 @@ def examples():
     return pics
 
 
+PILLAR_EN = {"看懂你的保险": "Know your cover", "在澳洲看病": "Using healthcare", "用好 app 和热线": "App and helpline",
+             "身心健康": "Wellbeing"}
+
+
+def candidates():
+    rows = kol_score.score_file(ROOT / "examples" / "kol_candidates.csv")
+    out = []
+    for r in rows:
+        handle = next((r[k] for k in ("handle", "creator", "name") if r.get(k)), "")
+        out.append({"handle": handle, "platform": r.get("platform", ""), "tier": r["tier"],
+                    "followers": r.get("followers"), "score": r["score"], "band": r["band"],
+                    "reason": "" if r["notes"].startswith("eng ") else r["notes"],
+                    "eng": r["notes"][4:] if r["notes"].startswith("eng ") else ""})
+    return out
+
+
+def plan():
+    rows = calendar_builder.load(ROOT / "examples" / "plan_t1_2027.csv")
+    text = (ROOT / "references" / "content-playbook.md").read_text(encoding="utf-8")
+    targets = {m.group(1): int(m.group(2)) for m in re.finditer(r"^\| \*\*(.+?)\*\* \(.+?\) \| (\d+)% \|", text, re.M)}
+    theme = json.loads((ROOT / "assets" / "brand" / "theme.json").read_text(encoding="utf-8"))["pillars"]
+    pillars = [{"key": PILLAR_EN.get(k, k), "target": v, "light": theme["light"].get(k), "dark": theme["dark"].get(k),
+                "planned": sum(1 for r in rows if r["pillar"] == k)} for k, v in targets.items()]
+    posts = [{"date": r["date"], "platform": r["platform"], "stream": r["stream"], "pillar": PILLAR_EN.get(r["pillar"], r["pillar"]),
+              "format": r["format"], "tier": r.get("creator_tier", ""), "kpi": r["kpi"], "risk": r["risk"]} for r in rows]
+    return {"pillars": pillars, "posts": posts}
+
+
 def data():
     roster = creator_dashboard.load(ROOT / "creators" / "roster.csv")
     posts = creator_dashboard.load(ROOT / "creators" / "posts.csv")
@@ -219,6 +251,8 @@ def data():
                      "hard_stops": list(kol_score.HARD_STOPS.values())},
         "dashboard": creator_dashboard.build(roster, posts, creator_dashboard.as_of(posts)),
         "evidence": evidence(),
+        "candidates": candidates(),
+        "plan": plan(),
     }
 
 

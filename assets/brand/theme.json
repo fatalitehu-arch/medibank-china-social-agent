@@ -25,5 +25,20 @@
     "grade": "eq=contrast=1.04:saturation=1.05,colorbalance=rm=0.02:rh=0.02:bs=-0.02",
     "subtitle_font": "PingFang SC",
     "subtitle_outline": "#1A1A1A"
+  },
+  "pillars": {
+    "_note": "Categorical colours for the four content pillars (charts only), drawn from medibank.com.au illustration colours and checked for colour-blind separation.",
+    "light": {
+      "看懂你的保险": "#CB2D2E",
+      "在澳洲看病": "#245896",
+      "用好 app 和热线": "#DC762F",
+      "身心健康": "#00897B"
+    },
+    "dark": {
+      "看懂你的保险": "#E04F4E",
+      "在澳洲看病": "#4A8BD6",
+      "用好 app 和热线": "#D2782F",
+      "身心健康": "#2BA89C"
+    }
   }
 }

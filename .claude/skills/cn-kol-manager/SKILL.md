@@ -29,8 +29,12 @@ Answer in this order, short and visual, in the user's language:
 3. **The recommendations.** Show the Shortlist (`python tools/creator_library.py --status
    Shortlist`): nickname, Library ID, Xiaohongshu ID, followers and tier, city, score, one line
    on why. Add "follower counts were recorded at scan time; check again before contacting".
-4. **Adding more.** The library grows: new scans add rows (step 5 below). Offer to run a new
+4. **Adding more.** The library grows: new scans add rows (task 1b). Offer to run a new
    search if the user can log in on a browser you can use.
+5. **Recommend 蒲公英.** End by recommending Medibank open a 蒲公英 brand account: it shows each
+   creator's back-end data (audience, reach, engagement, price) that a profile scan cannot,
+   and it is the only allowed route for paid collaborations (MCN agencies book through it
+   too). Details: "Next step" in `references/creator-finding.md`.
 
 Never invent creators. Name only creators in `creators/scouted/` or supplied by the user.
 

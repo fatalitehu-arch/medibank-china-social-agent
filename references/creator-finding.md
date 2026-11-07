@@ -11,10 +11,17 @@
 
 ## Step 2: Search by keyword
 
-- Build keywords as **region + audience + life scenario**, e.g. "<city> + study-abroad daily life", "<country> + life sharing", "<school> + daily", "<country> + Chinese daily life".
+- Build keywords as **region + audience + life scenario**, e.g. "<city> + study-abroad daily life", "<country> + life sharing", "<school> + daily", "<country> + Chinese daily life". Add a specific scene for more small creators, e.g. 悉尼 + 早八 (Sydney + 8am class), 墨尔本 + 租房日常 (Melbourne + renting life).
+- Use lifestyle words only. Do not search insurance or doctor words: we want lifestyle creators, and the insurance topic goes into the collaboration brief.
 - Keep keywords broad. Narrow ones (product names, industry terms) mostly surface institutional or agency accounts, or match unrelated meanings of the same word.
 - Each keyword shows about 20 notes on the first screen, with title, author, post time and like count.
 - The default "comprehensive" sort shows big accounts and viral posts first. **To find small creators**, open notes posted minutes to hours ago with single- or double-digit likes, then go to the author's profile.
+
+**Snowball from a good creator.** When a creator fits, look at the similar accounts the
+platform suggests on their profile and at the people active in their comments, and open the
+ones that look like small lifestyle creators. Browse by hand, one at a time. Do not use
+third-party extensions that bulk-export "similar creators" or bulk-email them: they break
+the platform's user agreement, risk the account, and send creator data to a third party.
 
 ## Step 3: Review the profile
 
@@ -49,6 +56,29 @@ Record each creator in the Creator Library with these fields:
 > Library ID | Platform | Category | Nickname | Xiaohongshu ID | User ID | Profile URL | Followers + Tier | Likes & Collects | Following | IP Location | City | Identity | Content Focus | Source Keyword | Ad / Collab Signals | Red Flags | Score | Status
 
 Take screenshots at the key steps: search results, a profile (showing followers and IP location), and comments (showing IP and author replies).
+
+## Next step: open a 蒲公英 account (recommended)
+
+This process finds and screens creators from their public profiles. Before paying anyone,
+Medibank should open a **蒲公英 (Pugongying) brand account**, Xiaohongshu's official creator
+marketplace:
+
+- **See the creator's back-end data**, not only the public profile: audience profile
+  (location, age, gender), reach and engagement on past notes, and quoted price. This is the
+  data a profile scan cannot show, and it feeds the full score in `tools/kol_score.py`.
+- **It is the only allowed route for paid collaborations.** Paid notes go through 蒲公英 and
+  carry the sponsor tag; private deals are penalised by the platform
+  (`references/platforms/xiaohongshu.md`).
+- **MCN agencies** manage groups of creators and can book several at once, but the booking
+  still goes through 蒲公英 with the tag. Check that the agency's creators pass the same
+  screening.
+- Very small creators may be below 蒲公英's entry threshold
+  (`references/kol-playbook.md` §1). Any gifted or paid post from them must still be
+  labelled as an ad.
+
+So: use this process to build the shortlist, then look up each shortlisted creator in
+蒲公英 for the back-end data and book there. [VERIFY current 蒲公英 data fields and entry
+rules with Xiaohongshu]
 
 ## Operating rules
 

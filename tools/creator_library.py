@@ -12,7 +12,9 @@ Usage:
     python creator_library.py --check               # validate every row (CI)
     python creator_library.py --html                # rebuild creators/scouted/library.html
     python creator_library.py --next-id xiaohongshu # next free Library ID when adding a creator
-    python creator_library.py --open                # open the process page and the library in the browser
+    python creator_library.py --pages               # print both pages as file paths and side-panel URLs
+    python creator_library.py --serve               # serve the pages on http://localhost:8765 for the side panel
+    python creator_library.py --open                # open both pages in the default (external) browser
 """
 
 import argparse
@@ -224,6 +226,25 @@ then <code>python tools/creator_library.py --check --html</code>.</section>
 """
 
 
+PORT = 8765
+PAGES = {"method": "assets/creator-finding/process.html", "library": "creators/scouted/library.html"}
+
+
+def pages():
+    for name, rel in PAGES.items():
+        print(f"{name}: {ROOT / rel}  |  side panel: http://localhost:{PORT}/{rel}")
+
+
+def serve():
+    """Serve the repository root so the desktop app's side-panel browser can show the pages."""
+    import functools
+    import http.server
+    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT))
+    with http.server.ThreadingHTTPServer(("127.0.0.1", PORT), handler) as httpd:
+        pages()
+        httpd.serve_forever()
+
+
 def open_pages():
     """Open the method page and the library page in the default browser; print their paths."""
     opened = False
@@ -244,8 +265,16 @@ def main(argv=None):
     p.add_argument("--check", action="store_true", help="validate every row; exit 1 on problems")
     p.add_argument("--html", action="store_true", help=f"rebuild {HTML_OUT.relative_to(ROOT)}")
     p.add_argument("--next-id", choices=list(PLATFORMS), help="print the next free Library ID")
-    p.add_argument("--open", action="store_true", help="open the process page and the library in the browser")
+    p.add_argument("--open", action="store_true", help="open both pages in the default (external) browser")
+    p.add_argument("--pages", action="store_true", help="print both pages as file paths and side-panel URLs")
+    p.add_argument("--serve", action="store_true", help=f"serve the pages on localhost:{PORT} for the side panel")
     args = p.parse_args(argv)
+    if args.pages:
+        pages()
+        return 0
+    if args.serve:
+        serve()
+        return 0
     if args.open:
         open_pages()
         return 0

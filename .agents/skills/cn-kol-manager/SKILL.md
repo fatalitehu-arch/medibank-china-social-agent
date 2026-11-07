@@ -15,24 +15,39 @@ file for the platform in question.
 Any question about finding, choosing or recommending creators ("how can I find the right
 creators", "who should we work with", "找博主", "推荐博主", "博主库") starts here.
 
-**First, before writing anything, open the two visual pages:** run
-`python3 tools/creator_library.py --open`. It opens the method page
-(`assets/creator-finding/process.html`) and the creator library
-(`creators/scouted/library.html`) in the browser. If no browser opens, give the user the two
-paths it prints. Then answer in this order, short, in the user's language, pointing at the pages
-instead of repeating them:
+**Offer the two visual pages, don't force them open.** Start the answer with a short choice:
+"I can show this in the side panel: 1 Method (the search logic and 8 steps) · 2 Creator library
+· 3 Both". When the user picks:
+- **Side panel (preferred):** if built-in browser tools are available (`preview_start`, from the
+  Claude desktop app), run `python3 "${CLAUDE_PLUGIN_ROOT:-.}/tools/creator_library.py" --serve`
+  in the background and open the chosen URL(s) it prints
+  (`http://localhost:8765/assets/creator-finding/process.html`,
+  `http://localhost:8765/creators/scouted/library.html`) with `preview_start`.
+- **No side panel:** give the file paths from `creator_library.py --pages` as links the user can
+  click, and offer `--open` to open them in their own browser. Never open the external browser
+  without being asked.
+(`${CLAUDE_PLUGIN_ROOT}` is the agent's root folder, not the user's current folder; if it is
+empty, `cd` to the folder that holds this repository's `SKILL.md` first.)
 
+Then answer in this order, short, in the user's language (point at a page when it is open
+instead of repeating it):
+
+0. **The search logic first**, in one short block: Keywords (lifestyle) → Posts (new, under
+   30 likes) → Profiles (IP Australia, student or resident, under 2k) → Screened (real people,
+   no farm or ad signals) → Library (scored /100 → Shortlist / Watch / Exclude / Reference).
+   Say what each gate keeps and drops (table "The search logic" in
+   `references/creator-finding.md`; it is also the top of the method page).
 1. **The method.** Say it has been field-tested and give the 8 steps from
    `references/creator-finding.md`. Lead with step 1: **a real person logs in by QR code on a
    real Xiaohongshu account** (search does not work without it; the agent never types a
    password). Point to the visual: `assets/creator-finding/process.html` (8-step flow with
-   screenshots), already open.
+   screenshots).
 2. **The knowledge base.** Every creator found this way is stored in the creator library,
    `creators/scouted/` (one CSV per platform, rules in `creators/scouted/README.md`). Say
    **Xiaohongshu is the main platform**, because it is where Chinese students search and trust
    peers most (`references/student-strategy.md`; 小红书 40% of the channel mix). Run
    `python tools/creator_library.py` and say how many creators are built in, by status.
-   The library page is already open (platform → status → shortlist with scores and IDs).
+   Library page: platform → status → shortlist with scores and IDs.
 3. **The recommendations.** Show the Shortlist (`python tools/creator_library.py --status
    Shortlist`): nickname, Library ID, Xiaohongshu ID, followers and tier, city, score, one line
    on why. Add "follower counts were recorded at scan time; check again before contacting".

@@ -23,6 +23,15 @@ header{display:grid;gap:8px}
 h1{font-size:clamp(28px,6vw,44px);font-weight:900;margin:0;text-wrap:balance}
 h1 mark{background:linear-gradient(transparent 60%,var(--yellow) 60%);color:inherit}
 .sub{color:var(--muted);margin:0;max-width:62ch}
+.logic{display:grid;gap:10px}
+.funnel{display:grid;gap:6px}
+.stage{display:grid;grid-template-columns:minmax(110px,170px) 1fr;gap:12px;align-items:stretch}
+.stage .bar{background:var(--red);color:#fff;font-weight:900;padding:10px 12px;display:grid;align-content:center;font-size:15px;clip-path:polygon(0 0,100% 0,94% 100%,6% 100%)}
+.stage:nth-child(2) .bar{margin-inline:4%}.stage:nth-child(3) .bar{margin-inline:8%}.stage:nth-child(4) .bar{margin-inline:12%}.stage:nth-child(5) .bar{margin-inline:16%;background:var(--ink);color:var(--bg)}
+.stage .bar small{display:block;font-weight:500;font-size:12px;opacity:.9}
+.gate{border:1px solid var(--line);padding:8px 12px;font-size:14px;display:grid;gap:3px;min-width:0}
+.gate .keep{color:var(--ok)}.gate .drop{color:var(--bad)}
+@media (max-width:560px){.stage{grid-template-columns:1fr}.stage .bar{margin-inline:0!important}}
 .legend{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted);align-items:center}
 .steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
 .step{display:grid;grid-template-columns:52px 1fr;gap:14px;position:relative;padding-bottom:18px}
@@ -60,6 +69,18 @@ h2{font-size:20px;font-weight:900;margin:0 0 12px}
   <p class="sub">Goal: find small Chinese creators who share student life or everyday life in Australia (international students or long-term residents). All 8 steps below have been run end to end. The agent browses slowly and only views: no likes, follows, comments or DMs.</p>
   <div class="legend"><span class="pill p-ok">Agent does it</span><span class="pill p-warn">Possible, but estimated or slow</span><span class="pill p-bad">Platform doesn't show it; rule-based</span><span class="pill p-who">Needs a person</span></div>
 </header>
+
+<section class="logic">
+  <h2>The search logic</h2>
+  <p class="sub" style="margin:0">Each stage narrows the pool. A creator moves on only if they pass the gate on the right.</p>
+  <div class="funnel">
+    <div class="stage"><div class="bar">Keywords<small>region + audience + scene</small></div><div class="gate"><span class="keep">✓ Lifestyle words: 悉尼留学日常, 墨尔本 + 租房日常</span><span class="drop">✗ Insurance or doctor words: they surface agencies and clinics, not students</span></div></div>
+    <div class="stage"><div class="bar">Posts<small>~20 per keyword</small></div><div class="gate"><span class="keep">✓ Posted minutes to hours ago, under 30 likes: small, active creators</span><span class="drop">✗ Viral posts at the top: big accounts</span></div></div>
+    <div class="stage"><div class="bar">Profiles<small>open 3–5 per keyword</small></div><div class="gate"><span class="keep">✓ IP location Australia, student or long-term resident, under 2k followers</span><span class="drop">✗ Hidden IP, overseas, agency, clinic or merchant</span><span>↻ A good fit? Snowball to similar accounts and active commenters</span></div></div>
+    <div class="stage"><div class="bar">Screened<small>real people only</small></div><div class="gate"><span class="keep">✓ Real daily life in their own voice, posted in the last 1–2 weeks</span><span class="drop">✗ Account farms, fake followers, soft-ad accounts, sells insurance or agency services</span></div></div>
+    <div class="stage"><div class="bar">Library<small>scored /100</small></div><div class="gate"><span>Fit · Size · Activity · Authenticity · Content (1–5 each, ×4)</span><span class="keep">≥ 88 and under 2k → Shortlist</span><span>72–87 → Watch · red flag → Exclude · 2k+ → Reference</span></div></div>
+  </div>
+</section>
 
 <ol class="steps">
   <li class="step"><div class="num">📱<small>1</small></div><div class="body">

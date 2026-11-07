@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How the Agent Finds Creators</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+*{box-sizing:border-box}body{margin:0}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.shots figure{margin:0;border:1px solid var(--line);padding:8px;display:grid;gap:6px}.shots img{width:100%;height:auto;display:block}.shots figcaption{font-size:13px;color:var(--muted)}
+.links{font-size:14px}.links a{color:var(--red);font-weight:700}
+
+/* Layout: one column; numbered vertical process (real sequence), each step = icon + action + status pill + tip; summary of who passes at the end. Medibank red/white/black + yellow highlight */
+:root{
+  --red:#CB2D2E; --ink:#141414; --bg:#ffffff; --panel:#f6f3f3; --muted:#6b6161; --line:#e7dede; --yellow:#FAE94E;
+  --ok:#1f8a4c; --warn:#b26a00; --bad:#CB2D2E;
+  --sans:"Inter Tight","Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ink:#f3eeee;--bg:#121010;--panel:#1d1919;--muted:#a99f9f;--line:#332c2c;--red:#e5484a;--ok:#4cc483;--warn:#f0a83a;--bad:#ff6b6b;color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#f3eeee;--bg:#121010;--panel:#1d1919;--muted:#a99f9f;--line:#332c2c;--red:#e5484a;--ok:#4cc483;--warn:#f0a83a;--bad:#ff6b6b;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+header{display:grid;gap:8px}
+.tag{display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:12px;letter-spacing:.08em;padding:3px 10px;border-radius:3px;width:max-content}
+h1{font-size:clamp(28px,6vw,44px);font-weight:900;margin:0;text-wrap:balance}
+h1 mark{background:linear-gradient(transparent 60%,var(--yellow) 60%);color:inherit}
+.sub{color:var(--muted);margin:0;max-width:62ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted);align-items:center}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
+.step{display:grid;grid-template-columns:52px 1fr;gap:14px;position:relative;padding-bottom:18px}
+.step:not(:last-child)::before{content:"";position:absolute;left:25px;top:52px;bottom:0;width:2px;background:var(--line)}
+.num{width:52px;height:52px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:24px;position:relative}
+.num small{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:11px;font-weight:900;width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
+.body{border:1px solid var(--line);padding:12px 16px;display:grid;gap:6px;min-width:0}
+.hd{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.hd b{font-size:17px;font-weight:900}
+.body p{margin:0;font-size:14px}
+.tip{font-size:13px;background:var(--panel);padding:8px 10px;color:var(--ink)}
+.tip::before{content:"💡 "}
+.pill{font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px;white-space:nowrap}
+.p-ok{color:var(--ok);border:1px solid var(--ok)}
+.p-warn{color:var(--warn);border:1px solid var(--warn)}
+.p-bad{color:var(--bad);border:1px solid var(--bad)}
+.p-who{color:var(--muted);border:1px solid var(--line)}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.box{padding:14px 16px;display:grid;gap:6px;align-content:start;border-top:4px solid var(--ink);background:var(--panel)}
+.box.go{border-top-color:var(--ok)}
+.box.no{border-top-color:var(--bad)}
+.box b{font-size:16px}
+.box ul{margin:0;padding-left:18px;font-size:14px}
+h2{font-size:20px;font-weight:900;margin:0 0 12px}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}
+.tier{text-align:center;font-size:12px;font-weight:700;padding:6px 4px;background:var(--bg);border:1px solid var(--line)}
+.tier.hi{background:var(--red);color:#fff;border-color:var(--red)}
+</style>
+</head><body>
+
+<div class="wrap">
+<header>
+  <span class="tag">TESTED PROCESS</span>
+  <h1>How the agent <mark>finds creators</mark></h1>
+  <p class="sub">Goal: find small Chinese creators who share student life or everyday life in Australia (international students or long-term residents). All 8 steps below have been run end to end. The agent browses slowly and only views: no likes, follows, comments or DMs.</p>
+  <div class="legend"><span class="pill p-ok">Agent does it</span><span class="pill p-warn">Possible, but estimated or slow</span><span class="pill p-bad">Platform doesn't show it; rule-based</span><span class="pill p-who">Needs a person</span></div>
+</header>
+
+<ol class="steps">
+  <li class="step"><div class="num">📱<small>1</small></div><div class="body">
+    <div class="hd"><b>Log in by QR code</b><span class="pill p-who">Needs a person</span></div>
+    <p>Search doesn't work without logging in. A team member scans the QR code with the phone app. The agent never handles passwords.</p>
+    <div class="tip">Use a dedicated team account so browsing doesn't change a personal account's feed or follow list.</div>
+  </div></li>
+
+  <li class="step"><div class="num">🔍<small>2</small></div><div class="body">
+    <div class="hd"><b>Search lifestyle keywords</b><span class="pill p-ok">Agent</span></div>
+    <p>For example: 澳洲留学生活 (study life in Australia), 悉尼留学日常 (Sydney student daily life), 墨尔本留学 (studying in Melbourne), 澳洲华人日常 (Chinese daily life in Australia), 悉尼生活日常 (Sydney daily life), 澳洲生活分享 (life in Australia).</p>
+    <div class="tip">Don't search insurance or doctor keywords. We want lifestyle creators; insurance belongs in the collaboration brief.</div>
+  </div></li>
+
+  <li class="step"><div class="num">🎯<small>3</small></div><div class="body">
+    <div class="hd"><b>Pick posts by small creators</b><span class="pill p-ok">Agent</span></div>
+    <p>Default ranking puts big accounts first. Scroll down and open posts that are only hours old with fewer than 30 likes, then go to the author's profile.</p>
+    <div class="tip">This gives the highest hit rate for small creators.</div>
+  </div></li>
+
+  <li class="step"><div class="num">👤<small>4</small></div><div class="body">
+    <div class="hd"><b>Check the profile: followers, IP location, bio</b><span class="pill p-ok">Agent</span></div>
+    <p>Followers, likes and IP location show on the profile (almost every profile shows the IP). The bio shows identity: school, or long-term signals such as years in Australia, owning a home, or permanent residency.</p>
+    <div class="tiers"><span class="tier hi">&lt;500</span><span class="tier hi">500–1k</span><span class="tier hi">1k–2k</span><span class="tier">2k+</span></div>
+  </div></li>
+
+  <li class="step"><div class="num">🗓️<small>5</small></div><div class="body">
+    <div class="hd"><b>Check if they're active</b><span class="pill p-warn">Estimated</span></div>
+    <p>Profiles don't show post dates, so posting frequency is estimated from the latest few posts.</p>
+  </div></li>
+
+  <li class="step"><div class="num">💬<small>6</small></div><div class="body">
+    <div class="hd"><b>Check if they reply to comments</b><span class="pill p-warn">Slow</span></div>
+    <p>Each post has to be opened one by one, so this is done only for shortlisted creators.</p>
+  </div></li>
+
+  <li class="step"><div class="num">🚩<small>7</small></div><div class="body">
+    <div class="hd"><b>Screen out ad accounts and fake followers</b><span class="pill p-bad">Rule-based</span></div>
+    <p>The platform doesn't label ads. Rules used:</p>
+    <p>• New account + single-digit following + likes dozens of times the follower count → likely account farm<br>• Every title is "🇦🇺 + question" with many soft ads → likely agency (MCN) account<br>• Hidden IP location → downgrade<br>• Sells agency services, other insurance or their own business → exclude or downgrade</p>
+  </div></li>
+
+  <li class="step"><div class="num">📋<small>8</small></div><div class="body">
+    <div class="hd"><b>Score, tier and record</b><span class="pill p-ok">Agent</span></div>
+    <p>Each creator is logged with platform ID, followers and tier, city, identity, content focus, activity, red flags and source keyword, then scored and grouped into Recommend / Consider / Not recommended.</p>
+  </div></li>
+</ol>
+
+<section>
+  <h2>Screening rules at a glance</h2>
+  <div class="out">
+    <div class="box go"><b>✅ Recommend</b><ul><li>IP location in Australia</li><li>Under 2k followers</li><li>Shares real daily life and still posting</li><li>Open to collaboration (a contact email is a plus)</li></ul></div>
+    <div class="box"><b>🤔 Consider</b><ul><li>Posts rarely</li><li>Mostly questions or second-hand sales</li><li>Promotes their own small business on the side</li></ul></div>
+    <div class="box no"><b>⛔ Not recommended</b><ul><li>Likely account farm or agency account</li><li>Hidden IP location</li><li>Over 2k followers, mainly paid store reviews</li><li>Sells agency services or other insurance</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>What it looks like</h2>
+  <div class="shots">
+    <figure><img src="01-login-wall.jpg" alt="Search asks for a login before showing results"><figcaption>Step 1 · Search is blocked until someone logs in by QR code</figcaption></figure>
+    <figure><img src="02-search-results.jpg" alt="Search results for a lifestyle keyword"><figcaption>Step 2–3 · Lifestyle keyword results; pick recent posts with few likes</figcaption></figure>
+    <figure><img src="03-profile.jpg" alt="A small creator profile with followers and IP location"><figcaption>Step 4 · Profile shows followers, likes and IP location</figcaption></figure>
+  </div>
+</section>
+<p class="links">Next: every creator found this way goes into the <a href="../../creators/scouted/library.html">Creator Library</a>. Full text: <a href="../../references/creator-finding.md">references/creator-finding.md</a>.</p>
+</div>
+
+</body></html>

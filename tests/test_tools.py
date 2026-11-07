@@ -195,3 +195,25 @@ def test_video_render_end_to_end(tmp_path):
     assert video_edit.main([str(tmp_path / "plan.json"), "--out", str(tmp_path / "out.mp4")]) == 0
     info = video_edit.probe(tmp_path / "out.mp4")
     assert (info["width"], info["height"]) == (1080, 1920) and 3.5 < info["duration"] < 4.6
+
+
+def test_scouted_creator_library_is_valid():
+    import creator_library
+    rows = creator_library.load()
+    assert len(rows) >= 28
+    assert creator_library.check(rows) == []
+    assert all(r["Profile URL"].endswith(r["User ID"]) for r in rows)
+    assert creator_library.next_id(rows, "xiaohongshu") == f"XHS-{len([r for r in rows if r['_file'] == 'xiaohongshu']) + 1:03d}"
+
+
+def test_scouted_library_html_is_up_to_date():
+    import creator_library
+    built = creator_library.build_html(creator_library.load())
+    assert creator_library.HTML_OUT.read_text(encoding="utf-8") == built
+
+
+def test_scouted_library_check_catches_bad_score():
+    import creator_library
+    row = dict(creator_library.load()[0])
+    row["Score (/100)"] = "50"
+    assert any("score must be" in p for p in creator_library.check([row]))

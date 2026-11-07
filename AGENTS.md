@@ -25,7 +25,8 @@ it does not sell (no prices, comparisons, purchase links, "DM to buy", or data c
 | `python tools/calendar_builder.py <csv>` | Check and render a content calendar |
 | `python tools/performance_report.py <csv>` | Cross-platform performance report |
 | `python tools/trend_score.py <csv>` | Score trends: use now / adapt / watch / avoid |
-| `python tools/creator_dashboard.py` | Creator library dashboard from `creators/` |
+| `python tools/creator_library.py` | Scouted creator library (`creators/scouted/`): summary, `--status Shortlist`, `--check`, `--html`, `--next-id xiaohongshu` |
+| `python tools/creator_dashboard.py` | Signed-creator dashboard from `creators/roster.csv` and `posts.csv` |
 | `python tools/make_post.py <spec.json>` | Finished post: text, image cards (needs Pillow) and compliance report in `outputs/posts/` |
 | `python tools/video_edit.py <plan.json>` | Edited vertical video in Medibank colours (needs ffmpeg); `--dry-run`, `--probe FILE` |
 | `python tools/evidence_check.py` | Every `[E-n]`/`[A-n]` citation points to a row in `references/evidence.md` |

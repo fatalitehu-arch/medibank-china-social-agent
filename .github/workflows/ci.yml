@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # ubuntu-latest (26.04) has no Python 3.9 build
     strategy:
       matrix:
         python-version: ["3.9", "3.12"]
@@ -33,6 +33,8 @@ jobs:
           done
       - name: Trend scorer runs on the sample
         run: python tools/trend_score.py examples/trends_sample.csv --today 2026-11-05
+      - name: Creator library rows are valid
+        run: python tools/creator_library.py --check
       - name: Every evidence citation exists
         run: python tools/evidence_check.py
       - name: Example post builds and passes compliance

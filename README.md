@@ -8,10 +8,11 @@ creators (网红/博主) to work with, with a compliance check on every post.**
 
 ```text
 Install the Medibank China Social Agent and start using it right away:
-1. Run: claude plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent
-2. Find the installed folder (~/.claude/plugins/cache/medibank-china-social/medibank-cn-social/<version>/)
-   and run: python3 social_agent/first_run.py   (this opens the welcome page in my browser)
-3. Read SKILL.md in that folder and act as this agent for the rest of this conversation,
+1. Run in the shell: claude plugin marketplace add fatalitehu-arch/medibank-china-social-agent
+2. Run in the shell: claude plugin install medibank-cn-social@medibank-china-social
+3. Find the installed folder (~/.claude/plugins/cache/medibank-china-social/medibank-cn-social/<version>/)
+   and run: python3 social_agent/first_run.py --force   (this opens the welcome page in my browser)
+4. Read SKILL.md in that folder and act as this agent for the rest of this conversation,
    using the folder's skills/, references/, tools/ and creators/. Then ask me what I want to do.
 ```
 
@@ -25,10 +26,13 @@ with no restart. In later sessions the nine skills load on their own.
 
 * Asking Claude to "download" the repo only gives you a ZIP file, and a normal Claude chat
   can't install plugins. Use Claude Code as above.
-* Type it yourself in Claude Code:
-  `/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent`
-* Older Claude Code versions: `/plugin marketplace add fatalitehu-arch/medibank-china-social-agent`,
-  then `/plugin install medibank-cn-social@medibank-china-social`.
+* Type it yourself in a Claude Code session: `/plugin marketplace add fatalitehu-arch/medibank-china-social-agent`,
+  then `/plugin install medibank-cn-social@medibank-china-social` and pick a scope.
+  (Claude Code v2.1.275+ can do both at once: `/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent`.
+  The `--marketplace` flag only works inside a session, not with `claude plugin install` in the shell.)
+* New skills load in the next session, or straight away after `/reload-plugins`.
+* Check it worked: ask "怎么找博主？" or "有推荐的博主吗？". The agent should explain the tested
+  search method and show the creator library (28 Xiaohongshu creators).
 * Cowork in the desktop app: in Customize, find the plugins section, choose "Add marketplace",
   enter `fatalitehu-arch/medibank-china-social-agent`, then install `medibank-cn-social`.
   The menu names may differ between app versions.
@@ -44,7 +48,7 @@ project deliverable for Medibank.
 > Medibank Legal & Compliance and PRC counsel should review `references/compliance.md`
 > before the agent is used for real campaigns. Anything marked `[VERIFY]` needs checking.
 
-**Start here: open [`welcome.html`](welcome.html)** in a browser for a visual overview of the skills,
+**Start here: open [`welcome.html`](https://htmlpreview.github.io/?https://github.com/fatalitehu-arch/medibank-china-social-agent/blob/main/welcome.html)** in a browser for a visual overview of the skills,
 knowledge base and creator library (it also opens automatically the first time you use the
 agent in Claude Code or from the command line). 中文使用说明：[使用说明.md](使用说明.md)
 
@@ -146,7 +150,27 @@ The agent writes the spec or edit plan for you; these commands are what it runs.
 live in `assets/brand/theme.json`: Medibank red `#CB2D2E` with white and black, sampled from
 medibank.com.au (swap in official values from Medibank's brand team if they differ).
 
-### Creator library (达人库)
+### How we find creators, and the creator library (博主库)
+
+Ask the agent "怎么找博主？" or "有推荐的博主吗？". It explains the field-tested method (a real
+person logs in to a Xiaohongshu account by QR code, then the agent searches lifestyle keywords,
+reads profiles and screens out fake or ad accounts) and shows the creator library.
+
+| | Text | Visual |
+|---|---|---|
+| Method (8 steps) | [`references/creator-finding.md`](references/creator-finding.md) | [Open the web page](https://htmlpreview.github.io/?https://github.com/fatalitehu-arch/medibank-china-social-agent/blob/main/assets/creator-finding/process.html) (`assets/creator-finding/process.html`) |
+| Creator library (28 Xiaohongshu creators, IDs, scores) | [`creators/scouted/README.md`](creators/scouted/README.md), [`xiaohongshu.csv`](creators/scouted/xiaohongshu.csv) | [Open the web page](https://htmlpreview.github.io/?https://github.com/fatalitehu-arch/medibank-china-social-agent/blob/main/creators/scouted/library.html) (`creators/scouted/library.html`) |
+
+GitHub shows `.html` files as code, so the links above open them as web pages. Previews:
+
+| Method | Creator library |
+|---|---|
+| ![How the agent finds creators](assets/creator-finding/process-preview.png) | ![Creator library](creators/scouted/library-preview.png) |
+
+Xiaohongshu is the main platform. New creators are added as rows and checked with
+`python tools/creator_library.py --check --html`.
+
+### Signed-creator roster (达人库)
 
 `creators/roster.csv` lists the creators Medibank works with (platform, tier, status,
 contract, score) and `creators/posts.csv` their results (likes, comments, saves, shares,
@@ -285,7 +309,7 @@ tools/                   compliance_scan.py + rules.json, note_lint.py, kol_scor
                          creator_dashboard.py, evidence_check.py, build_welcome.py,
                          make_post.py (finished posts + image cards), video_edit.py (ffmpeg)
 social_agent/            CLI runner (Claude API + offline tool wrappers), first-run welcome
-creators/                Creator library: roster.csv, posts.csv (demo data), README with criteria
+creators/                scouted/ (real creator library, Xiaohongshu first), roster.csv, posts.csv (demo data), README
 welcome.html             Visual overview, generated by tools/build_welcome.py
 assets/templates/        Creator brief, onboarding, calendar, replies, monthly report,
                          Legal sign-off

@@ -411,10 +411,6 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
       <h3 style="margin-top:18px">Finished video</h3>
       <div class="vflow" id="vflow"></div>
     </div>
-    <div class="card mt">
-      <div class="calhead"><h3>Where it goes: 4-week calendar</h3><div class="legend" id="legend"></div></div>
-      <div class="dots" id="dots"></div>
-    </div>
   </section>
 
   <section id="evidence">
@@ -1821,7 +1817,6 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   var hover = function (el, fn) { el.addEventListener("mousemove", function (e) { var t = e.target.closest("[data-tip]"); if (t) showTip(e, fn(t)); else hideTip(); }); el.addEventListener("mouseleave", hideTip); };
   var tip = $("tip");
   document.querySelectorAll(".demo").forEach(function (d) { d.insertAdjacentHTML("afterbegin", ic(d.dataset.icon || "info")); });
-  var SHORT = {xiaohongshu: "XHS", "wechat-oa": "OA", "wechat-channels": "CH", douyin: "DY", weibo: "WB"};
 
   /* ---------- 1 · Find creators ---------- */
   var CR = D.criteria.weights, C = D.candidates || [];
@@ -1946,32 +1941,6 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
     return '<div class="' + m[2] + '"><span class="icb">' + ic(m[0]) + "</span>" + m[1] + "</div>";
   }).join("") + "</div>";
   var root = document.documentElement;
-  var P = D.plan || {pillars: [], posts: []};
-  var isDark = function () { var t = root.getAttribute("data-theme"); return t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches; };
-  var monday = function (iso) { var d = new Date(iso + "T00:00:00"); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; };
-  var ymd = function (d) { return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); };
-  var weeks = {}, order = [];
-  P.posts.forEach(function (p) {
-    var k = ymd(monday(p.date)), di = (new Date(p.date + "T00:00:00").getDay() + 6) % 7;
-    if (!weeks[k]) { weeks[k] = {}; order.push(k); }
-    (weeks[k][di] = weeks[k][di] || []).push(p);
-  });
-  order.sort();
-  var MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  var paintPlan = function () {
-    var col = {}; P.pillars.forEach(function (p) { col[p.key] = isDark() ? p.dark : p.light; });
-    $("legend").innerHTML = P.pillars.map(function (p) { return '<span><i style="background:' + col[p.key] + '"></i>' + esc(p.key) + "</span>"; }).join("") + "<span>" + ic("user") + " = creator post</span>";
-    var html = "<div></div>" + ["Mon", "Tue", "Wed", "Thu", "Fri"].map(function (d) { return '<div class="dh">' + d + "</div>"; }).join("");
-    order.forEach(function (k, wi) {
-      html += '<div class="wk">Wk ' + (wi + 1) + "<br>" + MON[+k.slice(5, 7) - 1] + " " + (+k.slice(8)) + "</div>";
-      for (var di = 0; di < 5; di++) {
-        var p = (weeks[k][di] || [])[0];
-        html += p ? '<div class="sq" style="background:' + (col[p.pillar] || "var(--ink-3)") + '" title="' + esc((PLAT[p.platform] || p.platform) + " · " + p.format + " · " + p.pillar + (p.stream === "creator" ? " · creator " + p.tier : " · Medibank")) + '">' + (SHORT[p.platform] || "") + (p.stream === "creator" ? ic("user") : "") + "</div>" : "<div></div>";
-      }
-    });
-    $("dots").innerHTML = html;
-  };
-  paintPlan();
 
   /* ---------- Feature cards in the hero ---------- */
   $("f1big").textContent = go.length + " of " + C.length;
@@ -1995,7 +1964,6 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
     var next = dark ? "light" : "dark";
     root.setAttribute("data-theme", next);
     try { localStorage.setItem(KEY, next); } catch (e) {}
-    paintPlan();
   });
 })();
 </script>

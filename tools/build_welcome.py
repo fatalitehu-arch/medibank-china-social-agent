@@ -49,8 +49,8 @@ EN_SKILLS = {
     "cn-performance-review": ("Performance review", None, "Write a monthly review from examples/metrics_sample.csv."),
     "cn-repurpose": ("Repurpose", None, "Turn this WeChat article into Xiaohongshu, Channels, Douyin and Weibo versions."),
     "cn-trend-scout": ("Trend radar", None, "What is trending on Chinese social media, and which trends should Medibank ride?"),
-    "cn-video-editor": ("Video editor", "Cut, subtitle and brand short videos for Douyin, WeChat Channels and Xiaohongshu",
-                        "Cut the three clips in raw/ into a 45-second vertical Douyin video with subtitles and title and end cards."),
+    "cn-video-editor": ("Video editor", "Animated explainers with no footage, or edits of your own clips, for Douyin, WeChat Channels and Xiaohongshu",
+                        "Make a 45-second animated Douyin video on how students claim a GP visit in the Medibank app."),
 }
 EN_TERMS = [
     ("《互联网广告管理办法》", "Internet Advertising Measures"), ("《互联网保险业务监管办法》", "Internet Insurance Business Measures"),

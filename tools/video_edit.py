@@ -174,6 +174,22 @@ def build_commands(plan, out, tmp, font=None, render_cards=True):
     return cmds
 
 
+def text_problems(plan):
+    """Compliance scan (red only) and claim qualifiers (assets/brand/qualifiers.json) on subtitles and cards."""
+    import compliance_scan
+    import motion_video
+    lines = [plan.get("title", {}).get("headline", ""), plan.get("title", {}).get("sub", "")]
+    lines += [str(v) for k, v in plan.get("end", {}).items() if k != "seconds"]
+    srt = Path(plan["subtitles"]).expanduser() if plan.get("subtitles") else None
+    if srt and srt.exists():
+        lines += [ln for ln in srt.read_text(encoding="utf-8-sig").splitlines()
+                  if ln.strip() and "-->" not in ln and not ln.strip().isdigit()]
+    lines = [ln for ln in lines if ln]
+    worst, hits = compliance_scan.scan("\n".join(lines), platform=plan.get("platform"))
+    problems = [f"{h.id} {h.match}: {h.message}" for h in hits if h.level == "red"]
+    return problems + motion_video.check_qualifiers(lines)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("plan", nargs="?", help="edit plan JSON")
@@ -190,6 +206,10 @@ def main(argv=None):
     plan = json.loads(Path(args.plan).read_text(encoding="utf-8"))
     if not plan.get("clips"):
         raise SystemExit("The plan has no clips.")
+    problems = text_problems(plan)
+    if problems:
+        print("Fix the on-screen text before rendering:\n" + "\n".join("  - " + p for p in problems))
+        return 2
     out = Path(args.out) if args.out else ROOT / "outputs" / "videos" / (Path(args.plan).stem + ".mp4")
     out.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as t:

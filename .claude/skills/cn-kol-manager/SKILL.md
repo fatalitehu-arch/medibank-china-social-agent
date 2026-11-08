@@ -1,6 +1,6 @@
 ---
 name: cn-kol-manager
-description: Find and manage Medibank's creators (博主/KOL/KOC): the tested Xiaohongshu search method and the scouted creator library, plus collaborations on 小红书 (蒲公英), 抖音 (星图), 微信公众号/视频号 (互选平台) and 微博 - search plans, scoring a candidate CSV, vetting, briefs, onboarding, reviewing creator drafts and wrap-ups. Use for how to find the right creators / who to work with / 怎么找博主/有推荐的博主吗/博主库/找博主/打分/这个博主行不行/写brief/审博主稿/博主复盘.
+description: Find and manage Medibank's creators (博主/KOL/KOC): the tested Xiaohongshu search method and the scouted creator library, plus collaborations on 小红书 (蒲公英), 抖音 (星图), 微信公众号/视频号 (互选平台) and 微博 - search plans, scoring a candidate CSV, vetting, briefs, onboarding, reviewing creator drafts and wrap-ups. Use for how to find or contact the right creators / who to work with / 怎么找博主/怎么联系博主/联系网红/有推荐的博主吗/博主库/找博主/打分/这个博主行不行/写brief/审博主稿/博主复盘.
 ---
 
 # cn-kol-manager
@@ -11,9 +11,11 @@ file for the platform in question.
 
 ## Tasks
 
-### 1. "How do we find creators?" / "Any creators you recommend?" (怎么找博主 / 有推荐的博主吗)
-Any question about finding, choosing or recommending creators ("how can I find the right
-creators", "who should we work with", "找博主", "推荐博主", "博主库") starts here.
+### 1. "How do we find / contact creators?" / "Any creators you recommend?" (怎么找博主 / 怎么联系网红 / 有推荐的博主吗)
+Any question about finding, contacting, choosing or recommending creators ("how can I find the right
+creators", "how do I contact influencers", "who should we work with", "找博主", "联系博主",
+"推荐博主", "博主库") starts here. For "how do I contact them", run steps 0-3 below first (you
+can only contact a creator you have found and vetted), then task 1c.
 
 **Offer the two visual pages, don't force them open.** Start the answer with a short choice:
 "I can show this in the side panel: 1 Method (the search logic and 8 steps) · 2 Creator library
@@ -57,8 +59,27 @@ instead of repeating it):
    creator's back-end data (audience, reach, engagement, price) that a profile scan cannot,
    and it is the only allowed route for paid collaborations (MCN agencies book through it
    too). Details: "Next step" in `references/creator-finding.md`.
+6. **Ask to connect Xiaohongshu.** Close with one question: "Want me to start? Log in to
+   Xiaohongshu in the side browser (scan the QR code with your phone) and I will search and
+   check creators live." If built-in browser tools are available, open
+   `https://www.xiaohongshu.com` with `preview_start` (it may redirect to rednote.com: same
+   account) and wait for the user to say they have logged in. Never ask for a password.
 
 Never invent creators. Name only creators in `creators/scouted/` or supplied by the user.
+
+### 1c. How to contact a creator (怎么联系博主)
+Answer in three short steps, then ask to connect Xiaohongshu (step 6 above):
+1. **Pick from the library.** Contact only Shortlist creators (or ones the user vetted), and
+   re-check their followers and latest notes first.
+2. **Paid collaboration = 蒲公英 invitation.** Medibank's 蒲公英 brand account sends the
+   invitation with the brief (`assets/templates/creator-brief.md`); price, deliverables and the
+   sponsor tag are agreed there (`references/kol-playbook.md`, `references/platforms/xiaohongshu.md`).
+   Creators below the 蒲公英 threshold: an MCN that books through 蒲公英, or a gifted/paid post
+   that is still labelled 广告 [E-12]; never an undisclosed deal.
+3. **First hello.** If the creator's bio lists a business email (商务合作邮箱), the team may send
+   a short introduction there. Draft it for them in Chinese (who Medibank is, the idea, "details
+   and payment go through 蒲公英"); a person sends it. The agent never sends DMs, comments or
+   follows, and never asks creators for WeChat IDs or personal data.
 
 ### 1b. Run a new search and add creators to the library
 Only with a browser the user is logged in to (step 1 needs a person). Follow

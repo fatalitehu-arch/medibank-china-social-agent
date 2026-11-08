@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+__FONTFACES__
+:root{
+  --red:#CB2D2E; --red2:#A82425; --ink:#1A1A1A; --muted:#6B6B6B; --cream:#FBF4EC; --soft:#FBEFEE; --yellow:#FAE94E; --paper:#FFFFFF;
+  --hei:"PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --song:"Songti SC","Noto Serif SC","STSong","SimSun",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:__W__px;height:__H__px;overflow:hidden;background:#fff}
+body{font-family:var(--hei);color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;inset:0;overflow:hidden}
+.bg{position:absolute;inset:0;opacity:0}
+.bg.red{background:radial-gradient(120% 80% at 20% 10%,#E0413F 0%,#CB2D2E 45%,#A82425 100%)}
+.bg.cream{background:linear-gradient(170deg,#FFF9F2 0%,#FBF4EC 55%,#F7E7DA 100%)}
+.bg.white{background:linear-gradient(180deg,#FFFFFF 0%,#FBEFEE 100%)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px)}
+.red .blob.a{background:radial-gradient(circle,rgba(255,255,255,.16),rgba(255,255,255,0) 70%)}
+.red .blob.b{background:radial-gradient(circle,rgba(250,233,78,.22),rgba(250,233,78,0) 70%)}
+.cream .blob.a,.white .blob.a{background:radial-gradient(circle,rgba(203,45,46,.12),rgba(203,45,46,0) 70%)}
+.cream .blob.b,.white .blob.b{background:radial-gradient(circle,rgba(250,233,78,.35),rgba(250,233,78,0) 70%)}
+.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(26,26,26,.06) 2px,transparent 2px);background-size:44px 44px}
+.red .dots{background-image:radial-gradient(rgba(255,255,255,.08) 2px,transparent 2px)}
+.el{position:absolute;left:0;top:0;will-change:transform,opacity;opacity:0}
+.headline{font-family:var(--song);font-weight:900;text-align:center;line-height:1.22;letter-spacing:.02em;white-space:pre-line}
+.text{font-family:var(--hei);font-weight:700;text-align:center;line-height:1.35;white-space:pre-line}
+.hl{background-image:linear-gradient(var(--yellow),var(--yellow));background-repeat:no-repeat;background-position:0 88%;background-size:0% 42%;padding:0 .06em;color:inherit}
+.red .hl,.on-red .hl{color:var(--ink);background-position:0 50%;border-radius:.12em}
+.chip{font-weight:800;font-size:40px;padding:16px 34px;border-radius:999px;background:var(--ink);color:#fff;display:flex;align-items:center;gap:16px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.chip .n{background:var(--red);border-radius:999px;min-width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-size:34px}
+.on-red .chip{background:#fff;color:var(--ink)}
+.emoji{filter:drop-shadow(0 24px 30px rgba(0,0,0,.22))}
+.card{background:#fff;border-radius:44px;box-shadow:0 30px 60px rgba(120,30,30,.16),0 4px 12px rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;padding:44px 30px 40px;text-align:center}
+.card img{width:58%;filter:drop-shadow(0 16px 18px rgba(0,0,0,.18))}
+.card .t{font-weight:900;font-size:62px;margin-top:20px}
+.card .s{font-weight:500;font-size:36px;color:var(--muted);margin-top:8px}
+.card.accent{outline:6px solid var(--red)}
+.note{font-weight:600;font-size:34px;line-height:1.5;text-align:center;padding:18px 34px;border-radius:28px;background:rgba(255,255,255,.85);color:var(--ink);white-space:pre-line}
+.on-red .note{background:rgba(0,0,0,.18);color:#fff}
+.phone{background:#111;border-radius:86px;padding:22px;box-shadow:0 50px 90px rgba(60,10,10,.35),inset 0 0 0 3px #333}
+.phone .scr{position:relative;border-radius:66px;overflow:hidden;background:#fff}
+.phone .scr img{display:block;width:100%;transform-origin:0 0}
+.phone .tag{position:absolute;left:50%;bottom:-62px;transform:translateX(-50%);font-size:28px;color:var(--muted);white-space:nowrap;font-weight:500}
+.on-red .phone .tag{color:rgba(255,255,255,.8)}
+.phone .ring{position:absolute;border:8px solid var(--yellow);border-radius:30px;box-shadow:0 0 0 9999px rgba(0,0,0,.0);opacity:0}
+.phone .tap{position:absolute;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;background:rgba(26,26,26,.25);border:6px solid rgba(255,255,255,.9);opacity:0}
+.steps{display:flex;flex-direction:column;gap:30px}
+.step{display:flex;align-items:center;gap:30px;background:#fff;border-radius:36px;padding:28px 34px;box-shadow:0 18px 40px rgba(120,30,30,.12);opacity:0}
+.step .n{flex:none;width:92px;height:92px;border-radius:50%;background:var(--soft);color:var(--red);font-weight:900;font-size:50px;display:flex;align-items:center;justify-content:center}
+.step.on .n{background:var(--red);color:#fff}
+.step .l{font-weight:800;font-size:50px;line-height:1.25}
+.step img{width:96px;margin-left:auto}
+.big{font-family:var(--hei);font-weight:900;text-align:center;line-height:1;letter-spacing:-.02em}
+#sub{z-index:20;position:absolute;left:36px;right:36px;top:__SUBY__px;text-align:center;font-family:var(--hei);font-weight:800;font-size:58px;line-height:1.3;color:#fff;
+  -webkit-text-stroke:11px #1A1A1A;paint-order:stroke fill;letter-spacing:.02em;white-space:pre-line}
+#sub .k{color:var(--yellow)}
+#brand{z-index:20;position:absolute;left:60px;top:200px;font-weight:800;font-size:30px;padding:10px 22px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--red);display:flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+#brand i{width:14px;height:14px;border-radius:50%;background:var(--red);display:block}
+#fine{z-index:20;position:absolute;left:0;right:0;top:__FINEY__px;text-align:center;font-size:28px;font-weight:500;color:rgba(26,26,26,.55)}
+#bar{z-index:20;position:absolute;left:60px;right:60px;top:170px;height:8px;border-radius:8px;background:rgba(26,26,26,.08);overflow:hidden}
+#bar b{display:block;height:100%;width:0;background:var(--red);border-radius:8px}
+.on-red #bar{background:rgba(255,255,255,.25)} .on-red #bar b{background:#fff}
+.on-red #fine{color:rgba(255,255,255,.75)}
+#wipe{position:absolute;left:0;top:0;width:__W__px;height:__H__px;background:var(--red);transform:translateX(-110%);z-index:50}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const BOARD = __BOARD__;
+const W = __W__, H = __H__;
+const stage = document.getElementById('stage');
+const clamp = (v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const outBack = p=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2)};
+const outCubic = p=>1-Math.pow(1-p,3);
+const inOut = p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const esc = s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const mark = (s,cls='hl')=>esc(s).replace(/\{([^}]*)\}/g,`<span class="${cls}">$1</span>`);
+
+// backgrounds: one layer per scene, cross-faded
+const bgs = BOARD.scenes.map((sc,i)=>{
+  const d=document.createElement('div'); d.className='bg '+sc.bg;
+  d.innerHTML='<div class="dots"></div><div class="blob a"></div><div class="blob b"></div>';
+  stage.appendChild(d); return d;
+});
+const layer=document.createElement('div'); layer.style.cssText='position:absolute;inset:0;z-index:10'; stage.appendChild(layer);
+
+const els=[];
+BOARD.scenes.forEach((sc,si)=>{
+  sc.items.forEach(it=>{
+    const e=document.createElement('div'); e.className='el'; let inner;
+    if(it.type==='headline'){e.innerHTML=`<div class="headline" style="font-size:${it.size||120}px;color:${it.color||'inherit'};width:${(it.width||0.86)*W}px">${mark(it.text)}</div>`}
+    else if(it.type==='text'){e.innerHTML=`<div class="text" style="font-size:${it.size||64}px;color:${it.color||'inherit'};width:${(it.width||0.86)*W}px">${mark(it.text)}</div>`}
+    else if(it.type==='big'){e.innerHTML=`<div class="big" style="font-size:${it.size||260}px;color:${it.color||'var(--red)'}">${mark(it.text)}</div>`}
+    else if(it.type==='chip'){e.innerHTML=`<div class="chip">${it.n?`<span class="n">${it.n}</span>`:''}${esc(it.text)}</div>`}
+    else if(it.type==='emoji'){e.innerHTML=`<img class="emoji" src="${it.src}" style="width:${it.size||260}px">`}
+    else if(it.type==='card'){e.innerHTML=`<div class="card ${it.accent?'accent':''}" style="width:${it.w||420}px"><img src="${it.src}"><div class="t">${mark(it.title)}</div>${it.sub?`<div class="s">${esc(it.sub)}</div>`:''}</div>`}
+    else if(it.type==='note'){e.innerHTML=`<div class="note">${mark(it.text)}</div>`}
+    else if(it.type==='phone'){
+      const w=it.width||560;
+      e.innerHTML=`<div class="phone" style="width:${w+44}px"><div class="scr" style="height:${it.height||w*1.86}px"><img src="${it.src}">${(it.rings||[]).map(()=>'<div class="ring"></div>').join('')}${(it.taps||[]).map(()=>'<div class="tap"></div>').join('')}</div><div class="tag">真实 App 界面 · 个人信息已打码</div></div>`;
+    }
+    else if(it.type==='steps'){
+      e.innerHTML=`<div class="steps" style="width:${(it.width||0.86)*W}px">${it.items.map((s,k)=>`<div class="step"><div class="n">${k+1}</div><div class="l">${mark(s.text)}</div>${s.src?`<img src="${s.src}">`:''}</div>`).join('')}</div>`;
+    }
+    layer.appendChild(e);
+    els.push({e,it,si,sc});
+  });
+});
+
+const sub=document.createElement('div'); sub.id='sub'; stage.appendChild(sub);
+const brand=document.createElement('div'); brand.id='brand'; brand.innerHTML='<i></i>'+esc(BOARD.brand||''); if(BOARD.brand) stage.appendChild(brand);
+const bar=document.createElement('div'); bar.id='bar'; bar.innerHTML='<b></b>'; stage.appendChild(bar);
+const fine=document.createElement('div'); fine.id='fine'; fine.textContent=BOARD.fine_print||''; stage.appendChild(fine);
+const wipe=document.createElement('div'); wipe.id='wipe'; stage.appendChild(wipe);
+let subsOn = true;
+window.setSubs = v=>{subsOn=v};
+
+function sceneAt(t){let i=0;BOARD.scenes.forEach((s,k)=>{if(t>=s.t0-1e-6)i=k});return i}
+
+function enterState(anim,p){
+  // returns [dx,dy,scale,opacity,rot]
+  if(anim==='pop'){const q=outBack(clamp(p));return [0,0,0.4+0.6*q,clamp(p*3),0]}
+  if(anim==='rise'){const q=outCubic(clamp(p));return [0,80*(1-q),1,clamp(p*2),0]}
+  if(anim==='left'){const q=outCubic(clamp(p));return [-700*(1-q),0,1,clamp(p*2),0]}
+  if(anim==='right'){const q=outCubic(clamp(p));return [700*(1-q),0,1,clamp(p*2),0]}
+  if(anim==='drop'){const q=outBack(clamp(p));return [0,-260*(1-q),1,clamp(p*3),0]}
+  if(anim==='zoom'){const q=outCubic(clamp(p));return [0,0,1.25-0.25*q,clamp(p*2),0]}
+  if(anim==='fade'){return [0,0,1,clamp(p),0]}
+  return [0,0,1,1,0];
+}
+
+window.renderAt = function(t){
+  const si=sceneAt(t), sc=BOARD.scenes[si];
+  document.body.classList.toggle('on-red', sc.bg==='red');
+  // backgrounds
+  bgs.forEach((b,k)=>{
+    const s=BOARD.scenes[k]; let o=0;
+    if(k===si){o=1} else if(k===si-1){o=clamp((sc.t0+0.35-t)/0.35)}
+    b.style.opacity = (k===si? 1 : o);
+    b.style.zIndex = k===si?1:2;
+    if(k===si-1 && o>0){b.style.zIndex=2}
+    const bl=b.querySelectorAll('.blob');
+    bl[0].style.cssText=`width:900px;height:900px;left:${-250+60*Math.sin(t*.35+k)}px;top:${-200+50*Math.cos(t*.3+k)}px`;
+    bl[1].style.cssText=`width:800px;height:800px;left:${W-520+70*Math.cos(t*.28+k)}px;top:${H-1100+60*Math.sin(t*.33+k)}px`;
+  });
+  // scene wipe on chapter change
+  const wp = sc.wipe ? (t-sc.t0+0.18)/0.5 : -1;
+  if(wp>0 && wp<1){wipe.style.transform=`translateX(${(-110+220*inOut(wp))}%)`; wipe.style.background = sc.bg==='red'?'#fff':'var(--red)'} else wipe.style.transform='translateX(-110%)';
+  // elements
+  els.forEach(({e,it,si:k,sc:s})=>{
+    const t0=it.t0, t1=it.t1;
+    if(t<t0 || t>t1+0.3 || k<si-1 || k>si){e.style.opacity=0; return}
+    const p=(t-t0)/(it.dur||0.5);
+    let [dx,dy,sc2,op,rot]=enterState(it.anim||'pop',p);
+    if(t>t1){const q=clamp((t-t1)/0.28); op*=1-q; dy-=60*q; sc2*=1-0.06*q}
+    if(it.float){dy+=Math.sin((t-t0)*2.2+(it.x||0)*7)*14; rot=Math.sin((t-t0)*1.6+(it.y||0)*5)*(it.rock||4)}
+    if(it.pulse && p>1){sc2*=1+0.03*Math.sin((t-t0)*6)}
+    const r=e.firstElementChild; const w=r.offsetWidth, h=r.offsetHeight;
+    const x=(it.x??0.5)*W - w/2 + dx, y=(it.y??0.5)*H - h/2 + dy;
+    e.style.opacity=op; e.style.transform=`translate(${x}px,${y}px) scale(${sc2}) rotate(${rot}deg)`;
+    // marker highlights draw in
+    e.querySelectorAll('.hl').forEach((hl,j)=>{const q=clamp((t-t0-0.25-j*0.15)/0.4); hl.style.backgroundSize=`${outCubic(q)*100}% ${s.bg==='red'?'100%':'42%'}`});
+    if(it.type==='steps'){
+      e.querySelectorAll('.step').forEach((st,j)=>{const ts=it.times[j]; const q=clamp((t-ts)/0.4);
+        st.style.opacity=q; st.style.transform=`translateX(${-120*(1-outCubic(q))}px)`;
+        const cur = t>=ts && (j===it.times.length-1 || t<it.times[j+1]); st.classList.toggle('on', t>=ts);
+        st.style.boxShadow = cur? '0 22px 50px rgba(203,45,46,.28)':'';});
+    }
+    if(it.type==='phone'){
+      const img=e.querySelector('.scr img'), scr=e.querySelector('.scr');
+      const sw=scr.offsetWidth; const ih = img.naturalHeight*sw/img.naturalWidth;
+      // scroll: list of [time, fraction-of-image-top]
+      let top=0; (it.scroll||[]).forEach(([ts,f,d])=>{const q=inOut(clamp((t-ts)/(d||0.8))); top = top + (f - top)*q});
+      img.style.transform=`translateY(${-top*ih}px)`;
+      e.querySelectorAll('.ring').forEach((rg,j)=>{const R=it.rings[j]; const q=clamp((t-R.t)/0.35);
+        const live = t>=R.t && t<=(R.until??1e9);
+        rg.style.left=(R.box[0]*sw)+'px'; rg.style.top=(R.box[1]*ih - top*ih)+'px';
+        rg.style.width=((R.box[2]-R.box[0])*sw)+'px'; rg.style.height=((R.box[3]-R.box[1])*ih)+'px';
+        rg.style.opacity = live? outCubic(q):0; rg.style.transform=`scale(${1.15-0.15*outBack(q)+ (live?0.015*Math.sin((t-R.t)*7):0)})`;});
+      e.querySelectorAll('.tap').forEach((tp,j)=>{const T=it.taps[j]; const q=(t-T.t)/0.6;
+        tp.style.left=(T.at[0]*sw)+'px'; tp.style.top=(T.at[1]*ih - top*ih)+'px';
+        if(q>=0&&q<=1){tp.style.opacity=1-q; tp.style.transform=`scale(${0.5+0.9*q})`} else tp.style.opacity=0;});
+    }
+  });
+  // subtitles
+  let line=null; if(subsOn) BOARD.lines.forEach(L=>{if(t>=L.t0 && t<L.t1) line=L});
+  if(line){const q=clamp((t-line.t0)/0.12); sub.innerHTML=mark(line.show,'k'); sub.style.opacity=q; sub.style.transform=`scale(${0.94+0.06*q})`} else {sub.innerHTML=''}
+  bar.firstElementChild.style.width = (100*t/BOARD.total)+'%';
+};
+window.ready = (async()=>{await document.fonts.ready; await Promise.all([...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r}))); return true})();
+</script>
+</body>
+</html>

@@ -571,8 +571,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "name": "cn-video-editor",
    "display_name": "Video editor",
-   "short": "Cut, subtitle and brand short videos for Douyin, WeChat Channels and Xiaohongshu",
-   "prompt": "Cut the three clips in raw/ into a 45-second vertical Douyin video with subtitles and title and end cards."
+   "short": "Animated explainers with no footage, or edits of your own clips, for Douyin, WeChat Channels and Xiaohongshu",
+   "prompt": "Make a 45-second animated Douyin video on how students claim a GP visit in the Medibank app."
   }
  ],
  "knowledge": [
@@ -721,6 +721,14 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   {
    "name": "tools/make_post.py",
    "doc": "Turn a post spec (JSON) into a ready-to-publish post: copy-paste text, image cards and a compliance check."
+  },
+  {
+   "name": "tools/make_voice.py",
+   "doc": "Voice-over for a motion_video storyboard: one mp3 per spoken line (\"say\"), Microsoft Edge neural voices."
+  },
+  {
+   "name": "tools/motion_video.py",
+   "doc": "Animated explainer video in Medibank colours, no footage needed: voice-over, subtitles synced to it, 3D emoji, real or mock app screens with tap and highlight effects, step lists, scene transitions and sound effects."
   },
   {
    "name": "tools/note_lint.py",

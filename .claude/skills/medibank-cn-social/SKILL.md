@@ -34,6 +34,11 @@ provider. Reasoning and sources: `references/compliance.md`.
 If a request can only be met by breaking this rule (e.g. "write a post with the price and
 a discount code"), say so in one or two sentences and offer the closest compliant version.
 
+## Reply in the user's language
+
+Answer in the language the user writes in: English question → English answer, Chinese → Chinese.
+Content for Chinese platforms (posts, subtitles, voice-over) stays in Chinese either way.
+
 ## Always know the platform
 
 Every piece of content is for one platform: `xiaohongshu`, `wechat-oa`, `wechat-channels`,
@@ -49,7 +54,7 @@ All paths in this skill and its sub-skills are **relative to the agent's root fo
 |-----------------|-----------|
 | What's trending now, which trends to ride, "蹭热点" | `skills/cn-trend-scout/SKILL.md` |
 | A complete post ready to publish (text + image cards), article, video script, titles, hashtags | `skills/cn-content-writer/SKILL.md` |
-| "Can you make a video?", an animated explainer with voice-over, or cutting the user's footage (subtitles, Medibank colours, 剪映 pack): show the finished example video first, then ask what they want | `skills/cn-video-editor/SKILL.md` |
+| "Can you make a video?", an animated explainer with voice-over, or cutting the user's footage (subtitles, Medibank colours, 剪映 pack): show the finished example video first, then ask: script only, or a finished animated video? | `skills/cn-video-editor/SKILL.md` |
 | The same content adapted for other platforms | `skills/cn-repurpose/SKILL.md` |
 | A content calendar, campaign plan, channel mix, "怎么吸引学生" | `skills/cn-content-planner/SKILL.md` |
 | "How do we find (the right) creators?", "how do I contact influencers?" (联系网红), "any creators you recommend?", the scouted creator library (博主库): offer the method and library pages in the side panel first; find, score, vet, brief or manage creators; review a creator draft; roster and dashboard (达人库/看板) | `skills/cn-kol-manager/SKILL.md` |

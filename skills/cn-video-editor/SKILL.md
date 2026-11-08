@@ -17,16 +17,20 @@ or logos the team has no licence for (TR-2 in `references/compliance.md`).
 
 ## "Can you make a video?" (能不能做个视频) — start here
 
+Reply in the language the user asked in (English question → English answer; the video itself stays in Chinese for Chinese platforms).
+
 1. **Say yes, and show the last finished video first** so the user sees the quality:
    `examples/videos/留学生看病报销_v2.mp4` (60 s 抖音 explainer: voice-over, synced subtitles,
    real app screens). In the Claude desktop app, serve the repo with
    `python3 "${CLAUDE_PLUGIN_ROOT:-.}/tools/creator_library.py" --serve` (background) and open
    `http://localhost:8765/examples/videos/留学生看病报销_v2.mp4` with `preview_start`; otherwise give
    the file path as a link. One line on what it shows and how it was made.
-2. **Then ask what they want**, in one short message with options:
-   topic (e.g. 看病流程 / 理赔 / 24 小时热线 / 新生落地), platform (抖音 / 视频号 / 小红书),
-   length (30 / 45 / 60 s), style (animated explainer, or their own footage / 口播), voice
-   (晓晓 female / 云希 male / none).
+2. **Then ask which of two things they want** (one short question, two options):
+   - **A script only** (脚本): hand off to `skills/cn-content-writer/SKILL.md` for a video script
+     with shot list and subtitles; they film or edit it themselves.
+   - **A finished animated video** (完整动画视频): the full pipeline below.
+   Then the details: topic (e.g. 看病流程 / 理赔 / 24 小时热线 / 新生落地), platform (抖音 / 视频号 /
+   小红书), length (30 / 45 / 60 s), voice (晓晓 female / 云希 male / none).
 3. **How it continues:** script and storyboard for them to confirm → fact check against
    `references/brand-facts.md` → voice-over → stills to check → render + 剪映 asset pack. Then
    follow the sections below.

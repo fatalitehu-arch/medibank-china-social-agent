@@ -1,6 +1,6 @@
 ---
 name: cn-video-editor
-description: Make short videos for Medibank on 抖音, 视频号 and 小红书 - either an animated explainer with no footage (pop-in text, icons, mock app screens, step lists, sound effects, subtitles) or an edit of the user's own footage (trim, join, vertical, subtitles, Medibank colour tone, title and end cards), plus a 剪映 asset pack. Checks every on-screen claim has its qualifiers. Use for 做视频/剪视频/剪辑/动画视频/科普视频/加字幕/竖屏/片头片尾/剪映素材. Needs ffmpeg on the computer.
+description: Make short videos for Medibank on 抖音, 视频号 and 小红书 - either an animated explainer with no footage (pop-in text, icons, mock app screens, step lists, sound effects, subtitles) or an edit of the user's own footage (trim, join, vertical, subtitles, Medibank colour tone, title and end cards), plus a 剪映 asset pack. Checks every on-screen claim has its qualifiers. Use for 能不能做个视频/做视频/剪视频/剪辑/动画视频/科普视频/配音/加字幕/竖屏/片头片尾/剪映素材. Needs ffmpeg on the computer.
 ---
 
 # cn-video-editor
@@ -14,6 +14,22 @@ or logos the team has no licence for (TR-2 in `references/compliance.md`).
 |---|---|---|
 | No footage, or a "how to" topic (claims, the app, steps) | **Animated explainer** | `tools/motion_video.py` |
 | Their own clips (talking head, street scenes) | **Footage edit** | `tools/video_edit.py` |
+
+## "Can you make a video?" (能不能做个视频) — start here
+
+1. **Say yes, and show the last finished video first** so the user sees the quality:
+   `examples/videos/留学生看病报销_v2.mp4` (60 s 抖音 explainer: voice-over, synced subtitles,
+   real app screens). In the Claude desktop app, serve the repo with
+   `python3 "${CLAUDE_PLUGIN_ROOT:-.}/tools/creator_library.py" --serve` (background) and open
+   `http://localhost:8765/examples/videos/留学生看病报销_v2.mp4` with `preview_start`; otherwise give
+   the file path as a link. One line on what it shows and how it was made.
+2. **Then ask what they want**, in one short message with options:
+   topic (e.g. 看病流程 / 理赔 / 24 小时热线 / 新生落地), platform (抖音 / 视频号 / 小红书),
+   length (30 / 45 / 60 s), style (animated explainer, or their own footage / 口播), voice
+   (晓晓 female / 云希 male / none).
+3. **How it continues:** script and storyboard for them to confirm → fact check against
+   `references/brand-facts.md` → voice-over → stills to check → render + 剪映 asset pack. Then
+   follow the sections below.
 
 ## Before any video: confirm the plan and check the facts
 

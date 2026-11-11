@@ -33,6 +33,19 @@ form{display:flex;gap:8px;position:sticky;bottom:0;background:var(--bg);padding-
 textarea{flex:1;min-height:64px;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit;resize:vertical}
 .note{font-size:13px;color:var(--muted)}
 .pill{display:inline-block;padding:1px 8px;border-radius:99px;background:var(--soft);border:1px solid var(--line);font-size:12px;margin-right:4px}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tabs button[aria-pressed="true"]{background:var(--red);color:#fff;border-color:var(--red)}
+.panel{display:grid;gap:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row select,.row input{padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:760px}
+th,td{text-align:left;padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+th{background:var(--soft);border-top:0;font-size:12px;color:var(--muted)}
+.badge{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;background:var(--soft);border:1px solid var(--line)}
+.badge.Shortlist{background:var(--red);color:#fff;border-color:var(--red)}
+pre.report{white-space:pre-wrap;background:var(--soft);padding:10px;border-radius:8px;border:1px solid var(--line);margin:0}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -47,6 +60,40 @@ textarea{flex:1;min-height:64px;padding:8px;border-radius:8px;border:1px solid v
   </div>
 </header>
 <main>
+  <div class="tabs" role="group" aria-label="Mode">
+    <button type="button" data-tab="chat" aria-pressed="true">Agent chat (needs API key)</button>
+    <button type="button" data-tab="creators" aria-pressed="false">Demo: find creators</button>
+    <button type="button" data-tab="scan" aria-pressed="false">Demo: compliance scan</button>
+    <button type="button" data-tab="post" aria-pressed="false">Demo: sample post</button>
+  </div>
+
+  <section id="tab-creators" class="panel" hidden>
+    <p class="note">Searches the real scouted creator library (Xiaohongshu, view only). No API key needed.</p>
+    <div class="row">
+      <label>Status <select id="c-status"><option>any</option><option selected>Shortlist</option><option>Watch</option><option>Exclude</option><option>Reference</option></select></label>
+      <label>Max followers <input id="c-max" type="number" value="2000" style="width:110px"></label>
+      <label>City <input id="c-city" placeholder="e.g. Sydney" style="width:130px"></label>
+      <label>Keyword <input id="c-kw" placeholder="e.g. UNSW, food" style="width:150px"></label>
+      <button class="primary" id="c-go" type="button">Search</button>
+    </div>
+    <div id="c-out"></div>
+  </section>
+
+  <section id="tab-scan" class="panel" hidden>
+    <p class="note">Paste a draft post. The keyword scanner checks it against the PRC, Australian and platform rules. No API key needed.</p>
+    <div class="row"><label>Platform <select id="s-platform"><option>xiaohongshu</option><option>wechat-oa</option><option>wechat-channels</option><option>douyin</option><option>weibo</option></select></label></div>
+    <textarea id="s-text" placeholder="Paste a draft here, e.g. 全网最低价的留学生保险，立即购买！"></textarea>
+    <div class="row"><button class="primary" id="s-go" type="button">Scan</button></div>
+    <div id="s-out"></div>
+  </section>
+
+  <section id="tab-post" class="panel" hidden>
+    <p class="note">Renders a finished sample post (examples/post_spec.json) as image cards in Medibank colours, with its compliance check. With an API key, the agent writes new posts the same way.</p>
+    <div class="row"><button class="primary" id="p-go" type="button">Render sample post</button></div>
+    <div id="p-out"></div>
+  </section>
+
+  <section id="tab-chat">
   <div id="quick">
     <button data-p="Find 5 creators from our library I should work with first for a February intake campaign, and explain why each one fits.">Find creators</button>
     <button data-p="写一篇小红书笔记：刚拿到 offer 的同学，3 分钟看懂 offer letter 里的 OSHC 那一栏。用 make_post 生成完整帖子和图片。">Write a Xiaohongshu post</button>
@@ -61,6 +108,7 @@ textarea{flex:1;min-height:64px;padding:8px;border-radius:8px;border:1px solid v
     <textarea id="input" placeholder="Ask the agent… (Enter to send, Shift+Enter for a new line)"></textarea>
     <button class="primary" id="send" type="submit">Send</button>
   </form>
+  </section>
   <p class="note">Runs on this computer. Files it makes are saved in outputs/web/ inside the agent folder. Every reply is keyword-scanned for compliance; a person still approves before anything is posted.</p>
 </main>
 <script>
@@ -111,6 +159,27 @@ $('#f').onsubmit = async e => {
   const steps = (r.steps||[]).map(s => '<span class="pill">'+s.tool+(s.error?' ⚠':'')+'</span>').join('');
   meta.innerHTML = (steps ? 'Tools used: '+steps+' · ' : '') + (r.scan ? 'Keyword scan: '+r.scan : '');
   d.appendChild(meta);
+};
+
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+  ['chat','creators','scan','post'].forEach(t => $('#tab-'+t).hidden = (t !== b.dataset.tab));
+});
+function esc(t){const d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+$('#c-go').onclick = async () => {
+  const r = await api('/api/demo/creators', {status:$('#c-status').value, max_followers:+$('#c-max').value||0, city:$('#c-city').value, keyword:$('#c-kw').value, limit:30});
+  const rows = r.creators.map(c => '<tr><td>'+esc(c['Nickname'])+'</td><td>'+esc(c['Followers'])+'</td><td>'+esc(c['City'])+'</td><td>'+esc(c['Identity'])+'</td><td>'+esc(c['Content Focus'])+'</td><td>'+esc(c['Score (/100)'])+'</td><td><span class="badge '+esc(c['Status'])+'">'+esc(c['Status'])+'</span></td><td><a target="_blank" href="'+esc(c['Profile URL'])+'">Profile</a></td></tr>').join('');
+  $('#c-out').innerHTML = '<p class="note">'+r.matches+' of '+r.total_in_library+' creators match.</p><div class="tablewrap"><table><thead><tr><th>Nickname</th><th>Followers</th><th>City</th><th>Identity</th><th>Content focus</th><th>Score</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+};
+$('#s-go').onclick = async () => {
+  const r = await api('/api/demo/scan', {text:$('#s-text').value, platform:$('#s-platform').value});
+  $('#s-out').innerHTML = r.error ? '<p class="msg err">'+esc(r.error)+'</p>' : '<p><b>'+esc(r.verdict)+'</b></p><pre class="report">'+esc(r.report)+'</pre>';
+};
+$('#p-go').onclick = async () => {
+  $('#p-out').innerHTML = '<p class="note">Rendering…</p>';
+  const r = await api('/api/demo/post', {});
+  if(r.error){ $('#p-out').innerHTML = '<p class="msg err">'+esc(r.error)+'</p>'; return; }
+  $('#p-out').innerHTML = '<h3>'+esc(r.title)+'</h3><p><b>Compliance: '+esc(r.verdict)+'</b></p><div class="files">'+r.images.map(u => '<a target="_blank" href="'+u+'"><img src="'+u+'"></a>').join('')+'</div><pre class="report">'+esc(r.body)+'</pre>';
 };
 refresh();
 </script>

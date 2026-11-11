@@ -326,7 +326,8 @@ class Agent:
         import anthropic
 
         if not self.api_key:
-            return {"error": "No API key yet. Paste your Anthropic API key at the top of the page."}
+            return {"error": "No API key yet. Paste your Anthropic API key at the top of the page, "
+                             "or use the Demo tabs (creators, compliance scan, sample post) which need no key."}
         with self.lock:
             if self.system is None:
                 self.system = cli.build_system_prompt(RUNNER_NOTE)
@@ -468,6 +469,21 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/reset":
             AGENT.reset()
             return self._json({"ok": True})
+        if path == "/api/demo/creators":
+            return self._json(tool_search_creators(
+                body.get("status") or "any", int(body.get("max_followers") or 0),
+                body.get("city") or "", body.get("keyword") or "", int(body.get("limit") or 10)))
+        if path == "/api/demo/scan":
+            text = (body.get("text") or "").strip()
+            if not text:
+                return self._json({"error": "Paste a draft first."}, 400)
+            return self._json(tool_compliance_check(text, body.get("platform") or "xiaohongshu"))
+        if path == "/api/demo/post":
+            spec = json.loads((ROOT / "examples" / "post_spec.json").read_text(encoding="utf-8"))
+            result = tool_make_post(spec)
+            result["title"] = spec["title"]
+            result["body"] = spec["body"]
+            return self._json(result)
         if path == "/api/chat":
             text = (body.get("message") or "").strip()
             if not text:

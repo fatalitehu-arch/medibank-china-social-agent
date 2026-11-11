@@ -5,10 +5,14 @@ computer and uses the same skills, knowledge base and tools as the plugin.
 
 ## Start it
 
+Needs **Python 3.10 or newer**. The Python that comes with macOS (3.9) is too old: install
+Python 3.12 from https://www.python.org/downloads/ first.
+
+
 * **Mac:** double-click `start-web-mac.command` (first time: right-click → Open, because macOS
   blocks scripts from unknown developers).
 * **Windows:** double-click `start-web-windows.bat`.
-* **Any system:** `pip install -r requirements.txt`, then `python -m social_agent web`.
+* **Any system:** `python3.12 -m pip install -r requirements.txt`, then `python3.12 -m social_agent web`.
 
 The page opens at http://localhost:8787. Only this computer can reach it.
 

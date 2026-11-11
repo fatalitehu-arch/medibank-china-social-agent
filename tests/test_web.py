@@ -1,6 +1,8 @@
 """Local web app: tools and the tool loop, with the Claude call replaced by a fake."""
 
 import json
+import sys
+import types
 from types import SimpleNamespace as NS
 
 from social_agent import cli, web
@@ -31,7 +33,22 @@ def test_system_prompt_uses_runner_note():
     assert cli.build_system_prompt(web.RUNNER_NOTE).endswith(web.RUNNER_NOTE)
 
 
+def _fake_anthropic(monkeypatch):
+    """CI installs only the dev requirements, so stand in for the SDK module."""
+    mod = types.ModuleType("anthropic")
+
+    class APIError(Exception):
+        pass
+
+    for name in ("AuthenticationError", "RateLimitError", "APIConnectionError", "APIStatusError"):
+        setattr(mod, name, type(name, (APIError,), {}))
+    mod.APIError = APIError
+    mod.Anthropic = lambda **kw: object()
+    monkeypatch.setitem(sys.modules, "anthropic", mod)
+
+
 def test_tool_loop_runs_tools_and_returns_reply(monkeypatch):
+    _fake_anthropic(monkeypatch)
     agent = web.Agent()
     agent.api_key = "test"
     agent.system = "sys"

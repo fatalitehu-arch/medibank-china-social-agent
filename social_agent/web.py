@@ -21,6 +21,7 @@ API key: paste it in the page (kept in memory; tick "remember" to save it in
 
 import json
 import os
+import re
 import shutil
 import sys
 import threading
@@ -37,6 +38,7 @@ ROOT = cli.ROOT
 OUT_DIR = ROOT / "outputs" / "web"
 CONFIG = Path.home() / ".medibank-social-agent" / "config.json"
 PAGE = Path(__file__).with_name("web_page.html")
+ASSET_DIR = ROOT / "assets"
 MAX_TOOL_ROUNDS = 12
 
 sys.path.insert(0, str(ROOT / "tools"))
@@ -429,20 +431,42 @@ class Handler(BaseHTTPRequestHandler):
                         "model": cli.MODEL, "ffmpeg": bool(shutil.which("ffmpeg")),
                         "creators": len(creator_library.load()), "today": date.today().isoformat()})
         elif path.startswith("/outputs/"):
-            target = (OUT_DIR / path[len("/outputs/"):]).resolve()
-            if OUT_DIR.resolve() not in target.parents or not target.is_file():
-                self.send_error(404)
-                return
-            types = {".png": "image/png", ".mp4": "video/mp4", ".md": "text/plain; charset=utf-8",
-                     ".txt": "text/plain; charset=utf-8", ".json": "application/json"}
-            data = target.read_bytes()
-            self.send_response(200)
-            self.send_header("Content-Type", types.get(target.suffix, "application/octet-stream"))
-            self.send_header("Content-Length", str(len(data)))
-            self.end_headers()
-            self.wfile.write(data)
+            self._file(OUT_DIR, path[len("/outputs/"):])
+        elif path.startswith("/assets/"):
+            self._file(ASSET_DIR, path[len("/assets/"):])
         else:
             self.send_error(404)
+
+    def _file(self, base, rel):
+        target = (base / rel).resolve()
+        if base.resolve() not in target.parents or not target.is_file():
+            self.send_error(404)
+            return
+        types = {".png": "image/png", ".jpg": "image/jpeg", ".mp4": "video/mp4", ".md": "text/plain; charset=utf-8",
+                 ".txt": "text/plain; charset=utf-8", ".srt": "text/plain; charset=utf-8", ".json": "application/json"}
+        data = target.read_bytes()
+        start, end = 0, len(data) - 1
+        ranged = re.match(r"bytes=(\d*)-(\d*)$", self.headers.get("Range", "").strip())
+        if ranged and data and (ranged.group(1) or ranged.group(2)):  # Safari only plays video served in ranges
+            if ranged.group(1):
+                start = int(ranged.group(1))
+                end = min(int(ranged.group(2)), end) if ranged.group(2) else end
+            else:
+                start = max(0, len(data) - int(ranged.group(2)))
+            if start > end:
+                self.send_response(416)
+                self.send_header("Content-Range", f"bytes */{len(data)}")
+                self.end_headers()
+                return
+            self.send_response(206)
+            self.send_header("Content-Range", f"bytes {start}-{end}/{len(data)}")
+        else:
+            self.send_response(200)
+        self.send_header("Content-Type", types.get(target.suffix, "application/octet-stream"))
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Length", str(end - start + 1))
+        self.end_headers()
+        self.wfile.write(data[start:end + 1])
 
     def do_POST(self):
         if not self._local_only():
@@ -484,6 +508,11 @@ class Handler(BaseHTTPRequestHandler):
             result["title"] = spec["title"]
             result["body"] = spec["body"]
             return self._json(result)
+        if path == "/api/demo/video":
+            plan = json.loads((ASSET_DIR / "web" / "sample-video-plan.json").read_text(encoding="utf-8"))
+            return self._json({"plan": plan, "video": "/assets/web/sample-video.mp4",
+                               "poster": "/assets/web/sample-video-poster.jpg",
+                               "ffmpeg": bool(shutil.which("ffmpeg"))})
         if path == "/api/chat":
             text = (body.get("message") or "").strip()
             if not text:

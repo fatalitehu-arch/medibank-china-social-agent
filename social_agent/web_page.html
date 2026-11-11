@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medibank Social Agent</title>
+<style>
+:root{--red:#cb2d2e;--bg:#fff;--fg:#1d1416;--muted:#6b5a5d;--line:#ead9d9;--soft:#faf6f6;--yellow:#fae94e}
+@media (prefers-color-scheme:dark){:root{--bg:#151012;--fg:#f4ecec;--muted:#b9a8ab;--line:#3a2c2f;--soft:#1f181a;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,"PingFang SC","Segoe UI",Arial,sans-serif}
+header{background:var(--red);color:#fff;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header b{font-size:17px}
+header .sp{flex:1}
+#keybar{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+#keybar input[type=password]{width:260px;max-width:60vw;padding:6px 8px;border-radius:6px;border:0}
+button{font:inherit;padding:6px 12px;border-radius:6px;border:1px solid var(--line);background:var(--soft);color:var(--fg);cursor:pointer}
+header button{border-color:#fff;background:#fff;color:var(--red);font-weight:600}
+button.primary{background:var(--red);color:#fff;border-color:var(--red);font-weight:600}
+button:disabled{opacity:.5;cursor:default}
+main{max-width:900px;margin:0 auto;padding:16px}
+#quick{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+#log{display:grid;gap:12px;margin-bottom:12px}
+.msg{padding:10px 14px;border-radius:10px;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere}
+.me{background:var(--soft);border:1px solid var(--line);justify-self:end;max-width:85%}
+.bot{border-left:4px solid var(--red);background:var(--bg)}
+.err{border-left:4px solid #b00020;color:#b00020}
+.meta{font-size:12px;color:var(--muted);margin-top:6px;white-space:normal}
+.files{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;white-space:normal}
+.files img{width:180px;border-radius:6px;border:1px solid var(--line)}
+.files video{width:240px;border-radius:6px}
+form{display:flex;gap:8px;position:sticky;bottom:0;background:var(--bg);padding-block:10px}
+textarea{flex:1;min-height:64px;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit;resize:vertical}
+.note{font-size:13px;color:var(--muted)}
+.pill{display:inline-block;padding:1px 8px;border-radius:99px;background:var(--soft);border:1px solid var(--line);font-size:12px;margin-right:4px}
+</style>
+</head>
+<body>
+<header>
+  <b>Medibank Social Agent</b><span id="status" class="note" style="color:#fff"></span>
+  <span class="sp"></span>
+  <div id="keybar">
+    <input type="password" id="key" placeholder="Paste your Anthropic API key (sk-ant-...)" autocomplete="off">
+    <label style="font-size:13px"><input type="checkbox" id="remember"> remember on this computer</label>
+    <button id="savekey">Connect</button>
+    <button id="forget" hidden>Forget key</button>
+  </div>
+</header>
+<main>
+  <div id="quick">
+    <button data-p="Find 5 creators from our library I should work with first for a February intake campaign, and explain why each one fits.">Find creators</button>
+    <button data-p="写一篇小红书笔记：刚拿到 offer 的同学，3 分钟看懂 offer letter 里的 OSHC 那一栏。用 make_post 生成完整帖子和图片。">Write a Xiaohongshu post</button>
+    <button data-p="Check this draft for compliance (Xiaohongshu): ">Compliance check</button>
+    <button data-p="Plan 4 weeks of content for the 2027 T1 intake across Xiaohongshu, WeChat and Douyin.">Content plan</button>
+    <button data-p="What is trending on Chinese social media this week that Medibank could safely use for international students?">Trends</button>
+    <button data-p="Cut a 30-second Douyin video from these clips (absolute paths): ">Edit a video</button>
+    <button id="reset">New conversation</button>
+  </div>
+  <div id="log"></div>
+  <form id="f">
+    <textarea id="input" placeholder="Ask the agent… (Enter to send, Shift+Enter for a new line)"></textarea>
+    <button class="primary" id="send" type="submit">Send</button>
+  </form>
+  <p class="note">Runs on this computer. Files it makes are saved in outputs/web/ inside the agent folder. Every reply is keyword-scanned for compliance; a person still approves before anything is posted.</p>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const log = $('#log');
+function add(cls, text){const d=document.createElement('div');d.className='msg '+cls;d.textContent=text;log.appendChild(d);d.scrollIntoView({block:'end'});return d}
+async function api(path, body){
+  const r = await fetch(path, body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  return r.json();
+}
+async function refresh(){
+  const s = await api('/api/status');
+  $('#status').textContent = (s.has_key ? 'Connected '+s.key_hint : 'Not connected') + ' · ' + s.model + ' · ' + s.creators + ' creators in library' + (s.ffmpeg ? '' : ' · ffmpeg not found (video editing off)');
+  $('#forget').hidden = !s.has_key;
+}
+$('#savekey').onclick = async () => {
+  const key = $('#key').value.trim(); if(!key) return;
+  $('#savekey').disabled = true;
+  const r = await api('/api/key', {key, remember: $('#remember').checked});
+  $('#savekey').disabled = false;
+  if(r.error){ add('err', r.error) } else { $('#key').value=''; add('bot', 'API key connected ('+r.key_hint+').') }
+  refresh();
+};
+$('#forget').onclick = async () => { await api('/api/forget-key', {}); add('bot','API key removed from this computer.'); refresh(); };
+$('#reset').onclick = async () => { await api('/api/reset', {}); log.innerHTML=''; };
+document.querySelectorAll('#quick [data-p]').forEach(b => b.onclick = () => { $('#input').value = b.dataset.p; $('#input').focus(); });
+$('#input').addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); $('#f').requestSubmit(); } });
+$('#f').onsubmit = async e => {
+  e.preventDefault();
+  const text = $('#input').value.trim(); if(!text) return;
+  add('me', text); $('#input').value=''; $('#send').disabled = true;
+  const wait = add('bot', 'Working… (tool steps can take a minute)');
+  let r;
+  try { r = await api('/api/chat', {message:text}); } catch(err){ r = {error: 'The local server stopped. Restart it and reload this page.'} }
+  $('#send').disabled = false; wait.remove();
+  if(r.error){ add('err', r.error); return; }
+  const d = add('bot', r.reply || '(no text reply)');
+  if(r.files && r.files.length){
+    const box = document.createElement('div'); box.className='files';
+    r.files.forEach(f => {
+      if(f.type==='image'){ const a=document.createElement('a'); a.href=f.url; a.target='_blank'; const i=document.createElement('img'); i.src=f.url; a.appendChild(i); box.appendChild(a); }
+      else if(f.type==='video'){ const v=document.createElement('video'); v.src=f.url; v.controls=true; box.appendChild(v); }
+      else { const a=document.createElement('a'); a.href=f.url; a.target='_blank'; a.textContent=f.label||f.url; box.appendChild(a); }
+    });
+    d.appendChild(box);
+  }
+  const meta = document.createElement('div'); meta.className='meta';
+  const steps = (r.steps||[]).map(s => '<span class="pill">'+s.tool+(s.error?' ⚠':'')+'</span>').join('');
+  meta.innerHTML = (steps ? 'Tools used: '+steps+' · ' : '') + (r.scan ? 'Keyword scan: '+r.scan : '');
+  d.appendChild(meta);
+};
+refresh();
+</script>
+</body>
+</html>

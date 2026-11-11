@@ -40,6 +40,10 @@ with no restart. In later sessions the nine skills load on their own.
 
 </details>
 
+**No Claude Code?** Run the local web app: double-click `start-web-mac.command` (Mac) or
+`start-web-windows.bat` (Windows), paste your Anthropic API key, and use the agent in your
+browser. Details: [docs/web-app.md](docs/web-app.md).
+
 Works in **Claude** (Claude.ai Projects, Claude Code) and **OpenAI Codex**, or from the
 command line through the Claude API. Built by UNSW CDEV3000 MB Group 6 (T3 2026) as the
 project deliverable for Medibank.

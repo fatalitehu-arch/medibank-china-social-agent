@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>BRIDGE Evidence Handover</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a research dossier. Header band, view switch, then claim → source → finding rows. */
+:root{
+  --bg:#ffffff; --surface:#faf6f6; --line:#ead9d9; --fg:#1d1416; --muted:#6b5a5d;
+  --red:#cb2d2e; --red-soft:#fbe9e9; --yellow:#fae94e; --on-red:#ffffff;
+  --ok:#2f7d4f; --warn:#9a6b00; --warn-soft:#fff6d6;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#151012; --surface:#1f181a; --line:#3a2c2f; --fg:#f4ecec; --muted:#b9a8ab;
+  --red:#ef5a5b; --red-soft:#3a1d1f; --yellow:#fae94e; --on-red:#ffffff;
+  --ok:#6cc792; --warn:#e8c25a; --warn-soft:#2e2712; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151012; --surface:#1f181a; --line:#3a2c2f; --fg:#f4ecec; --muted:#b9a8ab;
+  --red:#ef5a5b; --red-soft:#3a1d1f; --yellow:#fae94e; --on-red:#ffffff;
+  --ok:#6cc792; --warn:#e8c25a; --warn-soft:#2e2712; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--red);color:var(--on-red)}
+header .wrap{padding-block:36px 28px;display:grid;gap:10px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,44px);line-height:1.08;margin:0;text-wrap:balance}
+h1 .y{background:var(--yellow);color:#1d1416;padding:0 .2em}
+header p{margin:0;max-width:68ch}
+h2{font-family:var(--display);font-size:clamp(22px,3vw,28px);margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-size:18px;margin:0;text-wrap:balance}
+a{color:var(--red);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.switch{display:flex;gap:8px;padding-block:18px;flex-wrap:wrap;align-items:center}
+.switch button{font:600 15px var(--body);padding:8px 16px;border-radius:999px;border:1.5px solid var(--red);background:transparent;color:var(--red);cursor:pointer}
+.switch button[aria-pressed="true"]{background:var(--red);color:var(--on-red)}
+.switch .hint{color:var(--muted);font-size:14px}
+section{padding-block:22px;display:grid;gap:16px}
+.lead{color:var(--muted);max-width:70ch;margin:0}
+.claims{display:grid;gap:14px}
+.claim{display:grid;grid-template-columns:minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.claim-head{display:flex;gap:14px;align-items:baseline;padding:14px 18px;background:var(--surface);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:.06em}
+.rows{display:grid}
+.row{display:grid;grid-template-columns:minmax(0,1.15fr) 28px minmax(0,1fr) minmax(0,1.1fr);gap:12px;padding:12px 18px;border-top:1px solid var(--line);align-items:start}
+.row:first-child{border-top:0}
+.row .arrow{color:var(--red);font-weight:700;text-align:center;padding-top:2px}
+.src{font-size:15px;min-width:0}
+.src .meta{display:block;font-size:13px;color:var(--muted)}
+.num{font-family:var(--display);font-weight:800;font-size:22px;color:var(--red);line-height:1.1;font-variant-numeric:tabular-nums}
+.num small{display:block;font-family:var(--body);font-weight:400;font-size:14px;color:var(--fg);line-height:1.4;margin-top:2px}
+.sowhat{font-size:15px;min-width:0}
+.colhead{display:grid;grid-template-columns:minmax(0,1.15fr) 28px minmax(0,1fr) minmax(0,1.1fr);gap:12px;padding:0 18px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rel{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;margin-top:4px;background:var(--red-soft);color:var(--fg)}
+.rel.weak{background:var(--warn-soft);color:var(--warn)}
+.grid-wrap{overflow-x:auto}
+.pi{display:grid;grid-template-columns:34px repeat(2,minmax(220px,1fr));grid-template-rows:repeat(2,auto) 28px;gap:8px;min-width:520px}
+.pi .axis-y{grid-row:1/3;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em}
+.pi .axis-x{grid-column:2/4;text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em}
+.quad{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--surface);display:grid;gap:8px;align-content:start}
+.quad.key{background:var(--red-soft);border-color:var(--red)}
+.quad .qt{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:14px;margin:0 6px 6px 0}
+.chip.move{border-color:var(--red);color:var(--red);font-weight:600}
+.note{font-size:14px;color:var(--muted);margin:0}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-top:1px solid var(--line)}
+th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--surface);border-top:0}
+td.who{font-weight:700;white-space:nowrap}
+.todo{background:var(--warn-soft);color:var(--warn);font-weight:600;padding:0 4px;border-radius:4px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-family:var(--display);font-size:28px;color:var(--red);font-variant-numeric:tabular-nums}
+.stat span{font-size:14px;color:var(--muted)}
+.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.insight{border-top:4px solid var(--red);background:var(--surface);padding:14px 16px;border-radius:0 0 10px 10px;display:grid;gap:6px}
+.handover{border:2px dashed var(--red);border-radius:12px;padding:16px 18px;display:grid;gap:8px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:600}
+.flow span{padding:6px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+.flow span.me{background:var(--red);color:var(--on-red);border-color:var(--red)}
+.flow i{font-style:normal;color:var(--red)}
+#text{max-width:78ch}
+#text h2{margin-top:22px}
+#text h3{margin-top:14px}
+#text ul{padding-left:20px;margin:6px 0}
+#text li{margin:4px 0}
+.copy{font:600 14px var(--body);padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+footer .wrap{padding-block:24px 40px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+@media (max-width:760px){
+  .row,.colhead{grid-template-columns:minmax(0,1fr)}
+  .colhead{display:none}
+  .row .arrow{display:none}
+  .row{gap:6px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<style>
+.timeline{display:grid;gap:0;position:relative}
+.step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding-block:14px;border-top:1px solid var(--line)}
+.step:first-child{border-top:0}
+.when{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);padding-top:3px}
+.step .body{display:grid;gap:6px;min-width:0}
+.mood{display:inline-block;font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;width:fit-content}
+.mood.unsure{background:var(--warn-soft);color:var(--warn)}
+.mood.concern{background:var(--red-soft);color:var(--red)}
+.mood.act{background:var(--surface);color:var(--fg);border:1px solid var(--line)}
+.mood.yes{background:var(--ok);color:#fff}
+.quote{font-family:var(--display);font-size:20px;font-weight:700;line-height:1.25;text-wrap:balance}
+.shift{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:18px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.shift .from,.shift .to{font-family:var(--display);font-weight:800;font-size:clamp(18px,3vw,26px)}
+.shift .from{color:var(--warn)}
+.shift .to{color:var(--ok)}
+.shift .arr{font-size:26px;color:var(--red);font-weight:800}
+@media (max-width:600px){.step{grid-template-columns:minmax(0,1fr);gap:4px}}
+</style>
+
+<header><div class="wrap">
+  <div class="eyebrow">Project BRIDGE · CDEV3000 MB Group 6 · Handover for the Problem &amp; Stakeholder section</div>
+  <h1>Why social media, and how <span class="y">Medibank's</span> view changed</h1>
+  <p>Each point names the source it comes from, links to it, and says what we concluded. Prepared by Charles (Part 4, the social media AI agent) so the section before his sets up the agent. 11 Nov 2026.</p>
+</div></header>
+
+<div class="wrap">
+  <div class="switch" role="group" aria-label="Choose view">
+    <button type="button" id="btn-visual" aria-pressed="true">Visual</button>
+    <button type="button" id="btn-text" aria-pressed="false">Text version</button>
+    <span class="hint">Same content in both views.</span>
+  </div>
+</div>
+
+<main id="visual" class="wrap">
+
+<section>
+  <h2>Part A · Why social media</h2>
+  <p class="lead">Three claims that build on each other. Read each row left to right: source, finding, what it means for BRIDGE.</p>
+  <div class="colhead"><span>Source (file / link)</span><span></span><span>Finding</span><span>So what for BRIDGE</span></div>
+  <div class="claims">
+
+    <article class="claim">
+      <div class="claim-head"><span class="tag">A1</span><h3>Medibank never talks to Chinese students directly. An education agent sits in between.</h3></div>
+      <div class="rows">
+        <div class="row">
+          <div class="src"><a href="https://monitor.icef.com/2019/10/education-agents-refer-75-of-australias-international-students/" target="_blank" rel="noopener">ICEF Monitor (2019)</a><span class="meta">From Dept of Education PRISMS data</span><span class="rel">Official data, 2018 figure</span></div>
+          <div class="arrow">→</div>
+          <div class="num">73%<small>of Chinese students were referred by an education agent</small></div>
+          <div class="sowhat">The agent usually picks and arranges the OSHC too, so Medibank has no direct relationship with the student.</div>
+        </div>
+        <div class="row">
+          <div class="src"><a href="https://www.medibank.com.au/content/dam/overseas/pdfs/Medibank-Nous-From-Surviving-to-Thriving-Report-2026.pdf" target="_blank" rel="noopener">Medibank &amp; Nous (2026), <i>From Surviving to Thriving</i>, p. 32</a><span class="meta">Also reported by <a href="https://www.insurancebusinessmag.com/au/news/life-insurance/struggling-international-students-understand-their-health-cover-least-medibank-finds-595667.aspx" target="_blank" rel="noopener">Insurance Business (2026)</a></span><span class="rel">n = 2,296, six universities, 34% from China</span></div>
+          <div class="arrow">→</div>
+          <div class="num">&lt; 1 in 5<small>international students understand the Australian health system well. Only 39% of students with poorer wellbeing know what OSHC doesn't cover (vs 54%).</small></div>
+          <div class="sowhat">Students hold a policy they don't understand. Medibank can fill that gap with information.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="claim">
+      <div class="claim-head"><span class="tag">A2</span><h3>Students trust peers far more than brand advertising.</h3></div>
+      <div class="rows">
+        <div class="row">
+          <div class="src"><a href="https://www.marketing-interactive.com/singapore-consumers-trust-peers-over-brands-on-xiaohongshu" target="_blank" rel="noopener">Digital Business Lab (2025), via Marketing-Interactive</a><span class="rel weak">n = 510, Hong Kong &amp; Singapore users</span></div>
+          <div class="arrow">→</div>
+          <div class="num">46.6% vs 22.9%<small>trust regular Xiaohongshu users vs brand accounts (KOLs 30.3%)</small></div>
+          <div class="sowhat">A brand account posting alone is the least trusted voice on the platform.</div>
+        </div>
+        <div class="row">
+          <div class="src"><a href="https://www.medibank.com.au/content/dam/overseas/pdfs/Medibank-Nous-From-Surviving-to-Thriving-Report-2026.pdf" target="_blank" rel="noopener">Medibank &amp; Nous (2026), pp. 23, 26</a><span class="rel">Medibank's own research</span></div>
+          <div class="arrow">→</div>
+          <div class="num" style="font-size:18px">Peers rank top<small>Students rate peers among their most trusted sources, above university services. The report recommends equipping peer networks.</small></div>
+          <div class="sowhat">Medibank's own study supports a peer-led approach. It is the strongest source in the room.</div>
+        </div>
+        <div class="row">
+          <div class="src"><a href="https://www.nielsen.com/ja/news-center/2021/trust-in-advertising-study-reveals-real-life-situations-and-humour-as-the-top-attributes/" target="_blank" rel="noopener">Nielsen (2021), Trust in Advertising</a><span class="rel weak">Global survey, not student-specific</span></div>
+          <div class="arrow">→</div>
+          <div class="num">88%<small>trust recommendations from friends and family</small></div>
+          <div class="sowhat">Supporting evidence only. Lead with the two rows above.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="claim">
+      <div class="claim-head"><span class="tag">A3</span><h3>Xiaohongshu is where students search for answers before they leave.</h3></div>
+      <div class="rows">
+        <div class="row">
+          <div class="src"><a href="https://www.ithome.com/0/817/514.htm" target="_blank" rel="noopener">IT之家 (2024), citing Xiaohongshu</a><span class="rel weak">Platform figures relayed by press</span></div>
+          <div class="arrow">→</div>
+          <div class="num">~70%<small>of monthly users search on Xiaohongshu; ~90% say results affect what they buy</small></div>
+          <div class="sowhat">It works like a search engine, so useful posts keep being found for months.</div>
+        </div>
+        <div class="row">
+          <div class="src"><a href="https://kr.i-click.com/iclick-news/xiaohongshu-insightshow-to-capture-the-evolving-chinese-study-abroad-market-in-2026/" target="_blank" rel="noopener">iClick (2026), Xiaohongshu study-abroad insights</a><span class="rel weak">Agency data</span></div>
+          <div class="arrow">→</div>
+          <div class="num">84.2% · 78.6%<small>of the study-abroad audience is female · aged 18–34. Daily-life content performs best.</small></div>
+          <div class="sowhat">The audience matches our offer holders. Content should look like daily life, not ads.</div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section>
+  <h2>Part B · Stakeholder engagement: Medibank's feedback</h2>
+  <p class="lead">How our partner's view moved across the project. Use this to show the team listened and changed the solution because of it.</p>
+
+  <div class="shift" aria-label="Partner view shift">
+    <span class="from">"Don't know"</span><span class="arr">→</span><span class="to">"This is actually going to work"</span>
+  </div>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="when">PM1 · Week 1</div>
+      <div class="body">
+        <span class="mood unsure">The problem</span>
+        <div>Medibank told us non-resident OSHC customers are declining. The product's features are good but students don't discover them, and students leave it to their agents.</div>
+        <p class="note">Source: Partner Meeting 1 team notes (internal), summarised in Charles's A2 reflection.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="when">PM3 · Week 5</div>
+      <div class="body">
+        <span class="mood concern">The concern</span>
+        <div class="quote">Medibank was worried that posting on Chinese social media would run into regulation.</div>
+        <p class="note">Source: Partner Meeting 3 team notes (internal). Background: <a href="https://www.chinanews.com.cn/cj/2023/03-24/9978027.shtml" target="_blank" rel="noopener">Internet Advertising Measures 2023 (China News)</a>; Internet Insurance Business Measures 2020, Arts. 3, 23.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="when">Our response</div>
+      <div class="body">
+        <span class="mood act">What we changed</span>
+        <div>We made "inform, never sell" a design rule: no prices, quotes, comparisons or purchase links, sponsored posts labelled 广告, and every post goes through a compliance check (22 rules) before it can be published.</div>
+        <p class="note">Source: <a href="https://github.com/fatalitehu-arch/medibank-china-social-agent/blob/main/references/compliance.md" target="_blank" rel="noopener">references/compliance.md</a> in the agent repository. Details are shown in Part 4.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="when">Final meeting · PM4</div>
+      <div class="body">
+        <span class="mood concern">The ask</span>
+        <div class="quote">Kimi wanted the AI agent to produce results directly: find specific creators to work with, and create ready-to-post social media content.</div>
+        <p class="note">Source: final partner meeting notes (internal).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="when">Our response</div>
+      <div class="body">
+        <span class="mood yes">The shift</span>
+        <div>We rebuilt the agent around outputs. It now finds real creators (28 Xiaohongshu creators reviewed, 8 shortlisted) and writes complete posts, image cards and short videos. This moved the partner from "don't know" to "this is actually going to work".</div>
+        <p class="note">Source: <a href="https://github.com/fatalitehu-arch/medibank-china-social-agent/blob/main/creators/scouted/xiaohongshu.csv" target="_blank" rel="noopener">creators/scouted/xiaohongshu.csv</a>; <a href="https://github.com/fatalitehu-arch/medibank-china-social-agent" target="_blank" rel="noopener">agent repository</a>. Shown live in Part 4.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Key message</h3>
+  <div class="insights">
+    <div class="insight"><b>The problem is trust and visibility, not the product.</b><span>A1 + PM1.</span></div>
+    <div class="insight"><b>The right channel is peers on Xiaohongshu.</b><span>A2 + A3.</span></div>
+    <div class="insight"><b>Every round of partner feedback changed the solution.</b><span>PM3 → compliance check; PM4 → agent that finds creators and writes content.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Hand over to Part 4</h2>
+  <div class="handover">
+    <div class="flow"><span>Problem (A1)</span><i>→</i><span>Peers on Xiaohongshu (A2, A3)</span><i>→</i><span>Medibank's feedback (B)</span><i>→</i><span class="me">Part 4: the social media AI agent</span><i>→</i><span>Meddy chatbot</span></div>
+    <p class="note">Finish by restating the problem as a How Might We question (Week 4 lecture, slide 10: "How might we do X so that Y is Z"), then pass to Charles by name (Week 3 slide 9; Week 9 slide 13: hand over, don't hand off). Why small creators and how the compliance check works are covered in Part 4, so they are left out here.</p>
+  </div>
+</section>
+</main>
+
+<main id="text" class="wrap" hidden>
+  <p><button type="button" class="copy" id="copy-btn">Copy text</button> <span class="note" id="copy-msg"></span></p>
+  <div id="text-body">
+  <h2>Project BRIDGE: handover for the Problem &amp; Stakeholder section</h2>
+  <p>Prepared by Charles (Part 4, social media AI agent), 11 Nov 2026. Format: source → finding → so what.</p>
+
+  <h2>Part A. Why social media</h2>
+  <h3>A1. Medibank never talks to Chinese students directly</h3>
+  <ul>
+    <li>ICEF Monitor (2019), PRISMS data: https://monitor.icef.com/2019/10/education-agents-refer-75-of-australias-international-students/ → 73% of Chinese students were referred by education agents → the agent usually arranges OSHC, so Medibank has no direct relationship.</li>
+    <li>Medibank &amp; Nous (2026) p. 32, n = 2,296: https://www.medibank.com.au/content/dam/overseas/pdfs/Medibank-Nous-From-Surviving-to-Thriving-Report-2026.pdf → under 1 in 5 international students understand the health system well; only 39% of students with poorer wellbeing know what OSHC doesn't cover (vs 54%) → students hold a policy they don't understand.</li>
+  </ul>
+  <h3>A2. Students trust peers far more than brand ads</h3>
+  <ul>
+    <li>Digital Business Lab (2025), n = 510 HK/SG: https://www.marketing-interactive.com/singapore-consumers-trust-peers-over-brands-on-xiaohongshu → 46.6% trust regular Xiaohongshu users vs 22.9% brand accounts (KOLs 30.3%) → a brand account alone is the least trusted voice.</li>
+    <li>Medibank &amp; Nous (2026) pp. 23, 26 → peers among students' most trusted sources; report recommends equipping peer networks → Medibank's own study supports a peer-led approach.</li>
+    <li>Nielsen (2021): https://www.nielsen.com/ja/news-center/2021/trust-in-advertising-study-reveals-real-life-situations-and-humour-as-the-top-attributes/ → 88% trust friends and family → supporting evidence only.</li>
+  </ul>
+  <h3>A3. Xiaohongshu is where students search</h3>
+  <ul>
+    <li>IT之家 (2024): https://www.ithome.com/0/817/514.htm → ~70% of monthly users search; ~90% say results affect purchases → it works like a search engine.</li>
+    <li>iClick (2026): https://kr.i-click.com/iclick-news/xiaohongshu-insightshow-to-capture-the-evolving-chinese-study-abroad-market-in-2026/ → study-abroad audience 84.2% female, 78.6% aged 18–34; daily-life content performs best → content should look like daily life.</li>
+  </ul>
+
+  <h2>Part B. Stakeholder engagement: Medibank's feedback</h2>
+  <p>Partner view: "don't know" → "this is actually going to work".</p>
+  <ul>
+    <li>PM1 (Week 1), the problem: non-resident OSHC customers declining; features good but undiscovered; students leave it to agents. Source: PM1 team notes (internal).</li>
+    <li>PM3 (Week 5), the concern: Medibank was worried that posting on Chinese social media would run into regulation. Source: PM3 team notes (internal); background https://www.chinanews.com.cn/cj/2023/03-24/9978027.shtml and Internet Insurance Business Measures 2020, Arts. 3, 23.</li>
+    <li>Our response: "inform, never sell" became a design rule (no prices, quotes, comparisons or purchase links; sponsored posts labelled 广告; every post compliance-checked against 22 rules). Source: https://github.com/fatalitehu-arch/medibank-china-social-agent/blob/main/references/compliance.md</li>
+    <li>Final meeting (PM4), the ask: Kimi wanted the AI agent to produce results directly: find specific creators to work with, and create ready-to-post social media content. Source: final partner meeting notes (internal).</li>
+    <li>Our response, the shift: we rebuilt the agent around outputs. It finds real creators (28 Xiaohongshu creators reviewed, 8 shortlisted) and writes complete posts, image cards and short videos, moving the partner from "don't know" to "this is actually going to work". Source: https://github.com/fatalitehu-arch/medibank-china-social-agent/blob/main/creators/scouted/xiaohongshu.csv and https://github.com/fatalitehu-arch/medibank-china-social-agent</li>
+  </ul>
+  <h3>Key message</h3>
+  <ul>
+    <li>The problem is trust and visibility, not the product (A1 + PM1).</li>
+    <li>The right channel is peers on Xiaohongshu (A2 + A3).</li>
+    <li>Every round of partner feedback changed the solution (PM3 → compliance check; PM4 → agent that finds creators and writes content).</li>
+  </ul>
+  <h2>Hand over to Part 4</h2>
+  <p>End by restating the problem as a How Might We question (Wk 4 slide 10), then hand over to Charles by name (Wk 3 slide 9; Wk 9 slide 13). Small creators and the compliance check are covered in Part 4.</p>
+  </div>
+</main>
+
+<footer><div class="wrap">
+  Research summary for the team. A3 allows only simple editing help from AI on the slides, so write slide text in your own words. Items marked "To add" need the team's own records.
+</div></footer>
+
+<script>
+(function(){
+  var bv=document.getElementById('btn-visual'),bt=document.getElementById('btn-text'),
+      v=document.getElementById('visual'),t=document.getElementById('text');
+  function show(which){
+    var isText=which==='text';
+    v.hidden=isText; t.hidden=!isText;
+    bv.setAttribute('aria-pressed',String(!isText)); bt.setAttribute('aria-pressed',String(isText));
+    try{localStorage.setItem('bridge-view',which)}catch(e){}
+  }
+  bv.addEventListener('click',function(){show('visual')});
+  bt.addEventListener('click',function(){show('text')});
+  try{if(localStorage.getItem('bridge-view')==='text')show('text')}catch(e){}
+  document.getElementById('copy-btn').addEventListener('click',function(){
+    var body=document.getElementById('text-body'),msg=document.getElementById('copy-msg');
+    var txt=body.innerText;
+    function sel(){var r=document.createRange();r.selectNodeContents(body);var s=getSelection();s.removeAllRanges();s.addRange(r);msg.textContent='Text selected. Press Ctrl/Cmd+C to copy.'}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){msg.textContent='Copied.'},sel);
+    }else sel();
+  });
+})();
+</script>
+
+</body>
+</html>

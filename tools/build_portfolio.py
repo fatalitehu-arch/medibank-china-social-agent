@@ -5,7 +5,10 @@ Run after tools/build_welcome.py:  python tools/build_portfolio.py
 """
 import base64
 import html
+import io
 import re
+
+from PIL import Image
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -38,8 +41,34 @@ def fix_links(text):
     return re.sub(r'<a (?![^>]*target=)([^>]*href="https?://)', r'<a target="_blank" rel="noopener" \1', text)
 
 
+def small_jpeg(raw, width=360, quality=40):
+    im = Image.open(io.BytesIO(raw))
+    if im.mode in ("RGBA", "LA", "P"):
+        bg = Image.new("RGB", im.size, "white")
+        im = im.convert("RGBA")
+        bg.paste(im, mask=im.split()[-1])
+        im = bg
+    im = im.convert("RGB")
+    if im.width > width:
+        im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+    out = io.BytesIO()
+    im.save(out, "JPEG", quality=quality, optimize=True, progressive=True)
+    return out.getvalue()
+
+
+def shrink_images(text):
+    """Re-encode embedded images small so the page stays light enough to share publicly."""
+    def repl(m):
+        raw = base64.b64decode(m.group(1))
+        small = small_jpeg(raw)
+        if len(small) >= len(raw):
+            return m.group(0)
+        return "data:image/jpeg;base64," + base64.b64encode(small).decode()
+    return re.sub(r"data:image/(?:jpeg|jpg|png);base64,([A-Za-z0-9+/=]+)", repl, text)
+
+
 def page(path):
-    return fix_links(inline_images(path.read_text(encoding="utf-8"), path.parent))
+    return fix_links(shrink_images(inline_images(path.read_text(encoding="utf-8"), path.parent)))
 
 
 SHELL = """<title>Project BRIDGE Agent</title>

@@ -226,3 +226,9 @@ def test_creator_library_open_prints_both_pages(capsys, monkeypatch):
     out = capsys.readouterr().out
     assert "process.html" in out and "library.html" in out
     assert creator_library.PROCESS_HTML.exists() and creator_library.HTML_OUT.exists()
+
+
+def test_portfolio_page_is_current():
+    import build_portfolio
+    assert (ROOT / "portfolio.html").read_text(encoding="utf-8") == build_portfolio.render(), \
+        "run python tools/build_portfolio.py"

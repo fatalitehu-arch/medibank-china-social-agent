@@ -229,6 +229,9 @@ def test_creator_library_open_prints_both_pages(capsys, monkeypatch):
 
 
 def test_portfolio_page_is_current():
+    # embedded images are re-encoded, and JPEG bytes differ between Pillow versions, so compare without them
+    import re
     import build_portfolio
-    assert (ROOT / "portfolio.html").read_text(encoding="utf-8") == build_portfolio.render(), \
+    strip = lambda t: re.sub(r"data:image/[a-z]+;base64,[A-Za-z0-9+/=]+", "IMG", t)
+    assert strip((ROOT / "portfolio.html").read_text(encoding="utf-8")) == strip(build_portfolio.render()), \
         "run python tools/build_portfolio.py"

@@ -226,3 +226,12 @@ def test_creator_library_open_prints_both_pages(capsys, monkeypatch):
     out = capsys.readouterr().out
     assert "process.html" in out and "library.html" in out
     assert creator_library.PROCESS_HTML.exists() and creator_library.HTML_OUT.exists()
+
+
+def test_portfolio_page_is_current():
+    # embedded images are re-encoded, and JPEG bytes differ between Pillow versions, so compare without them
+    import re
+    import build_portfolio
+    strip = lambda t: re.sub(r"data:image/[a-z]+;base64,[A-Za-z0-9+/=]+", "IMG", t)
+    assert strip((ROOT / "portfolio.html").read_text(encoding="utf-8")) == strip(build_portfolio.render()), \
+        "run python tools/build_portfolio.py"

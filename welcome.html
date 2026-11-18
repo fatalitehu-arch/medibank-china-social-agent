@@ -70,6 +70,9 @@ th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--lin
 th { color: var(--ink-2); font-weight: 600; font-size: 13px; }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .scroll { overflow-x: auto; }
+.more { font: inherit; font-size: 14px; font-weight: 700; color: var(--accent); background: transparent; border: 1px solid var(--accent); border-radius: 99px; padding: 8px 16px; cursor: pointer; margin-top: 4px; }
+.more:hover { background: var(--accent); color: #fff; }
+.more:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
 .s-active, .v-use { background: var(--good-soft); color: var(--good); }
 .s-briefed, .v-adapt { background: var(--accent-soft); color: var(--accent); }
@@ -219,14 +222,14 @@ footer { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line)
 .legend .ic { width: 15px; height: 15px; }
 .icb .x { position: absolute; right: -5px; top: -5px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; }
 .icb .x .ic { width: 13px; height: 13px; }
-.hm { display: grid; grid-template-columns: minmax(150px, 210px) repeat(6, 44px) minmax(110px, 1fr) 96px; gap: 6px; align-items: center; min-width: 640px; }
+.hm { display: grid; grid-template-columns: minmax(150px, 210px) repeat(5, 44px) minmax(110px, 1fr) 110px; gap: 6px; align-items: center; min-width: 640px; }
 .hm .hd { display: grid; place-items: center; color: var(--accent); }
 .hm .hd .ic { width: 20px; height: 20px; }
 .hm .nm { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hm .nm span { display: block; font-size: 11px; color: var(--ink-3); }
 .hm .cell { height: 36px; border-radius: 8px; background: var(--surface-2); position: relative; overflow: hidden; cursor: default; }
 .hm .cell i { position: absolute; inset: 0; background: var(--bar); }
-.hm .stop { grid-column: span 6; display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--ink-3); background: var(--surface-2); border-radius: 8px; height: 36px; padding: 0 10px; }
+.hm .stop { grid-column: span 5; display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--ink-3); background: var(--surface-2); border-radius: 8px; height: 36px; padding: 0 10px; }
 .hm .stop .ic { width: 18px; height: 18px; color: var(--accent); }
 .hm .tot { position: relative; height: 14px; background: var(--surface-2); border-radius: 0 4px 4px 0; }
 .hm .tot div { position: absolute; left: 0; top: 0; bottom: 0; background: var(--bar); border-radius: 0 4px 4px 0; }
@@ -367,12 +370,12 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   <section id="find">
     <p class="eyebrow">Feature 1</p>
     <h2>Find the right creators</h2>
-    <p class="sub">Who we pick, and the published evidence behind every point of the score.</p>
+    <p class="sub">The agent logs in to Xiaohongshu, browses like a person, checks every profile against the skill, then scores and files it. Tested end to end: 10 lifestyle keywords, about 200 posts browsed, 28 profiles checked, 8 shortlisted. View only: no likes, follows or messages.</p>
     <div class="persona" id="persona"></div>
     <div class="grid g2 mt">
       <div class="card">
         <h3>What we score</h3>
-        <p class="note top">Weight = how strongly each trait predicts purchase, from two meta-analyses</p>
+        <p class="note top">Five checks, 1–5 each; total × 4 = score out of 100. ≥ 88 and under 2k followers → Shortlist</p>
         <div class="crit" id="crit"></div>
       </div>
       <div class="card">
@@ -383,15 +386,18 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
       </div>
     </div>
     <div class="card mt">
-      <h3>Instant no</h3>
+      <h3>Screen out</h3>
       <div class="stops" id="stops"></div>
     </div>
-    <div class="demo" data-icon="info"><b>Demo data.</b> The candidates are made up to show how the scoring works.</div>
+    <div class="demo" data-icon="check"><b>Real scan results.</b> The 28 Xiaohongshu profiles our agent checked. Creators with Chinese nicknames are shown by library ID; full records are in the creator library.</div>
     <div class="card">
-      <h3>Candidates</h3>
+      <h3>Creator library</h3>
       <div class="tiers" id="tiers"></div>
-      <p class="note top">Darker square = stronger on that trait. Hover any square.</p>
-      <div class="scroll"><div class="hm" id="heat"></div></div>
+      <button class="more" id="heatbtn" type="button" aria-expanded="false" aria-controls="heatbox">Show all creators and scores</button>
+      <div id="heatbox" hidden>
+        <p class="note top">Darker square = higher score on that check (1–5). Hover any square.</p>
+        <div class="scroll"><div class="hm" id="heat"></div></div>
+      </div>
     </div>
   </section>
 
@@ -502,13 +508,14 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   <section id="start">
     <h2>Get started</h2>
     <div class="grid g2">
-      <div class="card"><h3>Install in Claude Code</h3><pre>/plugin install medibank-cn-social --marketplace fatalitehu-arch/medibank-china-social-agent</pre><p class="note">Or give Claude Code the GitHub link and ask it to install the plugin.</p></div>
-      <div class="card"><h3>Try asking</h3><ul class="kb"><li>"Score the creators in examples/kol_candidates.csv"</li><li>"Show me the creator dashboard"</li><li>"Plan four weeks of posts for the T1 intake"</li><li>"Write a finished Xiaohongshu post about the OSHC line in the offer letter"</li></ul></div>
+      <div class="card"><h3>Install in Claude Code</h3><pre>/plugin marketplace add fatalitehu-arch/medibank-china-social-agent
+/plugin install medibank-cn-social@medibank-china-social</pre><p class="note">Type both in a Claude Code session, or give Claude Code the GitHub link and ask it to install the plugin.</p></div>
+      <div class="card"><h3>Try asking</h3><ul class="kb"><li>"Find small Xiaohongshu creators in Sydney and add them to the library"</li><li>"Show me the creator dashboard"</li><li>"Plan four weeks of posts for the T1 intake"</li><li>"Write a finished Xiaohongshu post about the OSHC line in the offer letter"</li></ul></div>
     </div>
   </section>
 
   <footer>Built by UNSW CDEV3000 MB Group 6 (T3 2026) as a student project deliverable. Not an official Medibank page. Compliance rules are research, not legal advice: Medibank Legal &amp; Compliance should review them.
-    This page is generated from the repository by <code>tools/build_welcome.py</code>; data as of <span id="built"></span>.</footer>
+    This page is generated from the repository by <code>tools/build_welcome.py</code>.</footer>
 </main>
 <div id="lb" role="dialog" aria-label="Full-size image"><img alt=""></div>
 <div id="tip" role="tooltip"></div>
@@ -691,6 +698,10 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
  ],
  "tools": [
   {
+   "name": "tools/build_portfolio.py",
+   "doc": "Build portfolio.html: one self-contained page that switches between the welcome page,"
+  },
+  {
    "name": "tools/build_welcome.py",
    "doc": "Build welcome.html, the page that shows what the agent contains, from the repository."
   },
@@ -819,6 +830,60 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
    "Promoted another OSHC insurer in the last 90 days",
    "History of undisclosed ads",
    "Fake-fan flag from the data tool"
+  ],
+  "checks": [
+   {
+    "key": "fit",
+    "label": "Fit",
+    "icon": "pin",
+    "what": "IP location in Australia; student or long-term resident confirmed in bio or posts"
+   },
+   {
+    "key": "size",
+    "label": "Size",
+    "icon": "users",
+    "what": "Under 2k followers, the band closest to regular students"
+   },
+   {
+    "key": "activity",
+    "label": "Activity",
+    "icon": "calendar",
+    "what": "Posted in the last few days, on a regular cadence"
+   },
+   {
+    "key": "authenticity",
+    "label": "Authenticity",
+    "icon": "trust",
+    "what": "Real personal account: no account farm, fake followers or heavy soft ads"
+   },
+   {
+    "key": "content",
+    "label": "Content",
+    "icon": "own_life",
+    "what": "Everyday life in their own voice, with a good range of topics"
+   }
+  ],
+  "screening": [
+   [
+    "bot",
+    "New account, single-digit following, likes dozens of times the follower count: likely account farm",
+    "E-16"
+   ],
+   [
+    "megaphone",
+    "Every title is a question with many soft ads: likely agency (MCN) account",
+    "E-12"
+   ],
+   [
+    "pin",
+    "Hidden IP location: downgrade",
+    ""
+   ],
+   [
+    "store",
+    "Sells agency services, other insurance or their own business: exclude or downgrade",
+    ""
+   ]
   ]
  },
  "dashboard": {
@@ -1518,6 +1583,512 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
    "parts": {}
   }
  ],
+ "library": [
+  {
+   "handle": "XHS-001 OAR",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 226,
+   "score": 96,
+   "status": "Shortlist",
+   "band": "go",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 5,
+    "authenticity": 5,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-002",
+   "platform": "xiaohongshu",
+   "tier": "500–1k",
+   "followers": 723,
+   "score": 96,
+   "status": "Shortlist",
+   "band": "go",
+   "city": "Melbourne",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 4,
+    "authenticity": 5,
+    "content": 5
+   }
+  },
+  {
+   "handle": "XHS-003",
+   "platform": "xiaohongshu",
+   "tier": "500–1k",
+   "followers": 876,
+   "score": 96,
+   "status": "Shortlist",
+   "band": "go",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 4,
+    "authenticity": 5,
+    "content": 5
+   }
+  },
+  {
+   "handle": "XHS-004 evelynnnnniris",
+   "platform": "xiaohongshu",
+   "tier": "500–1k",
+   "followers": 676,
+   "score": 96,
+   "status": "Shortlist",
+   "band": "go",
+   "city": "Brisbane",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 5,
+    "authenticity": 4,
+    "content": 5
+   }
+  },
+  {
+   "handle": "XHS-005 schwiftyy",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 218,
+   "score": 92,
+   "status": "Shortlist",
+   "band": "go",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 4,
+    "authenticity": 5,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-006 Maya",
+   "platform": "xiaohongshu",
+   "tier": "500–1k",
+   "followers": 572,
+   "score": 92,
+   "status": "Shortlist",
+   "band": "go",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 5,
+    "authenticity": 5,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-007 Julia C",
+   "platform": "xiaohongshu",
+   "tier": "1k–2k",
+   "followers": 1190,
+   "score": 88,
+   "status": "Shortlist",
+   "band": "go",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 4,
+    "activity": 4,
+    "authenticity": 5,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-008 jdidfnnxk",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 392,
+   "score": 88,
+   "status": "Shortlist",
+   "band": "go",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 4,
+    "size": 5,
+    "activity": 4,
+    "authenticity": 5,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-009",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 240,
+   "score": 84,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Brisbane",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 4,
+    "authenticity": 3,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-010",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 31,
+   "score": 80,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 3,
+    "size": 5,
+    "activity": 4,
+    "authenticity": 5,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-011",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 308,
+   "score": 80,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Melbourne",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 3,
+    "authenticity": 5,
+    "content": 2
+   }
+  },
+  {
+   "handle": "XHS-012",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 65,
+   "score": 80,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Queensland",
+   "reason": "",
+   "parts": {
+    "fit": 4,
+    "size": 5,
+    "activity": 4,
+    "authenticity": 5,
+    "content": 2
+   }
+  },
+  {
+   "handle": "XHS-013",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 45,
+   "score": 76,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 3,
+    "authenticity": 3,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-014",
+   "platform": "xiaohongshu",
+   "tier": "1k–2k",
+   "followers": 1150,
+   "score": 76,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 4,
+    "activity": 4,
+    "authenticity": 2,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-015 BonBon s moment",
+   "platform": "xiaohongshu",
+   "tier": "500–1k",
+   "followers": 542,
+   "score": 76,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Melbourne",
+   "reason": "",
+   "parts": {
+    "fit": 4,
+    "size": 5,
+    "activity": 5,
+    "authenticity": 2,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-016",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 58,
+   "score": 76,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 4,
+    "size": 5,
+    "activity": 2,
+    "authenticity": 5,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-017 Xinyuue",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 143,
+   "score": 76,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Melbourne",
+   "reason": "",
+   "parts": {
+    "fit": 4,
+    "size": 5,
+    "activity": 5,
+    "authenticity": 2,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-018",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 36,
+   "score": 72,
+   "status": "Watch",
+   "band": "maybe",
+   "city": "Melbourne",
+   "reason": "",
+   "parts": {
+    "fit": 4,
+    "size": 5,
+    "activity": 2,
+    "authenticity": 5,
+    "content": 2
+   }
+  },
+  {
+   "handle": "XHS-019 whatsername",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 2,
+   "score": 72,
+   "status": "Exclude",
+   "band": "no",
+   "city": "Sydney",
+   "reason": "Viral negative post about a health-insurer gap fee",
+   "parts": {
+    "fit": 5,
+    "size": 5,
+    "activity": 1,
+    "authenticity": 4,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-020",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 71,
+   "score": 72,
+   "status": "Exclude",
+   "band": "no",
+   "city": "Melbourne",
+   "reason": "Suspected MCN/merchant matrix account",
+   "parts": {
+    "fit": 4,
+    "size": 5,
+    "activity": 5,
+    "authenticity": 1,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-021 SEUM",
+   "platform": "xiaohongshu",
+   "tier": "<500",
+   "followers": 76,
+   "score": 56,
+   "status": "Exclude",
+   "band": "no",
+   "city": "Melbourne",
+   "reason": "Suspected matrix/marketing account",
+   "parts": {
+    "fit": 2,
+    "size": 5,
+    "activity": 4,
+    "authenticity": 1,
+    "content": 2
+   }
+  },
+  {
+   "handle": "XHS-022",
+   "platform": "xiaohongshu",
+   "tier": "2k+",
+   "followers": 5668,
+   "score": 76,
+   "status": "Reference",
+   "band": "ref",
+   "city": "Brisbane",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 1,
+    "activity": 5,
+    "authenticity": 3,
+    "content": 5
+   }
+  },
+  {
+   "handle": "XHS-023 kyky",
+   "platform": "xiaohongshu",
+   "tier": "2k+",
+   "followers": 4182,
+   "score": 72,
+   "status": "Reference",
+   "band": "ref",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 1,
+    "activity": 5,
+    "authenticity": 3,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-024 asusualj",
+   "platform": "xiaohongshu",
+   "tier": "2k+",
+   "followers": 4305,
+   "score": 72,
+   "status": "Reference",
+   "band": "ref",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 1,
+    "activity": 4,
+    "authenticity": 4,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-025",
+   "platform": "xiaohongshu",
+   "tier": "2k+",
+   "followers": 12000,
+   "score": 68,
+   "status": "Reference",
+   "band": "ref",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 1,
+    "activity": 4,
+    "authenticity": 3,
+    "content": 4
+   }
+  },
+  {
+   "handle": "XHS-026",
+   "platform": "xiaohongshu",
+   "tier": "2k+",
+   "followers": 7844,
+   "score": 60,
+   "status": "Reference",
+   "band": "ref",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 1,
+    "activity": 4,
+    "authenticity": 2,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-027 kennie_thk",
+   "platform": "xiaohongshu",
+   "tier": "2k+",
+   "followers": 14000,
+   "score": 56,
+   "status": "Reference",
+   "band": "ref",
+   "city": "Melbourne",
+   "reason": "",
+   "parts": {
+    "fit": 5,
+    "size": 1,
+    "activity": 4,
+    "authenticity": 1,
+    "content": 3
+   }
+  },
+  {
+   "handle": "XHS-028",
+   "platform": "xiaohongshu",
+   "tier": "2k+",
+   "followers": 9209,
+   "score": 52,
+   "status": "Reference",
+   "band": "ref",
+   "city": "Sydney",
+   "reason": "",
+   "parts": {
+    "fit": 4,
+    "size": 1,
+    "activity": 5,
+    "authenticity": 1,
+    "content": 2
+   }
+  }
+ ],
  "plan": {
   "pillars": [
    {
@@ -1788,7 +2359,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
 
   $("platforms").innerHTML = Object.keys(PLAT).map(function (k) { return '<span class="chip">' + PLAT[k] + "</span>"; }).join("");
   var tiles = [[D.skills.length, "skills"], [D.knowledge.length, "knowledge files"], [D.rule_count, "compliance rules"],
-               [5, "platforms"], [D.dashboard.summary.creators, "creators in library"]];
+               [5, "platforms"], [(D.library || []).length, "creators in library"]];
   $("tiles").innerHTML = tiles.map(function (t) { return '<div class="tile"><div class="n">' + t[0] + '</div><div class="l">' + t[1] + "</div></div>"; }).join("");
 
   var E = {}; D.evidence.facts.forEach(function (f) { E[f.id] = f; });
@@ -1888,20 +2459,21 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   document.querySelectorAll(".demo").forEach(function (d) { d.insertAdjacentHTML("afterbegin", ic(d.dataset.icon || "info")); });
 
   /* ---------- 1 · Find creators ---------- */
-  var CR = D.criteria.weights, C = D.candidates || [];
+  var CR = D.criteria.weights, CH = D.criteria.checks, C = D.library || [];
   var CRK = {}; CR.forEach(function (c) { CRK[c.key] = c; });
+  var CHK = {}; CH.forEach(function (c) { CHK[c.key] = c; });
   var go = C.filter(function (c) { return c.band === "go"; });
   $("persona").innerHTML = [
-    ["pin", "Lives in Australia", "Real experience of the system", "E-15"],
-    ["like_students", "Chinese student", "Peers are trusted over brands", "E-4"],
-    ["users", "Under 2k followers", "Close to regular users, the most trusted voice", "E-3"],
-    ["own_life", "Shares own life", "Experience posts persuade", "E-14"]
+    ["phone", "1 · Log in", "A team member scans the QR code; the agent never sees a password", "Person"],
+    ["eye", "2 · Browse like a person", "Lifestyle keywords, then recent posts with under 30 likes", "Agent"],
+    ["check", "3 · Check against the skill", "Australian IP, student or resident, under 2k, real daily life", "Agent"],
+    ["doc", "4 · Score and file", "Scored on 5 checks and saved to the creator library", "Agent"]
   ].map(function (p) { return '<div class="p"><div class="icb big">' + ic(p[0]) + "</div><div><b>" + p[1] + "</b><span>" + p[2] + ' <span class="idtag">' + p[3] + "</span></span></div></div>"; }).join("");
-  $("crit").innerHTML = CR.map(function (c) {
-    return '<div class="c" data-tip="' + c.key + '"><div class="icb">' + ic(c.key) + '</div><div class="w">' + c.weight + "<small> pts</small></div>" +
-      '<div class="lb">' + esc(c.label) + '</div><div class="rr">r = ' + c.r.toFixed(2) + ' <span class="idtag">' + c.source + "</span></div></div>";
+  $("crit").innerHTML = CH.map(function (c) {
+    return '<div class="c" data-tip="' + c.key + '"><div class="icb">' + ic(c.icon) + '</div><div class="w">20<small> pts</small></div>' +
+      '<div class="lb">' + esc(c.label) + '</div><div class="rr">' + esc(c.what) + "</div></div>";
   }).join("");
-  hover($("crit"), function (t) { var c = CRK[t.dataset.tip]; return "<b>" + esc(c.label) + "</b><br>" + esc(c.what) + "<br>r = " + c.r + " with purchase intention (" + c.source + ")"; });
+  hover($("crit"), function (t) { var c = CHK[t.dataset.tip]; return "<b>" + esc(c.label) + "</b><br>5 = " + esc(c.what); });
   var RMIN = -0.3, RSPAN = 0.9;
   var rrows = CR.map(function (c) { return [c.key, c.label, c.r, ""]; }).concat([["users", "Follower count", -0.28, "n.s."]]);
   $("rchart").innerHTML = rrows.map(function (r) {
@@ -1914,27 +2486,33 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   $("fraud").innerHTML = '<div class="fraud"><div class="t">' + ic("bot") + ' Even small accounts buy followers <span class="idtag">E-16</span></div>' +
     [["1k–5k followers", 42, ""], ["1M+ followers", 66, " dim"]].map(function (f) { return '<div class="fr' + f[2] + '"><span>' + f[0] + '</span><div class="pp">' + people(f[1]) + "</div><b>" + f[1] + "%</b></div>"; }).join("") +
     '<p class="note">Small accounts are cleaner, but not clean. No published figure exists below 1k, so we check every account.</p></div>';
-  var STOPI = ["store", "swap", "megaphone", "bot"], STOPE = ["E-13", "", "E-12", "E-16"];
-  $("stops").innerHTML = D.criteria.hard_stops.map(function (h, i) {
-    return '<div class="s"><div class="icb no">' + ic(STOPI[i] || "ban") + '<span class="x">' + ic("x") + "</span></div><div>" + esc(h) + (STOPE[i] ? ' <span class="idtag">' + STOPE[i] + "</span>" : "") + "</div></div>";
+  $("stops").innerHTML = D.criteria.screening.map(function (h) {
+    return '<div class="s"><div class="icb no">' + ic(h[0]) + '<span class="x">' + ic("x") + "</span></div><div>" + esc(h[1]) + (h[2] ? ' <span class="idtag">' + h[2] + "</span>" : "") + "</div></div>";
   }).join("");
-  var heat = '<div></div>' + CR.map(function (c) { return '<div class="hd" title="' + esc(c.label) + '">' + ic(c.key) + "</div>"; }).join("") + '<div class="note">Score</div><div></div>';
+  var heat = '<div></div>' + CH.map(function (c) { return '<div class="hd" title="' + esc(c.label) + '">' + ic(c.icon) + "</div>"; }).join("") + '<div class="note">Score</div><div></div>';
   C.forEach(function (c, i) {
-    heat += '<div class="nm" title="' + esc(c.handle) + '">' + esc(c.handle) + "<span>" + (PLAT[c.platform] || esc(c.platform)) + " · " + esc(c.tier) + " · " + fmt(c.followers) + "</span></div>";
+    heat += '<div class="nm" title="' + esc(c.handle) + '">' + esc(c.handle) + "<span>" + esc(c.city) + " · " + esc(c.tier) + " · " + fmt(c.followers) + "</span></div>";
     if (c.reason) heat += '<div class="stop">' + ic("ban") + esc(c.reason) + "</div>";
-    else heat += CR.map(function (k) { var v = c.parts[k.key] || 0; return '<div class="cell" data-tip="' + i + ":" + k.key + '"><i style="opacity:' + Math.max(v, 0.04) + '"></i></div>'; }).join("");
-    var bi = c.band === "go" ? "check" : c.band === "maybe" ? "alert" : "ban";
-    heat += '<div class="tot"><div style="width:' + c.score + '%"></div><span class="tick" style="left:50%"></span><span class="tick" style="left:70%"></span></div>' +
-      '<div class="bd ' + c.band + '">' + ic(bi) + (c.reason ? "" : Math.round(c.score) + " ") + c.band + "</div>";
+    else heat += CH.map(function (k) { var v = (c.parts[k.key] || 0) / 5; return '<div class="cell" data-tip="' + i + ":" + k.key + '"><i style="opacity:' + Math.max(v, 0.04) + '"></i></div>'; }).join("");
+    var bi = c.band === "go" ? "check" : c.band === "maybe" ? "alert" : c.band === "ref" ? "users" : "ban";
+    heat += '<div class="tot"><div style="width:' + c.score + '%"></div><span class="tick" style="left:72%"></span><span class="tick" style="left:88%"></span></div>' +
+      '<div class="bd ' + (c.band === "ref" ? "no" : c.band) + '">' + ic(bi) + Math.round(c.score) + " " + esc(c.status.toLowerCase()) + "</div>";
   });
   $("heat").innerHTML = heat;
+  $("heatbtn").textContent = "Show all " + C.length + " creators and scores";
+  $("heatbtn").addEventListener("click", function () {
+    var box = $("heatbox"), open = box.hidden;
+    box.hidden = !open;
+    this.setAttribute("aria-expanded", open ? "true" : "false");
+    this.textContent = open ? "Hide the list" : "Show all " + C.length + " creators and scores";
+  });
   var TIERS = ["<500", "500–1k", "1k–2k", "2k+"];
   $("tiers").innerHTML = TIERS.map(function (tr, i) {
     var all = C.filter(function (c) { return c.tier === tr; }), ok = all.filter(function (c) { return c.band === "go"; });
     var people2 = ""; for (var j = 0; j <= i; j++) people2 += ic("user");
-    return '<div class="tb' + (i === 3 ? " dim" : "") + '"><div class="pp2">' + people2 + '</div><b>' + esc(tr) + '</b><span>' + all.length + " candidates · " + ok.length + " go</span></div>";
+    return '<div class="tb' + (i === 3 ? " dim" : "") + '"><div class="pp2">' + people2 + '</div><b>' + esc(tr) + '</b><span>' + all.length + " creators · " + ok.length + " shortlisted</span></div>";
   }).join("");
-  hover($("heat"), function (t) { var p = t.dataset.tip.split(":"), c = C[+p[0]], k = CRK[p[1]]; return "<b>" + esc(c.handle) + "</b><br>" + esc(k.label) + ": " + Math.round(100 * c.parts[k.key]) + "% → " + (k.weight * c.parts[k.key]).toFixed(1) + " of " + k.weight + " pts"; });
+  hover($("heat"), function (t) { var p = t.dataset.tip.split(":"), c = C[+p[0]], k = CHK[p[1]]; return "<b>" + esc(c.handle) + "</b><br>" + esc(k.label) + ": " + c.parts[k.key] + " / 5 → " + 4 * c.parts[k.key] + " of 20 pts"; });
 
   /* ---------- 2 · Creator dashboard ---------- */
   var S = D.dashboard.summary;
@@ -2041,7 +2619,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
 
   /* ---------- Feature cards in the hero ---------- */
   $("f1big").textContent = go.length + " of " + C.length;
-  $("f1sub").textContent = "candidates ready to brief, scored on 6 evidence-weighted traits";
+  $("f1sub").textContent = "creators shortlisted from our Xiaohongshu scan, scored out of 100 on 5 checks";
   $("f1mini").innerHTML = C.map(function (c) { return '<i class="' + (c.band === "go" ? "" : "off") + '" style="height:' + Math.max(c.score, 4) + '%"></i>'; }).join("");
   $("f2big").textContent = fmt(S.inquiries) + " inquiries";
   $("f2sub").textContent = S.active + " active creators · " + fmt(S.saves) + " saves tracked";
@@ -2052,7 +2630,6 @@ details summary { cursor: pointer; font-weight: 600; color: var(--accent); margi
   $("f3mini").innerHTML = TR.map(function (r) { return '<i style="height:' + (100 * r.score / pmax) + '%"></i>'; }).join("");
 
   $("rulecount").textContent = D.rule_count;
-  $("built").textContent = S.as_of;
 
   var KEY = "welcome-theme";
   try { var saved = localStorage.getItem(KEY); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}

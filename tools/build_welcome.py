@@ -13,6 +13,7 @@ Usage:
 import argparse
 import ast
 import base64
+import csv
 import json
 import re
 import sys
@@ -224,6 +225,44 @@ def candidates():
     return out
 
 
+CHECKS = [  # creators/scouted/README.md section 2: five checks, 1-5 each, total x 4 = score /100
+    {"key": "fit", "col": "Fit (1-5)", "label": "Fit", "icon": "pin",
+     "what": "IP location in Australia; student or long-term resident confirmed in bio or posts"},
+    {"key": "size", "col": "Size (1-5)", "label": "Size", "icon": "users",
+     "what": "Under 2k followers, the band closest to regular students"},
+    {"key": "activity", "col": "Activity (1-5)", "label": "Activity", "icon": "calendar",
+     "what": "Posted in the last few days, on a regular cadence"},
+    {"key": "authenticity", "col": "Authenticity (1-5)", "label": "Authenticity", "icon": "trust",
+     "what": "Real personal account: no account farm, fake followers or heavy soft ads"},
+    {"key": "content", "col": "Content (1-5)", "label": "Content", "icon": "own_life",
+     "what": "Everyday life in their own voice, with a good range of topics"},
+]
+SCREENING = [  # assets/creator-finding/process.html step 7 and the Exclude rule
+    ["bot", "New account, single-digit following, likes dozens of times the follower count: likely account farm", "E-16"],
+    ["megaphone", "Every title is a question with many soft ads: likely agency (MCN) account", "E-12"],
+    ["pin", "Hidden IP location: downgrade", ""],
+    ["store", "Sells agency services, other insurance or their own business: exclude or downgrade", ""],
+]
+STATUS_BAND = {"Shortlist": "go", "Watch": "maybe", "Exclude": "no", "Reference": "ref"}
+
+
+def scouted():
+    """The real Xiaohongshu scan (creators/scouted/xiaohongshu.csv), named by ID where the nickname is Chinese."""
+    with open(ROOT / "creators" / "scouted" / "xiaohongshu.csv", encoding="utf-8-sig", newline="") as f:
+        rows = list(csv.DictReader(f))
+    out = []
+    for r in rows:
+        name = r["Nickname"].strip()
+        handle = r["Library ID"] + (" " + name if not CJK.search(name) else "")
+        status = r["Status"]
+        out.append({"handle": handle, "platform": "xiaohongshu", "tier": r["Tier"].replace("-", "–"),
+                    "followers": int(float(r["Followers"] or 0)), "score": int(float(r["Score (/100)"] or 0)),
+                    "status": status, "band": STATUS_BAND.get(status, "maybe"), "city": r["City"].split(" (")[0],
+                    "reason": r["Red Flags"].split(";")[0].split(" (")[0] if status == "Exclude" else "",
+                    "parts": {c["key"]: int(r[c["col"]]) for c in CHECKS}})
+    return out
+
+
 def plan():
     rows = calendar_builder.load(ROOT / "examples" / "plan_t1_2027.csv")
     text = (ROOT / "references" / "content-playbook.md").read_text(encoding="utf-8")
@@ -247,10 +286,13 @@ def data():
         "rule_count": rule_count(),
         "trends": trends(),
         "criteria": {"weights": [{"key": k, "weight": v, **kol_score.CRITERIA[k]} for k, v in kol_score.WEIGHTS.items()],
-                     "hard_stops": list(kol_score.HARD_STOPS.values())},
+                     "hard_stops": list(kol_score.HARD_STOPS.values()),
+                     "checks": [{k: v for k, v in c.items() if k != "col"} for c in CHECKS],
+                     "screening": SCREENING},
         "dashboard": creator_dashboard.build(roster, posts, creator_dashboard.as_of(posts)),
         "evidence": evidence(),
         "candidates": candidates(),
+        "library": scouted(),
         "plan": plan(),
     }
 

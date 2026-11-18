@@ -12,6 +12,7 @@ system prompt, calls Claude, and runs the local compliance scan on every draft i
     python -m social_agent reply   comments.txt --platform weibo
     python -m social_agent trends  "留学生 / 健康相关，本周"           (searches the web)
     python -m social_agent chat
+    python -m social_agent web          (local web app in your browser)
 
 Offline (no API key):
     python -m social_agent scan  draft.txt --platform douyin
@@ -63,7 +64,7 @@ WEB_SEARCH = {"type": "web_search_20260209", "name": "web_search", "max_uses": 1
 MAX_CONTINUATIONS = 5
 
 
-def build_system_prompt():
+def build_system_prompt(runner_note=None):
     """Root SKILL.md, sub-skills, then references, in a fixed order so the prompt caches."""
     files = [ROOT / "SKILL.md"]
     files += sorted((ROOT / "skills").glob("*/SKILL.md"))
@@ -72,7 +73,8 @@ def build_system_prompt():
     for f in files:
         rel = f.relative_to(ROOT).as_posix()
         parts.append(f'<file path="{rel}">\n{f.read_text(encoding="utf-8")}\n</file>')
-    parts.append("You are running through the API, not an agent tool: you cannot run the "
+    parts.append(runner_note or
+                 "You are running through the API, not an agent tool: you cannot run the "
                  "scripts in tools/ yourself. The runner scans your drafts after you answer, "
                  "so apply the rules by hand while writing. Sub-skills referenced by name are "
                  "the skills/<name>/SKILL.md files above.")
@@ -205,8 +207,14 @@ def main(argv=None):
     p.add_argument("--today")
     sub.add_parser("welcome", help="open the welcome page")
     sub.add_parser("chat", help="interactive session")
+    p = sub.add_parser("web", help="local web app in your browser (http://localhost:8787)")
+    p.add_argument("--port", type=int, default=8787)
+    p.add_argument("--no-browser", action="store_true")
     args = parser.parse_args(argv)
 
+    if args.mode == "web":
+        from . import web
+        return web.serve(args.port, not args.no_browser)
     if args.mode == "welcome":
         print(first_run.maybe_show(force=True))
         return 0

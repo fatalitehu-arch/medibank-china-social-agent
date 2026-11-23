@@ -13,7 +13,9 @@ Python 3.12 from https://www.python.org/downloads/ first.
   Opened": click **Done** (not Move to Bin), open **System Settings → Privacy & Security**, scroll
   down, click **Open Anyway** next to the file name, enter your password and click **Open Anyway**
   again. After that a double-click is enough.
-* **Windows:** double-click `start-web-windows.bat`.
+* **Windows:** double-click `start-web-windows.bat`. If Windows shows "Windows protected your PC", click
+  **More info**, then **Run anyway**; if it shows "Open File – Security Warning", click **Run**. To avoid
+  both, right-click the zip → **Properties** → tick **Unblock** before unzipping.
 * **Any system:** `python3.12 -m pip install -r requirements.txt`, then `python3.12 -m social_agent web`.
 
 The page opens at http://localhost:8787. Only this computer can reach it. If an older copy of

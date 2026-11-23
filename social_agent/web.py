@@ -431,7 +431,8 @@ class Handler(BaseHTTPRequestHandler):
             key = AGENT.api_key
             self._json({"has_key": bool(key), "key_hint": f"…{key[-4:]}" if key else "",
                         "model": cli.MODEL, "ffmpeg": bool(shutil.which("ffmpeg")),
-                        "creators": len(creator_library.load()), "today": date.today().isoformat()})
+                        "creators": len(creator_library.load()), "today": date.today().isoformat(),
+                        "root": str(ROOT)})
         elif path.startswith("/outputs/"):
             self._file(OUT_DIR, path[len("/outputs/"):])
         elif path.startswith("/assets/"):
@@ -524,12 +525,14 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def _already_running(port):
-    """True if this app is already answering on the port (for example, started twice)."""
+    """True if this same copy of the app already answers on the port (for example, started twice).
+
+    An older or different copy on the port does not count, so this copy starts on the next port."""
     from urllib.request import urlopen
 
     try:
         with urlopen(f"http://127.0.0.1:{port}/api/status", timeout=2) as r:
-            return "has_key" in json.loads(r.read().decode("utf-8"))
+            return json.loads(r.read().decode("utf-8")).get("root") == str(ROOT)
     except Exception:  # noqa: BLE001 - anything else on the port is not us
         return False
 

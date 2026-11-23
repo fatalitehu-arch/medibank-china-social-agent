@@ -38,6 +38,7 @@ ROOT = cli.ROOT
 OUT_DIR = ROOT / "outputs" / "web"
 CONFIG = Path.home() / ".medibank-social-agent" / "config.json"
 PAGE = Path(__file__).with_name("web_page.html")
+PORTFOLIO = ROOT / "portfolio.html"
 ASSET_DIR = ROOT / "assets"
 MAX_TOOL_ROUNDS = 12
 
@@ -418,8 +419,9 @@ class Handler(BaseHTTPRequestHandler):
         if not self._local_only():
             return
         path = unquote(urlparse(self.path).path)
-        if path == "/":
-            data = PAGE.read_bytes()
+        if path in ("/", "/portfolio"):
+            # "/portfolio" is the overview page (welcome, creator finding, creator library)
+            data = (PAGE if path == "/" else PORTFOLIO).read_bytes()
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(data)))

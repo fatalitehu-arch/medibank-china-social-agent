@@ -16,6 +16,15 @@ Python 3.12 from https://www.python.org/downloads/ first.
 
 The page opens at http://localhost:8787. Only this computer can reach it.
 
+The page has four tabs:
+
+* **How to use** (opens first): what the agent does, how to use it here with or without an API
+  key, better ways to use it (Claude Code, Claude.ai Project, Codex, command line), and how to
+  edit it or move it to Medibank's own private GitHub repository.
+* **Overview**: the welcome page, how we find creators, and the creator library (`portfolio.html`).
+* **Agent**: the chat (needs an API key).
+* **Demo**: creator search, compliance scan, sample post and sample video, with no key.
+
 ## API key
 
 The app calls the **Claude API** (Anthropic), so it needs an Anthropic API key. This is not a

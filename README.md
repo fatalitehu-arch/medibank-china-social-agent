@@ -44,6 +44,11 @@ with no restart. In later sessions the nine skills load on their own.
 `start-web-windows.bat` (Windows), paste your Anthropic API key, and use the agent in your
 browser. Details: [docs/web-app.md](docs/web-app.md).
 
+> **Mac, first time:** macOS says the file was "Not Opened". Click **Done** (not Move to Bin),
+> then **System Settings → Privacy & Security → Open Anyway**, enter your password, and click
+> **Open Anyway** again. After that, a double-click is enough. If an older copy of the agent is
+> still running, the new one opens on the next port (8788) by itself.
+
 Works in **Claude** (Claude.ai Projects, Claude Code) and **OpenAI Codex**, or from the
 command line through the Claude API. Built by UNSW CDEV3000 MB Group 6 (T3 2026) as the
 project deliverable for Medibank.

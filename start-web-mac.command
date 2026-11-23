@@ -19,4 +19,5 @@ if [ ! -x .venv/bin/python ] || ! .venv/bin/python -c 'import sys; sys.exit(0 if
 fi
 .venv/bin/python -m pip install -q --upgrade pip
 .venv/bin/python -m pip install -q -r requirements.txt || { echo "Installing packages failed. Check the internet connection."; read -r; exit 1; }
+echo "Starting the Medibank social agent. Keep this window open while you use it; close it to stop."
 .venv/bin/python -m social_agent web

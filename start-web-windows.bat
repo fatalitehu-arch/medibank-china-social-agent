@@ -7,5 +7,6 @@ if not exist .venv (
 )
 call .venv\Scripts\activate.bat
 pip install -q -r requirements.txt
+echo Starting the Medibank social agent. Keep this window open while you use it; close it to stop.
 python -m social_agent web
 pause

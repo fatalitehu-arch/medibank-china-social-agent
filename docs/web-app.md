@@ -16,7 +16,9 @@ Python 3.12 from https://www.python.org/downloads/ first.
 * **Windows:** double-click `start-web-windows.bat`.
 * **Any system:** `python3.12 -m pip install -r requirements.txt`, then `python3.12 -m social_agent web`.
 
-The page opens at http://localhost:8787. Only this computer can reach it.
+The page opens at http://localhost:8787. Only this computer can reach it. If an older copy of
+the agent (or another program) already uses 8787, it opens on the next free port (8788, …) and
+the black window prints the address. Starting the same copy twice just opens the running one.
 
 The page has four tabs:
 

@@ -67,3 +67,16 @@ def test_tool_loop_runs_tools_and_returns_reply(monkeypatch):
     tool_result = agent.messages[2]["content"][0]
     assert tool_result["tool_use_id"] == "t1"
     assert json.loads(tool_result["content"])["matches"] > 0
+
+
+def test_serve_reuses_a_running_instance(monkeypatch):
+    calls = []
+
+    def busy(*a, **k):
+        raise OSError(48, "Address already in use")
+
+    monkeypatch.setattr(web, "ThreadingHTTPServer", busy)
+    monkeypatch.setattr(web, "_already_running", lambda port: port == 8787)
+    monkeypatch.setattr(web.webbrowser, "open", calls.append)
+    assert web.serve(8787, True) == 0
+    assert calls == ["http://localhost:8787"]

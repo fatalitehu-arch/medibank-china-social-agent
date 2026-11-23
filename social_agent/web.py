@@ -431,7 +431,8 @@ class Handler(BaseHTTPRequestHandler):
             key = AGENT.api_key
             self._json({"has_key": bool(key), "key_hint": f"…{key[-4:]}" if key else "",
                         "model": cli.MODEL, "ffmpeg": bool(shutil.which("ffmpeg")),
-                        "creators": len(creator_library.load()), "today": date.today().isoformat()})
+                        "creators": len(creator_library.load()), "today": date.today().isoformat(),
+                        "root": str(ROOT)})
         elif path.startswith("/outputs/"):
             self._file(OUT_DIR, path[len("/outputs/"):])
         elif path.startswith("/assets/"):
@@ -523,9 +524,38 @@ class Handler(BaseHTTPRequestHandler):
         self.send_error(404)
 
 
+def _already_running(port):
+    """True if this same copy of the app already answers on the port (for example, started twice).
+
+    An older or different copy on the port does not count, so this copy starts on the next port."""
+    from urllib.request import urlopen
+
+    try:
+        with urlopen(f"http://127.0.0.1:{port}/api/status", timeout=2) as r:
+            return json.loads(r.read().decode("utf-8")).get("root") == str(ROOT)
+    except Exception:  # noqa: BLE001 - anything else on the port is not us
+        return False
+
+
 def serve(port=8787, open_browser=True):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    server = None
+    for candidate in range(port, port + 10):
+        try:
+            server = ThreadingHTTPServer(("127.0.0.1", candidate), Handler)
+            break
+        except OSError:
+            if _already_running(candidate):
+                url = f"http://localhost:{candidate}"
+                print(f"The Medibank social agent is already running at {url}. Opening it in your browser.")
+                print("You can close this window; the agent keeps running in the other one.")
+                if open_browser:
+                    webbrowser.open(url)
+                return 0
+    if server is None:
+        print(f"Ports {port}-{port + 9} are all busy. Close other programs or start with --port 9000.")
+        return 1
+    port = server.server_address[1]
     url = f"http://localhost:{port}"
     print(f"Medibank social agent is running at {url}  (Ctrl-C to stop)")
     if open_browser:

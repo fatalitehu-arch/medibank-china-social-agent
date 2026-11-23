@@ -9,12 +9,16 @@ Needs **Python 3.10 or newer**. The Python that comes with macOS (3.9) is too ol
 Python 3.12 from https://www.python.org/downloads/ first.
 
 
-* **Mac:** double-click `start-web-mac.command` (first time: right-click → Open, because macOS
-  blocks scripts from unknown developers).
+* **Mac:** double-click `start-web-mac.command`. The first time, macOS says the file was "Not
+  Opened": click **Done** (not Move to Bin), open **System Settings → Privacy & Security**, scroll
+  down, click **Open Anyway** next to the file name, enter your password and click **Open Anyway**
+  again. After that a double-click is enough.
 * **Windows:** double-click `start-web-windows.bat`.
 * **Any system:** `python3.12 -m pip install -r requirements.txt`, then `python3.12 -m social_agent web`.
 
-The page opens at http://localhost:8787. Only this computer can reach it.
+The page opens at http://localhost:8787. Only this computer can reach it. If an older copy of
+the agent (or another program) already uses 8787, it opens on the next free port (8788, …) and
+the black window prints the address. Starting the same copy twice just opens the running one.
 
 The page has four tabs:
 
